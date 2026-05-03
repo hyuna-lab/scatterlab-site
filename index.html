@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scatter Lab</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #fff;
+      min-height: 200vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 10, 10, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img {
+      height: 26px;
+      width: auto;
+    }
+
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 4px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active {
+      background: rgba(155, 127, 212, 0.25);
+      color: #C4A8FF;
+    }
+
+    .lang-btn:hover:not(.active) {
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* 캐릭터 모자이크 배경 */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 6px;
+      padding: 6px;
+      transform: scale(1.05);
+    }
+
+    .hero-bg-card {
+      border-radius: 10px;
+      background: #1a1a1a;
+      overflow: hidden;
+    }
+
+    .hero-bg-card:nth-child(3n+1) { background: linear-gradient(135deg, #1e1025 0%, #0d0d1a 100%); }
+    .hero-bg-card:nth-child(3n+2) { background: linear-gradient(135deg, #120d1e 0%, #1a0e2a 100%); }
+    .hero-bg-card:nth-child(3n)   { background: linear-gradient(135deg, #0f1020 0%, #1a1025 100%); }
+
+    /* 배경 위에 그라디언트 오버레이 */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 50% 50%, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.85) 70%, #0a0a0a 100%);
+    }
+
+    /* 히어로 콘텐츠 */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      padding: 0 24px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #C4A8FF;
+      border: 1px solid rgba(196,168,255,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      margin-bottom: 32px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 5.5vw, 72px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      background: linear-gradient(135deg, #C4A8FF 0%, #9B7FD4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 48px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: #0a0a0a;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 16px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .hero-cta:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
+    /* 스크롤 인디케이터 */
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 0.7; transform: scaleY(1.1); }
+    }
+
+    /* ── STATS ── */
+    .stats {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stats-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.01em;
+      line-height: 1.6;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 80px;
+    }
+
+    .stats-sub strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 500;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .stat-card {
+      padding: 48px 40px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .stat-card:hover {
+      border-color: rgba(155,127,212,0.3);
+    }
+
+    .stat-number {
+      font-size: clamp(40px, 4vw, 60px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .stat-number span {
+      color: #9B7FD4;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="mainNav">
+    <a href="#" class="nav-logo">
+      <img src="https://opening-attachments.greetinghr.com/2025-05-20/1f5d7ef8-ecc7-45f8-b01f-d1de178f3fb9/Frame1.png" alt="Scatter Lab" />
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#" data-ko="Company" data-ja="会社概要" data-en="Company">Company</a></li>
+      <li><a href="#" data-ko="Culture" data-ja="カルチャー" data-en="Culture">Culture</a></li>
+      <li><a href="#" data-ko="Blog" data-ja="ブログ" data-en="Blog">Blog</a></li>
+      <li><a href="Homepage.html" data-ko="Career" data-ja="採用" data-en="Career">Career</a></li>
+      <li><a href="#" data-ko="AI Ethics" data-ja="AI倫理" data-en="AI Ethics">AI Ethics</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('ko')">KO</button>
+        <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- 캐릭터 모자이크 배경 -->
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- 콘텐츠 -->
+    <div class="hero-content">
+      <div class="hero-label">Entertainment 3.0</div>
+      <h1 class="hero-title">
+        <em>AI-powered interactive<br>entertainment platform</em>
+      </h1>
+    </div>
+
+    <!-- 스크롤 인디케이터 -->
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>scroll</span>
+    </div>
+
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <p class="stats-sub">
+      Our users spend more time with zeta every day than they do on<br>
+      <strong>YouTube, TikTok, Instagram, and Roblox.</strong>
+    </p>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">150<span>만+</span></div>
+        <div class="stat-label">Monthly Active Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2<span>h</span> 40<span>m</span></div>
+        <div class="stat-label">Average Daily Usage<br>per User</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">#<span>1</span></div>
+        <div class="stat-label">AI Entertainment App<br>in Japan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">500<span>+</span></div>
+        <div class="stat-label">New Characters<br>Born Every Day</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // 히어로 배경 카드 생성
+    const bg = document.getElementById('heroBg');
+    for (let i = 0; i < 28; i++) {
+      const card = document.createElement('div');
+      card.className = 'hero-bg-card';
+      bg.appendChild(card);
+    }
+
+    // 스크롤 시 nav blur
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // 언어 토글
+    let currentLang = 'ko';
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === lang ||
+          (lang === 'ja' && btn.textContent === '日本語'));
+      });
+      document.querySelectorAll('[data-ko]').forEach(el => {
+        el.textContent = el.dataset[lang] || el.dataset.ko;
+      });
+    }
+  </script>
+</body>
+</html>

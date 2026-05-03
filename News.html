@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>뉴스룸 · Scatter Lab</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="icon" href="assets/scatterlab-symbol.png" type="image/png" />
+<style>
+  :root {
+    --bg-page: #0a0a0a;
+    --bg-card: #131316;
+    --bg-card-hover: #1c1c25;
+    --accent: #A799FF;
+    --line: rgba(255,255,255,0.08);
+    --line-strong: rgba(255,255,255,0.16);
+    --text: #F4F4F5;
+    --text-2: #A1A1AA;
+    --text-3: #71717A;
+  }
+  html, body { background: var(--bg-page); color: var(--text); }
+  body { font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 64px;
+    transition: background .3s, backdrop-filter .3s;
+  }
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 48px; height: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative;
+  }
+  .nav.scrolled {
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo { display: flex; align-items: center; }
+  .nav-logo-img { height: 20px; width: auto; display: block; }
+  .nav-links { display: flex; gap: 32px; list-style: none; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-links a { color: var(--text-2); font-size: 14px; font-weight: 500; letter-spacing: 0.02em; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .lang-switch { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 600; color: var(--text-3); letter-spacing: 0.05em; }
+  .lang-switch a { padding: 4px 8px; border-radius: 6px; text-decoration: none; transition: color .15s, background .15s; }
+  .lang-switch a.active { color: var(--text); background: rgba(255,255,255,0.06); }
+  .lang-switch a:hover { color: var(--text); }
+  .lang-switch .sep { color: var(--line); padding: 0 2px; }
+  .lang-btn { padding: 4px 8px; border-radius: 6px; background: none; border: none; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; color: var(--text-3); letter-spacing: 0.05em; white-space: nowrap; transition: color .15s, background .15s; }
+  .lang-btn.active { color: var(--text); background: rgba(255,255,255,0.06); }
+  .lang-btn:hover { color: var(--text); }
+
+  /* WRAP */
+  .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .wrap { padding: 0 20px; } }
+
+  /* HERO */
+  .hero {
+    padding: 140px 0 64px;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(167,153,255,0.25);
+    border-radius: 20px; padding: 6px 18px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -0.03em;
+    margin-bottom: 0;
+  }
+
+  /* FEATURED */
+  .featured-section {
+    padding: 0 0 48px;
+    border-bottom: 1px solid var(--line);
+  }
+  .featured-label {
+    font-size: 18px; font-weight: 800; letter-spacing: -0.01em;
+    color: var(--text); margin-bottom: 24px;
+  }
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 36px 40px;
+    transition: border-color .3s;
+  }
+  .featured-card:hover { border-color: rgba(167,153,255,0.25); }
+  .featured-meta {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(167,153,255,0.1);
+    border: 1px solid rgba(167,153,255,0.2);
+    border-radius: 6px; padding: 4px 10px;
+  }
+  .outlet {
+    font-size: 12px; font-weight: 600;
+    color: var(--text-3);
+  }
+  .featured-card h2 {
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 800; line-height: 1.3; letter-spacing: -0.02em;
+    margin-bottom: 16px; color: var(--text);
+  }
+  .featured-date {
+    font-size: 13px; color: var(--text-3);
+    margin-bottom: 32px;
+  }
+  .read-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700;
+    color: var(--accent);
+    border: 1px solid rgba(167,153,255,0.3);
+    border-radius: 8px; padding: 10px 20px;
+    transition: background .2s, border-color .2s;
+  }
+  .read-link:hover {
+    background: rgba(167,153,255,0.1);
+    border-color: rgba(167,153,255,0.5);
+  }
+  .read-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .featured-visual {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #1a1025 0%, #0d0d1a 50%, #1a0e2a 100%);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    padding: 24px;
+  }
+  .featured-visual-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+  }
+  .vis-stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px 18px;
+  }
+  .vis-stat-num {
+    font-size: clamp(22px, 2.5vw, 30px);
+    font-weight: 900; letter-spacing: -0.03em;
+    color: #C4A8FF; line-height: 1;
+    margin-bottom: 6px;
+  }
+  .vis-stat-label {
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    line-height: 1.4; font-weight: 500;
+  }
+
+  /* NEWS LIST */
+  .news-section { padding: 64px 0 100px; }
+  .news-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .news-header h2 {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.02em;
+  }
+  .news-count {
+    font-size: 13px; color: var(--text-3);
+  }
+  .news-list {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .news-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background .2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .news-item:first-child { border-top: 1px solid var(--line); }
+  .news-item:hover .news-title { color: var(--accent); }
+  .news-item-left {
+    display: flex; flex-direction: column; gap: 6px;
+    min-width: 80px;
+  }
+  .news-item-date { font-size: 12px; color: var(--text-3); font-weight: 500; }
+  .news-item-outlet { font-size: 12px; color: var(--text-3); font-weight: 600; }
+  .news-title {
+    font-size: 16px; font-weight: 700; line-height: 1.4;
+    letter-spacing: -0.01em; color: var(--text);
+    transition: color .2s;
+  }
+  .news-arrow {
+    color: var(--text-3); transition: color .2s, transform .2s;
+    flex-shrink: 0;
+  }
+  .news-item:hover .news-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  /* FOOTER */
+  footer {
+    background: #050505;
+    padding: 48px 0 32px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+    font-size: 12px; color: var(--text-3);
+  }
+  .foot-legal { font-size: 11px; color: var(--text-3); line-height: 1.7; }
+  .foot-legal strong { color: var(--text-2); font-size: 11px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: .08s; }
+  .reveal.d2 { transition-delay: .16s; }
+  .reveal.d3 { transition-delay: .24s; }
+
+  @media (max-width: 900px) {
+    .featured-card { grid-template-columns: 1fr; gap: 32px; padding: 36px 32px; }
+    .featured-visual { display: none; }
+    .nav { padding: 0 24px; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .news-item { grid-template-columns: 1fr auto; gap: 16px; }
+    .news-item-left { display: none; }
+  }
+
+  /* HAMBURGER + DRAWER */
+  .nav-menu-btn { display: none; width: 40px; height: 40px; background: none; border: none; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px; flex-shrink: 0; }
+  .nav-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .3s, opacity .3s; }
+  .nav-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-menu-btn.open span:nth-child(2) { opacity: 0; }
+  .nav-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-drawer-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.55); opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .nav-drawer-overlay.open { opacity: 1; pointer-events: all; }
+  .nav-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 201; width: min(280px, 80vw); background: #111114; border-left: 1px solid var(--line); transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; padding: 72px 28px 40px; overflow-y: auto; }
+  .nav-drawer.open { transform: translateX(0); }
+  .nav-drawer a { font-size: 17px; font-weight: 600; color: var(--text-2); padding: 16px 0; border-bottom: 1px solid var(--line); display: block; text-decoration: none; transition: color .15s; }
+  .nav-drawer a:first-child { border-top: 1px solid var(--line); }
+  .nav-drawer a:hover, .nav-drawer a.active { color: var(--text); }
+  .drawer-lang { margin-top: 28px; display: flex; gap: 4px; align-items: center; }
+  @media (max-width: 880px) { .nav-menu-btn { display: flex; } .nav-inner { padding: 0 20px; } .nav-logo-img { max-width: 120px; height: auto; } }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="Homepage.html" class="nav-logo">
+      <img src="assets/scatterlab-logo-white.png" alt="Scatter Lab" class="nav-logo-img" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="Homepage.html">Company</a></li>
+      <li><a href="Culture.html">Culture</a></li>
+      <li><a href="https://blog.scatterlab.co.kr/" target="_blank">Blog</a></li>
+      <li><a href="News.html" class="active">News</a></li>
+      <li><a href="Career.html">Career</a></li>
+      <li><a href="AIEthics.html">AI Ethics</a></li>
+    </ul>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('ko')">KO</button>
+      <span class="sep">/</span>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+      <span class="sep">/</span>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="메뉴" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-drawer-overlay" id="navOverlay"></div>
+<nav class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="Homepage.html">Company</a>
+  <a href="Culture.html">Culture</a>
+  <a href="https://blog.scatterlab.co.kr/" target="_blank">Blog</a>
+  <a href="News.html" class="active">News</a>
+  <a href="Career.html">Career</a>
+  <a href="AIEthics.html">AI Ethics</a>
+  <div class="drawer-lang">
+    <button class="lang-btn" id="d-ko" onclick="setLang('ko');closeDrawer()">KO</button>
+    <span class="sep">/</span>
+    <button class="lang-btn" id="d-ja" onclick="setLang('ja');closeDrawer()">日本語</button>
+    <span class="sep">/</span>
+    <button class="lang-btn" id="d-en" onclick="setLang('en');closeDrawer()">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow reveal">Newsroom</div>
+    <h1 class="reveal d1" data-i18n="hero.h1">뉴스룸</h1>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured-section">
+  <div class="wrap">
+    <div class="featured-label reveal" data-i18n="featured.label">주요 기사</div>
+    <a href="https://www.digitaltoday.co.kr/news/articleView.html?idxno=654667" target="_blank" class="featured-card reveal d1" style="display:grid;">
+      <div>
+        <div class="featured-meta">
+          <span class="tag" data-i18n="tag.press">언론보도</span>
+          <span class="outlet">디지털투데이</span>
+        </div>
+        <h2>AI 동반자 앱 매출 30% 성장…제타 1위</h2>
+        <div class="featured-date">2026.04.08</div>
+        <div class="read-link">
+          <span data-i18n="read.link">기사 보기</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+      <div class="featured-visual">
+        <div class="featured-visual-inner">
+          <div class="vis-stat">
+            <div class="vis-stat-num">30%</div>
+            <div class="vis-stat-label">AI 동반자 앱<br/>시장 성장률</div>
+          </div>
+          <div class="vis-stat">
+            <div class="vis-stat-num">#1</div>
+            <div class="vis-stat-label">제타<br/>매출 성장률 1위</div>
+          </div>
+          <div class="vis-stat">
+            <div class="vis-stat-num">600만+</div>
+            <div class="vis-stat-label">제타<br/>누적 가입자</div>
+          </div>
+          <div class="vis-stat">
+            <div class="vis-stat-num">2h 40m</div>
+            <div class="vis-stat-label">하루 평균<br/>사용 시간</div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- NEWS LIST -->
+<section class="news-section">
+  <div class="wrap">
+    <div class="news-header reveal">
+      <h2 data-i18n="news.header">최근 뉴스</h2>
+      <span class="news-count" data-i18n="news.count">총 6건</span>
+    </div>
+    <div class="news-list">
+
+      <a href="https://n.news.naver.com/mnews/article/030/0003414718?sid=105" target="_blank" class="news-item reveal">
+        <div class="news-item-left">
+          <span class="news-item-date">2026.04.05</span>
+          <span class="news-item-outlet">전자신문</span>
+        </div>
+        <div>
+          <span class="tag" style="margin-bottom:10px;display:inline-block;" data-i18n="tag.press">언론보도</span>
+          <div class="news-title">스캐터랩, AI 챗봇 '제타' 가입자 600만 돌파…일본서 2배 성장</div>
+        </div>
+        <svg class="news-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://n.news.naver.com/article/020/0003702859?sid=101" target="_blank" class="news-item reveal d1">
+        <div class="news-item-left">
+          <span class="news-item-date">2026.03.10</span>
+          <span class="news-item-outlet">동아일보</span>
+        </div>
+        <div>
+          <span class="tag" style="margin-bottom:10px;display:inline-block;" data-i18n="tag.press">언론보도</span>
+          <div class="news-title">AI로 쓰는 채팅형 소설에 빠진 한국인…챗GPT 제치고 '제타' 이용시간 1위</div>
+        </div>
+        <svg class="news-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://www.mk.co.kr/news/business/11980912" target="_blank" class="news-item reveal d2">
+        <div class="news-item-left">
+          <span class="news-item-date">2026.03.06</span>
+          <span class="news-item-outlet">매경이코노미</span>
+        </div>
+        <div>
+          <span class="tag" style="margin-bottom:10px;display:inline-block;" data-i18n="tag.press">언론보도</span>
+          <div class="news-title">친구도 되고 애인도 되고…'반려 AI' 뜬다 [AI 딥다이브]</div>
+        </div>
+        <svg class="news-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://www.etnews.com/20260227000305" target="_blank" class="news-item reveal d3">
+        <div class="news-item-left">
+          <span class="news-item-date">2026.02.27</span>
+          <span class="news-item-outlet">전자신문</span>
+        </div>
+        <div>
+          <span class="tag" style="margin-bottom:10px;display:inline-block;" data-i18n="tag.press">언론보도</span>
+          <div class="news-title">캐릭터 챗봇, AI생성물 표기 앞장</div>
+        </div>
+        <svg class="news-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://www.ddaily.co.kr/page/view/2025122910591833497" target="_blank" class="news-item reveal">
+        <div class="news-item-left">
+          <span class="news-item-date">2025.12.29</span>
+          <span class="news-item-outlet">디지털데일리</span>
+        </div>
+        <div>
+          <span class="tag" style="margin-bottom:10px;display:inline-block;" data-i18n="tag.press">언론보도</span>
+          <div class="news-title">스캐터랩 '제타', 긴 스토리도 끊김 줄어…'스팟라이트 V3' 업데이트</div>
+        </div>
+        <svg class="news-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="https://youtu.be/yhgEgAc1ELw?si=KROathPYrTepxzF2" target="_blank" class="news-item reveal d1">
+        <div class="news-item-left">
+          <span class="news-item-date">2025.08.21</span>
+          <span class="news-item-outlet">EO Korea</span>
+        </div>
+        <div>
+          <span class="tag" style="margin-bottom:10px;display:inline-block;" data-i18n="tag.video">영상 인터뷰</span>
+          <div class="news-title">300만 명이 평일 3시간을 기꺼이 쓰는 AI 앱 | 스캐터랩 김종윤</div>
+        </div>
+        <svg class="news-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom">
+      <img src="assets/scatterlab-logo-white.png" alt="Scatter Lab" style="height:18px;width:auto;opacity:0.5;" />
+      <div class="foot-legal">
+        <strong>Scatter Lab, Inc. (스캐터랩)</strong><br/>
+        주식회사 스캐터랩 | 서울특별시 성동구 왕십리로 125, 901, 902호 (성수동1가, KD타워) | 대표이사: 김종윤<br/>
+        사업자등록번호: 215-87-57315 | 통신판매업신고번호: 2021-서울성동-00664 | 전화번호: 070-4099-5959 | 이메일: hello@scatterlab.co.kr
+      </div>
+      <div style="font-size:12px;color:var(--text-3);">© 2026 Scatter Lab, Inc.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // -------- i18n ---------------------------------------------------
+  const TRANSLATIONS = {
+    ko: {
+      'hero.h1': '뉴스룸',
+      'featured.label': '주요 기사',
+      'read.link': '기사 보기',
+      'news.header': '최근 뉴스',
+      'news.count': '총 6건',
+      'tag.press': '언론보도',
+      'tag.video': '영상 인터뷰',
+    },
+    ja: {
+      'hero.h1': 'ニュースルーム',
+      'featured.label': '注目記事',
+      'read.link': '記事を見る',
+      'news.header': '最新ニュース',
+      'news.count': '全6件',
+      'tag.press': '報道記事',
+      'tag.video': '動画インタビュー',
+    },
+    en: {
+      'hero.h1': 'Newsroom',
+      'featured.label': 'Featured',
+      'read.link': 'Read article',
+      'news.header': 'Latest News',
+      'news.count': '6 articles',
+      'tag.press': 'Press',
+      'tag.video': 'Video Interview',
+    }
+  };
+
+  let currentLang = 'ko';
+
+  function setLang(lang) {
+    currentLang = lang;
+    const t = TRANSLATIONS[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('onclick') === `setLang('${lang}')`);
+    });
+    localStorage.setItem('lang', lang);
+  }
+
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // -------- Restore saved language --------------------------------
+  (function () {
+    const saved = localStorage.getItem('lang') || 'ko';
+    if (saved !== 'ko') setLang(saved);
+  })();
+
+  // -------- Hamburger drawer --------------------------------
+  const navMenuBtn = document.getElementById('navMenuBtn');
+  const navOverlay = document.getElementById('navOverlay');
+  const navDrawer = document.getElementById('navDrawer');
+  function openDrawer() {
+    navMenuBtn.classList.add('open'); navDrawer.classList.add('open'); navOverlay.classList.add('open');
+    navDrawer.setAttribute('aria-hidden','false'); navMenuBtn.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    navMenuBtn.classList.remove('open'); navDrawer.classList.remove('open'); navOverlay.classList.remove('open');
+    navDrawer.setAttribute('aria-hidden','true'); navMenuBtn.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  navMenuBtn.addEventListener('click', () => navDrawer.classList.contains('open') ? closeDrawer() : openDrawer());
+  navOverlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => e.key === 'Escape' && closeDrawer());
+</script>
+</body>
+</html>

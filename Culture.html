@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>스캐터랩 Ethos · Scatter Lab Culture</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="icon" href="assets/scatterlab-symbol.png" type="image/png" />
+<style>
+  :root {
+    --bg-page: #0a0a0a;
+    --bg-card: #131316;
+    --bg-card-hover: #1c1c25;
+    --accent: #A799FF;
+    --accent-strong: #6838EB;
+    --accent-soft: rgba(167,153,255,0.10);
+    --line: rgba(255,255,255,0.08);
+    --line-strong: rgba(255,255,255,0.16);
+    --text: #F4F4F5;
+    --text-2: #A1A1AA;
+    --text-3: #71717A;
+  }
+  html, body { background: var(--bg-page); color: var(--text); }
+  body { font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 64px;
+    transition: background .3s, backdrop-filter .3s;
+  }
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 48px; height: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative;
+  }
+  .nav.scrolled {
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo { display: flex; align-items: center; }
+  .nav-logo-img { height: 20px; width: auto; display: block; }
+  .nav-links { display: flex; gap: 32px; list-style: none; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-links a { color: var(--text-2); font-size: 14px; font-weight: 500; letter-spacing: 0.02em; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .lang-switch { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 600; color: var(--text-3); letter-spacing: 0.05em; }
+  .lang-switch a { padding: 4px 8px; border-radius: 6px; text-decoration: none; transition: color .15s, background .15s; }
+  .lang-switch a.active { color: var(--text); background: rgba(255,255,255,0.06); }
+  .lang-switch a:hover { color: var(--text); }
+  .lang-switch .sep { color: var(--line); padding: 0 2px; }
+  .lang-btn { padding: 4px 8px; border-radius: 6px; background: none; border: none; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; color: var(--text-3); letter-spacing: 0.05em; white-space: nowrap; transition: color .15s, background .15s; }
+  .lang-btn.active { color: var(--text); background: rgba(255,255,255,0.06); }
+  .lang-btn:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    padding: 160px 0 60px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(167,153,255,0.25);
+    border-radius: 20px; padding: 6px 18px;
+    margin-bottom: 32px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: var(--text-2); line-height: 1.7;
+    max-width: 640px; margin: 0 auto 48px;
+  }
+
+  /* INTRO */
+  .intro {
+    max-width: 760px; margin: 0 auto;
+    padding: 0 32px 100px;
+    border-bottom: 1px solid var(--line);
+  }
+  .intro p {
+    font-size: 16px; line-height: 1.8; color: var(--text-2);
+    margin-bottom: 20px;
+  }
+
+  /* WRAP */
+  .wrap { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .wrap { padding: 0 20px; } }
+
+  /* ETHOS SECTIONS */
+  .ethos-list { padding: 0 0 80px; }
+
+  .ethos-item {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .ethos-item:last-child { border-bottom: none; }
+
+  .ethos-meta { position: sticky; top: 96px; align-self: start; }
+  .ethos-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .ethos-title {
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 800; letter-spacing: -0.02em; line-height: 1.25;
+    margin-bottom: 0;
+  }
+
+  .ethos-body h3 {
+    font-size: 15px; font-weight: 700;
+    color: var(--text); margin: 36px 0 10px;
+    letter-spacing: -0.01em;
+  }
+  .ethos-body h3:first-child { margin-top: 0; }
+  .ethos-body p {
+    font-size: 15px; line-height: 1.8; color: var(--text-2);
+    margin-bottom: 0; text-wrap: pretty;
+  }
+
+  .ethos-questions {
+    margin-top: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+  .ethos-questions-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--text-3); margin-bottom: 18px;
+  }
+  .ethos-questions ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .ethos-questions li {
+    font-size: 13.5px; line-height: 1.7; color: var(--text-2);
+    padding-left: 18px; position: relative;
+  }
+  .ethos-questions li::before {
+    content: '·';
+    position: absolute; left: 0;
+    color: var(--accent); font-size: 20px; line-height: 1.2;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #050505;
+    padding: 48px 0 32px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+    font-size: 12px; color: var(--text-3);
+  }
+  .foot-legal { font-size: 11px; color: var(--text-3); line-height: 1.7; }
+  .foot-legal strong { color: var(--text-2); font-size: 11px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: .08s; }
+  .reveal.d2 { transition-delay: .16s; }
+
+  @media (max-width: 900px) {
+    .ethos-item { grid-template-columns: 1fr; gap: 32px; }
+    .ethos-meta { position: static; }
+    .nav { padding: 0 24px; }
+  }
+
+  /* HAMBURGER + DRAWER */
+  .nav-menu-btn { display: none; width: 40px; height: 40px; background: none; border: none; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px; flex-shrink: 0; }
+  .nav-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .3s, opacity .3s; }
+  .nav-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-menu-btn.open span:nth-child(2) { opacity: 0; }
+  .nav-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-drawer-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.55); opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .nav-drawer-overlay.open { opacity: 1; pointer-events: all; }
+  .nav-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 201; width: min(280px, 80vw); background: #111114; border-left: 1px solid var(--line); transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; padding: 72px 28px 40px; overflow-y: auto; }
+  .nav-drawer.open { transform: translateX(0); }
+  .nav-drawer a { font-size: 17px; font-weight: 600; color: var(--text-2); padding: 16px 0; border-bottom: 1px solid var(--line); display: block; text-decoration: none; transition: color .15s; }
+  .nav-drawer a:first-child { border-top: 1px solid var(--line); }
+  .nav-drawer a:hover, .nav-drawer a.active { color: var(--text); }
+  .drawer-lang { margin-top: 28px; display: flex; gap: 4px; align-items: center; }
+  @media (max-width: 880px) { .nav-menu-btn { display: flex; } .nav-links { display: none !important; } .nav-inner { padding: 0 20px; } .nav-logo-img { max-width: 120px; height: auto; } }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="Homepage.html" class="nav-logo">
+      <img src="assets/scatterlab-logo-white.png" alt="Scatter Lab" class="nav-logo-img" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="Homepage.html">Company</a></li>
+      <li><a href="Culture.html" class="active">Culture</a></li>
+      <li><a href="https://blog.scatterlab.co.kr/" target="_blank">Blog</a></li>
+      <li><a href="News.html">News</a></li>
+      <li><a href="Career.html">Career</a></li>
+      <li><a href="AIEthics.html">AI Ethics</a></li>
+    </ul>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('ko')">KO</button>
+      <span class="sep">/</span>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+      <span class="sep">/</span>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="메뉴" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-drawer-overlay" id="navOverlay"></div>
+<nav class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="Homepage.html">Company</a>
+  <a href="Culture.html" class="active">Culture</a>
+  <a href="https://blog.scatterlab.co.kr/" target="_blank">Blog</a>
+  <a href="News.html">News</a>
+  <a href="Career.html">Career</a>
+  <a href="AIEthics.html">AI Ethics</a>
+  <div class="drawer-lang">
+    <button class="lang-btn" id="d-ko" onclick="setLang('ko');closeDrawer()">KO</button>
+    <span class="sep">/</span>
+    <button class="lang-btn" id="d-ja" onclick="setLang('ja');closeDrawer()">日本語</button>
+    <span class="sep">/</span>
+    <button class="lang-btn" id="d-en" onclick="setLang('en');closeDrawer()">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow reveal">Ethos</div>
+    <h1 class="reveal d1" data-i18n="hero.h1">우리가 일하는 방식,<br/><em>스캐터랩의 에토스</em></h1>
+  </div>
+</section>
+
+<!-- INTRO -->
+<div class="wrap">
+  <div class="intro reveal">
+    <p data-i18n="intro.p1">스캐터랩의 에토스(ethos)는 우리의 정신과 태도, 가치관을 진솔하게 담은 글입니다. 잠재적 팀원에게는 이곳에서 성장할 수 있을지 가늠하는 기준이 되고, 현재 팀원에게는 우리의 정신을 다시 확인하고 결속을 다지는 장치가 됩니다.</p>
+    <p data-i18n="intro.p2">우리가 에토스를 이토록 강조하는 이유는, 멀리 그리고 높이 가고 싶기 때문입니다. 위대한 제품은 결국 위대한 팀과 정신에서 나온다고 믿습니다.</p>
+    <p data-i18n="intro.p3">이 글에는 스캐터랩이 어떤 팀이며, 무엇을 위해, 어떻게 일하는지가 담겨 있습니다.</p>
+  </div>
+</div>
+
+<!-- ETHOS LIST -->
+<div class="wrap">
+  <div class="ethos-list">
+
+    <!-- Ethos 1 -->
+    <div class="ethos-item reveal">
+      <div class="ethos-meta">
+        <div class="ethos-num">Ethos 01</div>
+        <h2 class="ethos-title" data-i18n="e1.title">많은 유저에게 사랑받는<br/>우리만의 제품을<br/>만들기 위해 모였다.</h2>
+      </div>
+      <div class="ethos-body">
+        <p data-i18n="e1.p1">스캐터랩은 '많은 유저에게 사랑받는 우리만의 제품'을 만들기 위해 존재합니다. 단순히 몇몇 마니아층을 넘어, 수백만 나아가 수천만 명의 사람들이 일상에서 열정적으로 사용하고 삶에서 없어서는 안 될 위치를 점하는, 대중적으로 큰 임팩트를 내는 제품 — 그것이 우리가 만들고자 하는 위대한 제품입니다.</p>
+        <h3 data-i18n="e1.h3.1">'우리만의 제품'이란 무엇을 의미할까요?</h3>
+        <p data-i18n="e1.p2">단순히 기능적으로 좋은 제품을 넘어, 스캐터랩의 철학과 개성, 즉 '스캐터랩 다움'이 깊숙이 배어 있는 제품을 말합니다. 우리가 만들지 않았다면 세상에 존재하지 않았을, 오직 스캐터랩만이 존재의 영역으로 끄집어낼 수 있는 제품입니다. 이것이 우리의 정체성이자, 우리가 일하는 이유이며, 우리가 존재하는 방식입니다.</p>
+        <h3 data-i18n="e1.h3.2">왜 '많은 유저에게 사랑받는 우리만의 제품'을 만들어야 할까요?</h3>
+        <p data-i18n="e1.p3">스캐터랩은 '많은 유저에게 사랑받는 우리만의 제품'을 만드는 것 자체에서 인생의 의미와 목적을 찾는 사람들이 모인 곳이기 때문입니다. "단 한 번뿐인 인생에서 무엇을 남길 것인가?"라는 근원적인 질문에, 우리는 "우리가 아니었다면 세상에 없었을, 우리만이 만들 수 있는 위대한 제품을 통해 많은 사람들에게 즐거움과 변화를 선사하는 것"이라고 답합니다. 이것이 우리의 정체성이자, 우리가 일하는 이유이며, 우리가 존재하는 방식입니다.</p>
+        <div class="ethos-questions">
+          <div class="ethos-questions-label" data-i18n="self.check">스스로 판단해보기</div>
+          <ul>
+            <li data-i18n="e1.q1">돈이나 보상 같은 외부 요인과 별개로, 순수한 열정만으로 무언가를 만들어낸 경험이 있나요?</li>
+            <li data-i18n="e1.q2">다른 사람들의 사랑을 받기 위해 당신의 고집을 꺾어본 경험이 있나요? 혹은 당신이 틀렸다는 걸 깨닫고 다른 사람의 피드백을 받아들여 성과를 낸 적이 있나요?</li>
+            <li data-i18n="e1.q3">당신이 만든 것 중에서 '이건 정말 나만의 독특한 관점이 담긴 것'이라고 자부할 수 있는 것이 있나요?</li>
+            <li data-i18n="e1.q4">사용자의 입장에서 깊이 공감하고, 그들에게 진짜 가치를 주기 위해 모든 것을 바쳤던 순간이 있나요?</li>
+            <li data-i18n="e1.q5">평범함을 넘어선 결과물을 위해, 마지막 한 방울까지 노력을 쏟아부은 적이 있나요?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ethos 2 -->
+    <div class="ethos-item reveal">
+      <div class="ethos-meta">
+        <div class="ethos-num">Ethos 02</div>
+        <h2 class="ethos-title" data-i18n="e2.title">엄청난 노력과<br/>희생을 감수할<br/>준비가 되어 있다.</h2>
+      </div>
+      <div class="ethos-body">
+        <p data-i18n="e2.p1">'많은 유저에게 사랑받는 우리만의 제품'을 만드는 여정은 결코 꽃길이 아닙니다. 때로는 고통스럽고, 막대한 시간과 에너지 투입을 요구하며, 끊임없는 고민과 도전을 동반하는 험난한 길입니다. '노력과 희생'이라는 단어가 자칫 억지로 해야 하는 일처럼 들릴 수도 있습니다. 하지만 스캐터랩에서의 노력과 희생은 그런 의미가 아닙니다. 그것은 우리가 스스로 선택한 목표를 향해 나아가는 과정에서 기꺼이 감수하는, 자발적인 헌신입니다.</p>
+        <h3 data-i18n="e2.h3.1">왜 우리는 굳이 이 힘든 길을 자처할까요?</h3>
+        <p data-i18n="e2.p2">스캐터랩은 많은 유저에게 사랑받는 우리만의 제품을 만드는 데 진심이기 때문입니다. 아마존의 창업자 제프 베조스는 "당신이 일의 절반(50%)만 즐길 수 있어도 엄청난 행운"이라고 말했습니다. 우리가 아무리 이 일에 진심이라고 해도, 그 모든 과정이 즐거울 수는 없습니다. 하기 싫고 어려운 일도 분명 존재합니다. 어쩌면 절반 이상이 그럴지도 모릅니다. 하지만 우리는 최종적으로 우리가 만들어낼 제품의 가치와 그로 인한 변화를 믿기에 기꺼이 이 길을 걷습니다.</p>
+        <h3 data-i18n="e2.h3.2">위대한 제품은 위대한 노력을 요구합니다</h3>
+        <p data-i18n="e2.p3">자본주의 시장은 치열합니다. 세상에 없던 '우리만의 제품'으로 '수많은 사람'의 마음을 사로잡는 일. 이것이 어떻게 쉬울 수 있을까요? 만약 쉽다면, 세상은 이미 위대한 제품들로 넘쳐났을 것입니다. 하지만 현실은 그렇지 않습니다. 진정으로 새롭고 성공적인 제품은 극소수에 불과합니다. 통계적으로, 신생 기업이 유니콘이 될 확률은 평범한 성인이 운동을 시작해 올림픽 금메달을 딸 확률과 비슷합니다. 금메달을 따는 과정이 얼마나 엄청난 노력과 희생을 요구하는지를 생각해보면, 우리가 하려는 일도 그에 못지않게 어렵고 지난한 과정임을 인정해야 합니다.</p>
+        <h3 data-i18n="e2.h3.3">그럼에도 불구하고 우리는 합니다</h3>
+        <p data-i18n="e2.p4">아니, 어쩌면 하지 않을 수 없다는 표현이 더 정확할지도 모릅니다. 왜냐하면 이것이 우리가 생각하는 '좋은 삶', 의미 있는 삶의 방식이기 때문입니다. 안락함에 안주하기보다, 어려운 도전을 통해 세상을 바꾸고 스스로 성장하는 삶. 만약 이런 가치관에 동의하지 않거나, 편안한 삶을 우선시한다면 스캐터랩은 맞지 않는 곳일 수 있습니다.</p>
+        <div class="ethos-questions">
+          <div class="ethos-questions-label" data-i18n="self.check">스스로 판단해보기</div>
+          <ul>
+            <li data-i18n="e2.q1">인생에서 단 한 번이라도, 어떤 목표에 미친 듯이 몰두해 상식적인 수준을 넘어서는 노력과 희생을 해본 경험이 있나요?</li>
+            <li data-i18n="e2.q2">어떤 분야에 대해 "여기까지 해봤다", "이것까지 경험해봤다"고 자신 있게 말할 수 있을 만큼 깊이 파고든 경험이 있나요?</li>
+            <li data-i18n="e2.q3">목표를 추구하는 과정에서 예상치 못한 난관에 부딪히거나 실패를 경험했을 때, 이를 극복하고 해결한 경험이 있나요?</li>
+            <li data-i18n="e2.q4">새로운 지식을 습득하고 자신의 역량을 끊임없이 확장하려는 배움에 대한 갈증과 지적 호기심이 있나요?</li>
+            <li data-i18n="e2.q5">단기적인 편안함이나 안정 대신, 장기적인 성장과 성취를 위해 불확실성이나 어려움을 기꺼이 감수한 경험이 있나요?</li>
+            <li data-i18n="e2.q6">스스로 선택한 목표를 위해 자발적으로 무언가를 희생하거나 포기했던 경험이 있나요?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ethos 3 -->
+    <div class="ethos-item reveal">
+      <div class="ethos-meta">
+        <div class="ethos-num">Ethos 03</div>
+        <h2 class="ethos-title" data-i18n="e3.title">우리가 만드는<br/>제품에 대한<br/>집착과 열정을 갖는다.</h2>
+      </div>
+      <div class="ethos-body">
+        <p data-i18n="e3.p1">'많은 유저에게 사랑받는 우리만의 제품'은 그냥 만들어지지 않습니다. 그것은 단순한 관심을 넘어선, 때로는 광기에 가까운 '집착과 열정'의 산물입니다. 최고의 제품은 수많은 유저 인터뷰, 데이터 분석, 끝없는 고민과 가설 검증, 동료들과의 치열한 토론, 그리고 수많은 실패와 개선, 영감의 과정을 통해 탄생합니다.</p>
+        <h3 data-i18n="e3.h3.1">집착: 우리는 제품에 미쳐있습니다</h3>
+        <p data-i18n="e3.p2">어떻게 하면 더 좋게 만들 수 있을까? 유저들은 왜 이 기능을 좋아하지 않을까? 유저는 왜 여기서 이탈했을까? 경쟁 제품의 저 기능은 왜 우리에게 없을까? 밥을 먹으면서도, 영화를 보면서도, 샤워를 하면서도, 심지어 잠자리에 들기 전에도 제품에 대한 생각이 머릿속을 맴돕니다.</p>
+        <p data-i18n="e3.p3">그런 질문을 해결하기 위해 우리는 깊게 고민하고, 유저의 행동을 집착에 가깝게 한 줄 한 줄 살펴보며, 유저들을 한 명 한 명씩 만나서 대화합니다. 그런 폼나지 않는 과정 속에서 제품과 유저에 대한 진정한 인사이트가 생기며, 이를 높은 수준으로 실행했을 때 제품은 한 걸음 나아갑니다.</p>
+        <h3 data-i18n="e3.h3.2">열정: 제품은 우리의 감정과 연결되어 있습니다</h3>
+        <p data-i18n="e3.p4">우리 제품에서 사소한 버그라도 발견되면 마음이 불편하고 당장 고치고 싶어 안달이 납니다. 다른 앱에서 멋진 기능을 보면 '이거 적용하면 대박이겠다!'며 흥분하고, 우리가 왜 먼저 생각하지 못했을까 자책하기도 합니다. 반대로, 우리가 만든 기능이 유저들에게 좋은 반응을 얻고 지표로 증명될 때 느끼는 환희는 그 무엇과도 바꿀 수 없는 강력한 동기 부여가 됩니다. 이런 감정적인 몰입과 지적인 집요함, 즉 제품에 대한 깊은 집착과 뜨거운 열정이 없다면, 스캐터랩이 추구하는 위대한 제품을 만들 수 없습니다.</p>
+        <p data-i18n="e3.p5">스캐터랩의 비전과 우리가 만들고 있는 제타에 대해 진심으로 공감하고, 이 제품을 세상 최고로 만들겠다는 열망에 가슴이 뛰어야 합니다.</p>
+        <div class="ethos-questions">
+          <div class="ethos-questions-label" data-i18n="self.check">스스로 판단해보기</div>
+          <ul>
+            <li data-i18n="e3.q1">스캐터랩과 우리가 만드는 제품의 비전에 대해 진심으로 공감하고 가슴이 뛰나요?</li>
+            <li data-i18n="e3.q2">위대한 무언가를 만들기 위해 개인적인 손해를 감수했던 적이 있나요?</li>
+            <li data-i18n="e3.q3">업무 시간이 아니더라도, 자발적으로 제품에 대해 고민하고 탐구하나요? (예: 직접 사용해보기, 유저 피드백 읽기, 경쟁 제품 분석하기 등)</li>
+            <li data-i18n="e3.q4">제타를 더 나은 제품으로 만들고 싶은 강한 열망이 있나요? 회사 밖에서도 문득 제품 개선 아이디어가 떠오르곤 하나요?</li>
+            <li data-i18n="e3.q5">제품의 부족한 점을 발견했을 때, 답답함을 느끼고 빨리 해결하고 싶은 마음이 드나요?</li>
+            <li data-i18n="e3.q6">최근 사용해 본 제품이나 서비스(앱, 웹사이트, 게임 등) 중에서 '나라면 이렇게 개선했을 텐데' 하고 깊이 고민해 본 경험이 있나요?</li>
+            <li data-i18n="e3.q7">단순히 '가성비'를 넘어, 절대적인 완성도와 가치를 위해 비효율을 감수하고 무언가를 만들어 본 경험이 있나요?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ethos 4 — Camaraderie -->
+    <div class="ethos-item reveal">
+      <div class="ethos-meta">
+        <div class="ethos-num">Ethos 04</div>
+        <h2 class="ethos-title" data-i18n="e4.title">동료를 진심으로<br/>아끼고,<br/>함께 성장한다.</h2>
+      </div>
+      <div class="ethos-body">
+        <p data-i18n="e4.p1">우리는 서로를 진심으로 신뢰하고 존중하는 팀을 만들고자 합니다. 위대한 일은 깊은 공감과 서로를 향한 진심 어린 배려에서 시작된다고 믿습니다.</p>
+        <h3 data-i18n="e4.h3.1">동료애란 무엇인가요?</h3>
+        <p data-i18n="e4.p2">동료애는 팀에 긍정적인 에너지를 더하고, 도움이 필요한 동료에게 먼저 다가가며, 협업이 의무가 아닌 자연스러운 흐름으로 이어지는 것입니다. 재능 있는 개인을 위대한 팀으로 만드는 힘은 여기서 나옵니다.</p>
+        <h3 data-i18n="e4.h3.2">우리가 그리는 팀의 모습</h3>
+        <p data-i18n="e4.p3">서로의 성공을 진심으로 기뻐하고, 누군가 어려움에 처했을 때 가장 먼저 손을 내미는 팀. 우리가 함께 만들어가고자 하는 문화입니다.</p>
+        <div class="ethos-questions">
+          <div class="ethos-questions-label" data-i18n="self.check">스스로 판단해보기</div>
+          <ul>
+            <li data-i18n="e4.q1">팀이 어려울 때 먼저 나서서 도움을 준 경험이 있나요?</li>
+            <li data-i18n="e4.q2">동료의 성공을 진심으로 기뻐한 적이 있나요?</li>
+            <li data-i18n="e4.q3">갈등 상황에서 상대방의 관점을 먼저 이해하려고 노력한 경험이 있나요?</li>
+            <li data-i18n="e4.q4">팀의 분위기를 더 좋게 만들기 위해 자발적으로 행동한 적이 있나요?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom">
+      <img src="assets/scatterlab-logo-white.png" alt="Scatter Lab" style="height:18px;width:auto;opacity:0.5;" />
+      <div class="foot-legal">
+        <strong>Scatter Lab, Inc. (스캐터랩)</strong><br/>
+        주식회사 스캐터랩 | 서울특별시 성동구 왕십리로 125, 901, 902호 (성수동1가, KD타워) | 대표이사: 김종윤<br/>
+        사업자등록번호: 215-87-57315 | 통신판매업신고번호: 2021-서울성동-00664 | 전화번호: 070-4099-5959 | 이메일: hello@scatterlab.co.kr
+      </div>
+      <div style="font-size:12px;color:var(--text-3);">© 2026 Scatter Lab, Inc.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // -------- i18n ---------------------------------------------------
+  const TRANSLATIONS = {
+    ko: {
+      'hero.h1': '우리가 일하는 방식,<br/><em>스캐터랩의 에토스</em>',
+      'intro.p1': '스캐터랩의 에토스(ethos)는 우리의 정신과 태도, 가치관을 진솔하게 담은 글입니다. 잠재적 팀원에게는 이곳에서 성장할 수 있을지 가늠하는 기준이 되고, 현재 팀원에게는 우리의 정신을 다시 확인하고 결속을 다지는 장치가 됩니다.',
+      'intro.p2': '우리가 에토스를 이토록 강조하는 이유는, 멀리 그리고 높이 가고 싶기 때문입니다. 위대한 제품은 결국 위대한 팀과 정신에서 나온다고 믿습니다.',
+      'intro.p3': '이 글에는 스캐터랩이 어떤 팀이며, 무엇을 위해, 어떻게 일하는지가 담겨 있습니다.',
+      'self.check': '스스로 판단해보기',
+      'e1.title': '많은 유저에게 사랑받는<br/>우리만의 제품을<br/>만들기 위해 모였다.',
+      'e1.p1': '스캐터랩은 \'많은 유저에게 사랑받는 우리만의 제품\'을 만들기 위해 존재합니다. 단순히 몇몇 마니아층을 넘어, 수백만 나아가 수천만 명의 사람들이 일상에서 열정적으로 사용하고 삶에서 없어서는 안 될 위치를 점하는, 대중적으로 큰 임팩트를 내는 제품 — 그것이 우리가 만들고자 하는 위대한 제품입니다.',
+      'e1.h3.1': '\'우리만의 제품\'이란 무엇을 의미할까요?',
+      'e1.p2': '단순히 기능적으로 좋은 제품을 넘어, 스캐터랩의 철학과 개성, 즉 \'스캐터랩 다움\'이 깊숙이 배어 있는 제품을 말합니다. 우리가 만들지 않았다면 세상에 존재하지 않았을, 오직 스캐터랩만이 존재의 영역으로 끄집어낼 수 있는 제품입니다. 이것이 우리의 정체성이자, 우리가 일하는 이유이며, 우리가 존재하는 방식입니다.',
+      'e1.h3.2': '왜 \'많은 유저에게 사랑받는 우리만의 제품\'을 만들어야 할까요?',
+      'e1.p3': '스캐터랩은 \'많은 유저에게 사랑받는 우리만의 제품\'을 만드는 것 자체에서 인생의 의미와 목적을 찾는 사람들이 모인 곳이기 때문입니다. "단 한 번뿐인 인생에서 무엇을 남길 것인가?"라는 근원적인 질문에, 우리는 "우리가 아니었다면 세상에 없었을, 우리만이 만들 수 있는 위대한 제품을 통해 많은 사람들에게 즐거움과 변화를 선사하는 것"이라고 답합니다. 이것이 우리의 정체성이자, 우리가 일하는 이유이며, 우리가 존재하는 방식입니다.',
+      'e1.q1': '돈이나 보상 같은 외부 요인과 별개로, 순수한 열정만으로 무언가를 만들어낸 경험이 있나요?',
+      'e1.q2': '다른 사람들의 사랑을 받기 위해 당신의 고집을 꺾어본 경험이 있나요? 혹은 당신이 틀렸다는 걸 깨닫고 다른 사람의 피드백을 받아들여 성과를 낸 적이 있나요?',
+      'e1.q3': '당신이 만든 것 중에서 \'이건 정말 나만의 독특한 관점이 담긴 것\'이라고 자부할 수 있는 것이 있나요?',
+      'e1.q4': '사용자의 입장에서 깊이 공감하고, 그들에게 진짜 가치를 주기 위해 모든 것을 바쳤던 순간이 있나요?',
+      'e1.q5': '평범함을 넘어선 결과물을 위해, 마지막 한 방울까지 노력을 쏟아부은 적이 있나요?',
+      'e2.title': '엄청난 노력과<br/>희생을 감수할<br/>준비가 되어 있다.',
+      'e2.p1': '\'많은 유저에게 사랑받는 우리만의 제품\'을 만드는 여정은 결코 꽃길이 아닙니다. 때로는 고통스럽고, 막대한 시간과 에너지 투입을 요구하며, 끊임없는 고민과 도전을 동반하는 험난한 길입니다. \'노력과 희생\'이라는 단어가 자칫 억지로 해야 하는 일처럼 들릴 수도 있습니다. 하지만 스캐터랩에서의 노력과 희생은 그런 의미가 아닙니다. 그것은 우리가 스스로 선택한 목표를 향해 나아가는 과정에서 기꺼이 감수하는, 자발적인 헌신입니다.',
+      'e2.h3.1': '왜 우리는 굳이 이 힘든 길을 자처할까요?',
+      'e2.p2': '스캐터랩은 많은 유저에게 사랑받는 우리만의 제품을 만드는 데 진심이기 때문입니다. 아마존의 창업자 제프 베조스는 "당신이 일의 절반(50%)만 즐길 수 있어도 엄청난 행운"이라고 말했습니다. 우리가 아무리 이 일에 진심이라고 해도, 그 모든 과정이 즐거울 수는 없습니다. 하기 싫고 어려운 일도 분명 존재합니다. 어쩌면 절반 이상이 그럴지도 모릅니다. 하지만 우리는 최종적으로 우리가 만들어낼 제품의 가치와 그로 인한 변화를 믿기에 기꺼이 이 길을 걷습니다.',
+      'e2.h3.2': '위대한 제품은 위대한 노력을 요구합니다',
+      'e2.p3': '자본주의 시장은 치열합니다. 세상에 없던 \'우리만의 제품\'으로 \'수많은 사람\'의 마음을 사로잡는 일. 이것이 어떻게 쉬울 수 있을까요? 만약 쉽다면, 세상은 이미 위대한 제품들로 넘쳐났을 것입니다. 하지만 현실은 그렇지 않습니다. 진정으로 새롭고 성공적인 제품은 극소수에 불과합니다. 통계적으로, 신생 기업이 유니콘이 될 확률은 평범한 성인이 운동을 시작해 올림픽 금메달을 딸 확률과 비슷합니다. 금메달을 따는 과정이 얼마나 엄청난 노력과 희생을 요구하는지를 생각해보면, 우리가 하려는 일도 그에 못지않게 어렵고 지난한 과정임을 인정해야 합니다.',
+      'e2.h3.3': '그럼에도 불구하고 우리는 합니다',
+      'e2.p4': '아니, 어쩌면 하지 않을 수 없다는 표현이 더 정확할지도 모릅니다. 왜냐하면 이것이 우리가 생각하는 \'좋은 삶\', 의미 있는 삶의 방식이기 때문입니다. 안락함에 안주하기보다, 어려운 도전을 통해 세상을 바꾸고 스스로 성장하는 삶. 만약 이런 가치관에 동의하지 않거나, 편안한 삶을 우선시한다면 스캐터랩은 맞지 않는 곳일 수 있습니다.',
+      'e2.q1': '인생에서 단 한 번이라도, 어떤 목표에 미친 듯이 몰두해 상식적인 수준을 넘어서는 노력과 희생을 해본 경험이 있나요?',
+      'e2.q2': '어떤 분야에 대해 "여기까지 해봤다", "이것까지 경험해봤다"고 자신 있게 말할 수 있을 만큼 깊이 파고든 경험이 있나요?',
+      'e2.q3': '목표를 추구하는 과정에서 예상치 못한 난관에 부딪히거나 실패를 경험했을 때, 이를 극복하고 해결한 경험이 있나요?',
+      'e2.q4': '새로운 지식을 습득하고 자신의 역량을 끊임없이 확장하려는 배움에 대한 갈증과 지적 호기심이 있나요?',
+      'e2.q5': '단기적인 편안함이나 안정 대신, 장기적인 성장과 성취를 위해 불확실성이나 어려움을 기꺼이 감수한 경험이 있나요?',
+      'e2.q6': '스스로 선택한 목표를 위해 자발적으로 무언가를 희생하거나 포기했던 경험이 있나요?',
+      'e3.title': '우리가 만드는<br/>제품에 대한<br/>집착과 열정을 갖는다.',
+      'e3.p1': '\'많은 유저에게 사랑받는 우리만의 제품\'은 그냥 만들어지지 않습니다. 그것은 단순한 관심을 넘어선, 때로는 광기에 가까운 \'집착과 열정\'의 산물입니다. 최고의 제품은 수많은 유저 인터뷰, 데이터 분석, 끝없는 고민과 가설 검증, 동료들과의 치열한 토론, 그리고 수많은 실패와 개선, 영감의 과정을 통해 탄생합니다.',
+      'e3.h3.1': '집착: 우리는 제품에 미쳐있습니다',
+      'e3.p2': '어떻게 하면 더 좋게 만들 수 있을까? 유저들은 왜 이 기능을 좋아하지 않을까? 유저는 왜 여기서 이탈했을까? 경쟁 제품의 저 기능은 왜 우리에게 없을까? 밥을 먹으면서도, 영화를 보면서도, 샤워를 하면서도, 심지어 잠자리에 들기 전에도 제품에 대한 생각이 머릿속을 맴돕니다.',
+      'e3.p3': '그런 질문을 해결하기 위해 우리는 깊게 고민하고, 유저의 행동을 집착에 가깝게 한 줄 한 줄 살펴보며, 유저들을 한 명 한 명씩 만나서 대화합니다. 그런 폼나지 않는 과정 속에서 제품과 유저에 대한 진정한 인사이트가 생기며, 이를 높은 수준으로 실행했을 때 제품은 한 걸음 나아갑니다.',
+      'e3.h3.2': '열정: 제품은 우리의 감정과 연결되어 있습니다',
+      'e3.p4': '우리 제품에서 사소한 버그라도 발견되면 마음이 불편하고 당장 고치고 싶어 안달이 납니다. 다른 앱에서 멋진 기능을 보면 \'이거 적용하면 대박이겠다!\'며 흥분하고, 우리가 왜 먼저 생각하지 못했을까 자책하기도 합니다. 반대로, 우리가 만든 기능이 유저들에게 좋은 반응을 얻고 지표로 증명될 때 느끼는 환희는 그 무엇과도 바꿀 수 없는 강력한 동기 부여가 됩니다. 이런 감정적인 몰입과 지적인 집요함, 즉 제품에 대한 깊은 집착과 뜨거운 열정이 없다면, 스캐터랩이 추구하는 위대한 제품을 만들 수 없습니다.',
+      'e3.p5': '스캐터랩의 비전과 우리가 만들고 있는 제타에 대해 진심으로 공감하고, 이 제품을 세상 최고로 만들겠다는 열망에 가슴이 뛰어야 합니다.',
+      'e3.q1': '스캐터랩과 우리가 만드는 제품의 비전에 대해 진심으로 공감하고 가슴이 뛰나요?',
+      'e3.q2': '위대한 무언가를 만들기 위해 개인적인 손해를 감수했던 적이 있나요?',
+      'e3.q3': '업무 시간이 아니더라도, 자발적으로 제품에 대해 고민하고 탐구하나요? (예: 직접 사용해보기, 유저 피드백 읽기, 경쟁 제품 분석하기 등)',
+      'e3.q4': '제타를 더 나은 제품으로 만들고 싶은 강한 열망이 있나요? 회사 밖에서도 문득 제품 개선 아이디어가 떠오르곤 하나요?',
+      'e3.q5': '제품의 부족한 점을 발견했을 때, 답답함을 느끼고 빨리 해결하고 싶은 마음이 드나요?',
+      'e3.q6': '최근 사용해 본 제품이나 서비스(앱, 웹사이트, 게임 등) 중에서 \'나라면 이렇게 개선했을 텐데\' 하고 깊이 고민해 본 경험이 있나요?',
+      'e3.q7': '단순히 \'가성비\'를 넘어, 절대적인 완성도와 가치를 위해 비효율을 감수하고 무언가를 만들어 본 경험이 있나요?',
+      'e4.title': '동료를 진심으로<br/>아끼고,<br/>함께 성장한다.',
+      'e4.p1': '우리는 서로를 진심으로 신뢰하고 존중하는 팀을 만들고자 합니다. 위대한 일은 깊은 공감과 서로를 향한 진심 어린 배려에서 시작된다고 믿습니다.',
+      'e4.h3.1': '동료애란 무엇인가요?',
+      'e4.p2': '동료애는 팀에 긍정적인 에너지를 더하고, 도움이 필요한 동료에게 먼저 다가가며, 협업이 의무가 아닌 자연스러운 흐름으로 이어지는 것입니다. 재능 있는 개인을 위대한 팀으로 만드는 힘은 여기서 나옵니다.',
+      'e4.h3.2': '우리가 그리는 팀의 모습',
+      'e4.p3': '서로의 성공을 진심으로 기뻐하고, 누군가 어려움에 처했을 때 가장 먼저 손을 내미는 팀. 우리가 함께 만들어가고자 하는 문화입니다.',
+      'e4.q1': '팀이 어려울 때 먼저 나서서 도움을 준 경험이 있나요?',
+      'e4.q2': '동료의 성공을 진심으로 기뻐한 적이 있나요?',
+      'e4.q3': '갈등 상황에서 상대방의 관점을 먼저 이해하려고 노력한 경험이 있나요?',
+      'e4.q4': '팀의 분위기를 더 좋게 만들기 위해 자발적으로 행동한 적이 있나요?',
+    },
+    ja: {
+      'hero.h1': '私たちの働き方、<br/><em>スキャッタラブのエトス</em>',
+      'intro.p1': 'スキャッタラブのエトス（ethos）は、私たちの精神・姿勢・価値観を率直に綴ったものです。入社候補者には、スキャッタラブで成長できるかを判断する基準となり、現在のチームメンバーには、私たちの精神を再確認し結束を深める機会となります。',
+      'intro.p2': '私たちがエトスをこれほど重視するのは、遠く、そして高みを目指したいからです。偉大なプロダクトは、最終的に偉大なチームと精神から生まれると信じています。',
+      'intro.p3': 'この文章には、スキャッタラブがどんなチームで、何のために、どのように働くかが記されています。',
+      'self.check': '自己診断',
+      'e1.title': '多くのユーザーに愛される<br/>私たちだけのプロダクトを<br/>作るために集まった。',
+      'e1.p1': 'スキャッタラブは「多くのユーザーに愛される私たちだけのプロダクト」を作るために存在します。一部のマニアだけでなく、数百万・数千万人の人々が日常的に熱中して使い、生活に欠かせないポジションを占める、大衆に大きなインパクトをもたらすプロダクト——それが私たちが作りたい偉大なプロダクトです。',
+      'e1.h3.1': '「私たちだけのプロダクト」とはどういう意味でしょうか？',
+      'e1.p2': '単に機能的に優れたプロダクトを超え、スキャッタラブの哲学と個性、つまり「スキャッタラブらしさ」が深く宿るプロダクトです。私たちが作らなければ世に存在しなかった、スキャッタラブにしか引き出せないプロダクト。それが私たちのアイデンティティであり、働く理由であり、存在のあり方です。',
+      'e1.h3.2': 'なぜ「多くのユーザーに愛される私たちだけのプロダクト」を作らなければならないのでしょうか？',
+      'e1.p3': 'スキャッタラブは、そのプロダクトを作ること自体に人生の意味と目的を見出す人が集まる場所だからです。「たった一度の人生で何を残すか？」という根源的な問いに対し、私たちは「私たちにしか作れない偉大なプロダクトを通じて、多くの人に喜びと変化をもたらすこと」と答えます。それが私たちのアイデンティティであり、働く理由であり、存在のあり方です。',
+      'e1.q1': 'お金や報酬などの外部要因とは関係なく、純粋な情熱だけで何かを作り上げた経験はありますか？',
+      'e1.q2': '多くの人に受け入れてもらうために自分のこだわりを曲げた経験はありますか？あるいは自分が間違っていると気づき、他者のフィードバックを受け入れて成果を出したことはありますか？',
+      'e1.q3': '自分が作ったもので「これは本当に自分だけの独自の視点が詰まっている」と誇れるものがありますか？',
+      'e1.q4': 'ユーザーの立場に深く共感し、彼らに本当の価値を届けるために全力を尽くした瞬間はありますか？',
+      'e1.q5': '平凡を超えた成果のために、最後の一滴まで努力を注ぎ込んだことはありますか？',
+      'e2.title': '多大な努力と<br/>犠牲を厭わない<br/>準備ができている。',
+      'e2.p1': '「多くのユーザーに愛される私たちだけのプロダクト」を作る旅は、決して平坦な道ではありません。時に苦しく、膨大な時間とエネルギーを要し、絶えず考え続け挑戦し続ける険しい道です。「努力と犠牲」という言葉は、やらされる仕事のように聞こえるかもしれません。しかしスキャッタラブでの努力と犠牲はそういう意味ではありません。それは自分たちが選んだ目標に向かって進む過程で、自発的に引き受ける献身です。',
+      'e2.h3.1': 'なぜ私たちはわざわざこの険しい道を選ぶのでしょうか？',
+      'e2.p2': 'スキャッタラブは、多くのユーザーに愛される私たちだけのプロダクトを作ることに本気だからです。Amazonの創業者ジェフ・ベゾスは「仕事の50%でも楽しめれば大きな幸運だ」と言いました。どんなに本気であっても、すべての過程が楽しいわけではありません。やりたくない・難しいことも確かにあります。それでも私たちは、最終的に作り出すプロダクトの価値とそれがもたらす変化を信じるからこそ、この道を歩みます。',
+      'e2.h3.2': '偉大なプロダクトは偉大な努力を要求します',
+      'e2.p3': '資本主義市場は熾烈です。世にない「私たちだけのプロダクト」で「多くの人」の心をつかむこと——どうして簡単であるはずがあるでしょうか？もし簡単なら、世界はすでに偉大なプロダクトで溢れているはずです。しかし現実はそうではありません。真に新しく成功したプロダクトはごく少数です。統計的に、スタートアップがユニコーンになる確率は、一般人が運動を始めてオリンピックで金メダルを取る確率と似ています。金メダルを取る過程がいかに壮絶な努力と犠牲を要するかを考えると、私たちが目指すことも同じくらい困難で長い道のりだと認めなければなりません。',
+      'e2.h3.3': 'それでも私たちはやります',
+      'e2.p4': 'むしろ「やらずにはいられない」という表現の方が正確かもしれません。なぜなら、これが私たちの考える「良い人生」、意味ある生き方だからです。安楽に甘んじるのではなく、困難な挑戦を通じて世界を変え、自ら成長する人生。もしこの価値観に共感できない、あるいは快適な生活を優先するなら、スキャッタラブは合わない場所かもしれません。',
+      'e2.q1': '人生で一度でも、ある目標に夢中になり、常識を超える努力と犠牲をした経験はありますか？',
+      'e2.q2': '「ここまでやった」「これを経験した」と自信を持って言えるほど、あるテーマに深く掘り下げた経験はありますか？',
+      'e2.q3': '目標を追う過程で予期しない壁にぶつかったり失敗したとき、それを乗り越え解決した経験はありますか？',
+      'e2.q4': '新しい知識を習得し、自分の能力を絶えず広げようとする学びへの渇望と知的好奇心はありますか？',
+      'e2.q5': '短期的な安楽や安定ではなく、長期的な成長と達成のために不確実性や困難を喜んで受け入れた経験はありますか？',
+      'e2.q6': '自ら選んだ目標のために、自発的に何かを犠牲にしたり諦めた経験はありますか？',
+      'e3.title': '私たちが作る<br/>プロダクトへの<br/>執着と情熱を持つ。',
+      'e3.p1': '「多くのユーザーに愛される私たちだけのプロダクト」は簡単には生まれません。それは単なる関心を超えた、時に狂気に近い「執着と情熱」の産物です。最高のプロダクトは、数多くのユーザーインタビュー、データ分析、終わりなき考察と仮説検証、仲間との激しいディスカッション、そして無数の失敗と改善、インスピレーションの過程から生まれます。',
+      'e3.h3.1': '執着：私たちはプロダクトに夢中です',
+      'e3.p2': 'どうすればもっと良くできるか？なぜユーザーはこの機能を好まないのか？なぜここで離脱したのか？競合プロダクトのあの機能はなぜ自分たちにないのか？食事をしながら、映画を観ながら、シャワーを浴びながら、寝る前でも、プロダクトのことが頭を駆け巡ります。',
+      'e3.p3': 'そういった問いを解くために、私たちは深く考え、ユーザーの行動を執着に近いほど一行一行見つめ、ユーザー一人ひとりと直接話します。そんな地味な過程の中からこそ、プロダクトとユーザーに関する真のインサイトが生まれ、それを高いレベルで実行したとき、プロダクトは一歩前進します。',
+      'e3.h3.2': '情熱：プロダクトは私たちの感情と結びついています',
+      'e3.p4': '自分たちのプロダクトで些細なバグを見つけると気になって仕方なく、すぐ直したくなります。他のアプリで素晴らしい機能を見れば「これ取り入れたら最高だ！」と興奮し、なぜ先に思い浮かばなかったのかと悔しくなります。逆に、自分たちが作った機能がユーザーに好評で指標でも証明されたときの喜びは、何にも替えられない強烈なモチベーションになります。こういった感情的な没入と知的な執念——プロダクトへの深い執着と熱い情熱がなければ、スキャッタラブが目指す偉大なプロダクトは作れません。',
+      'e3.p5': 'スキャッタラブのビジョンと私たちが作るzetaに心から共感し、このプロダクトを世界一にしたいという熱望で胸が高鳴らなければなりません。',
+      'e3.q1': 'スキャッタラブと私たちが作るプロダクトのビジョンに、心から共感し胸が高鳴りますか？',
+      'e3.q2': '偉大なものを作るために個人的な損を引き受けたことはありますか？',
+      'e3.q3': '業務時間外でも、自発的にプロダクトについて考え探求しますか？（例：自ら使ってみる、ユーザーフィードバックを読む、競合分析をするなど）',
+      'e3.q4': 'zetaをより良いプロダクトにしたいという強い熱望がありますか？会社の外でもふとプロダクト改善のアイデアが浮かびますか？',
+      'e3.q5': 'プロダクトの不足点を見つけたとき、もどかしさを感じてすぐ解決したいという気持ちになりますか？',
+      'e3.q6': '最近使ったプロダクトやサービス（アプリ、ウェブサイト、ゲームなど）で「自分ならこう改善するのに」と深く考えた経験はありますか？',
+      'e3.q7': '単なるコスパを超え、絶対的な完成度と価値のために非効率を厭わず何かを作った経験はありますか？',
+      'e4.title': '仲間を真心で<br/>大切にし、<br/>共に成長する。',
+      'e4.p1': '私たちは互いを心から信頼し尊重するチームを作りたいと思います。偉大な仕事は、深い共感と互いへの真心ある思いやりから始まると信じています。',
+      'e4.h3.1': '仲間意識とは何でしょうか？',
+      'e4.p2': '仲間意識とは、チームにポジティブなエネルギーを加え、助けが必要な仲間に先んじて手を差し伸べ、協力が義務ではなく自然な流れになることです。才能ある個人を偉大なチームにする力はここから生まれます。',
+      'e4.h3.2': '私たちが描くチームの姿',
+      'e4.p3': '互いの成功を心から喜び、誰かが困ったときに真っ先に手を差し伸べるチーム。私たちが共に作り上げたい文化です。',
+      'e4.q1': 'チームが困難なときに率先して助けた経験はありますか？',
+      'e4.q2': '仲間の成功を心から喜んだことはありますか？',
+      'e4.q3': '対立する状況で、相手の視点を先に理解しようと努めた経験はありますか？',
+      'e4.q4': 'チームの雰囲気を良くするために自発的に行動したことはありますか？',
+    },
+    en: {
+      'hero.h1': 'How we work,<br/><em>the Scatter Lab Ethos</em>',
+      'intro.p1': 'Scatter Lab\'s ethos is an honest reflection of our spirit, attitude, and values. For potential team members, it\'s a benchmark to judge whether they can grow here. For current members, it\'s a reminder of what we stand for and a way to strengthen our bonds.',
+      'intro.p2': 'The reason we emphasize our ethos so strongly is that we aim to go far and high. We believe great products ultimately come from great teams and great spirit.',
+      'intro.p3': 'This document captures what kind of team Scatter Lab is, what we work for, and how we work.',
+      'self.check': 'Reflect on yourself',
+      'e1.title': 'We came together<br/>to build a product<br/>beloved by millions.',
+      'e1.p1': 'Scatter Lab exists to build "our own product loved by many users." Not just a niche audience, but millions — even tens of millions — who use it passionately every day and consider it indispensable in their lives. A product with massive popular impact. That is the great product we want to build.',
+      'e1.h3.1': 'What does "our own product" mean?',
+      'e1.p2': 'It goes beyond a functionally great product — it means a product deeply infused with Scatter Lab\'s philosophy and personality, our "Scatter Lab-ness." A product that would not exist if we hadn\'t built it; something only Scatter Lab could bring into existence. This is our identity, our reason for working, and our way of being.',
+      'e1.h3.2': 'Why must we build "our own product loved by many users"?',
+      'e1.p3': 'Because Scatter Lab is a gathering of people who find meaning and purpose in life through building that product. To the fundamental question — "In this one life, what will I leave behind?" — we answer: "Joy and change for many people, through a great product only we could create." This is our identity, our reason for working, and our way of being.',
+      'e1.q1': 'Have you ever created something driven purely by passion, independent of money or external rewards?',
+      'e1.q2': 'Have you bent your own convictions to earn others\' love — or recognized you were wrong, accepted feedback, and achieved results?',
+      'e1.q3': 'Is there something you\'ve made that you can proudly say contains a truly unique perspective that is entirely your own?',
+      'e1.q4': 'Have you deeply empathized with users and given everything to deliver real value to them?',
+      'e1.q5': 'Have you ever poured every last drop of effort into achieving a result that exceeded the ordinary?',
+      'e2.title': 'We are ready to endure<br/>enormous effort<br/>and sacrifice.',
+      'e2.p1': 'The journey to build "our own product loved by many users" is never a smooth path. It\'s often painful, demands vast investments of time and energy, and is a grueling road filled with constant deliberation and challenges. "Effort and sacrifice" may sound like something forced upon us. But at Scatter Lab, it is not. It is voluntary dedication — something we willingly embrace as we move toward goals we have chosen for ourselves.',
+      'e2.h3.1': 'Why do we willingly choose this difficult path?',
+      'e2.p2': 'Because Scatter Lab is genuinely serious about building a product loved by many users. Amazon\'s founder Jeff Bezos said, "You\'re incredibly lucky if you can enjoy 50% of your work." No matter how passionate we are, not every moment is enjoyable. There are tasks we dread, things that are genuinely hard. Perhaps more than half. But because we believe in the value of the product we will ultimately create and the change it will bring, we walk this road willingly.',
+      'e2.h3.2': 'Great products demand great effort',
+      'e2.p3': 'The capitalist market is fierce. Capturing the hearts of "many people" with "our own product" that has never existed before — how could that be easy? If it were, the world would already be overflowing with great products. But it isn\'t. Truly new, successful products are extremely rare. Statistically, the odds of a startup becoming a unicorn are similar to an ordinary adult taking up a sport and winning Olympic gold. When you consider how much effort and sacrifice it takes to win that gold medal, we must acknowledge that what we\'re trying to do is equally difficult and demanding.',
+      'e2.h3.3': 'And yet, we do it',
+      'e2.p4': 'Or more precisely — we cannot help but do it. Because this is our idea of a "good life," a meaningful way to live. Rather than settling into comfort, we choose to change the world and grow through difficult challenges. If you don\'t share this value system, or if you prioritize a comfortable life above all, Scatter Lab may not be the right fit.',
+      'e2.q1': 'Have you ever, at least once in life, been so obsessed with a goal that you put in an effort and made sacrifices beyond what most would consider reasonable?',
+      'e2.q2': 'Do you have experience diving deep enough into a field to confidently say, "I\'ve been this far" or "I\'ve experienced this"?',
+      'e2.q3': 'When you hit unexpected obstacles or failure while pursuing a goal, have you overcome and resolved them?',
+      'e2.q4': 'Do you have a thirst for learning and intellectual curiosity — always trying to acquire new knowledge and expand your capabilities?',
+      'e2.q5': 'Have you willingly embraced uncertainty or difficulty for the sake of long-term growth and achievement, instead of short-term comfort or stability?',
+      'e2.q6': 'Have you voluntarily given up or sacrificed something for a goal you chose for yourself?',
+      'e3.title': 'We have obsession<br/>and passion for the<br/>products we build.',
+      'e3.p1': '"Our own product loved by many users" doesn\'t just happen. It\'s the product of "obsession and passion" that goes beyond mere interest — sometimes bordering on madness. The best products are born from countless user interviews, data analysis, endless deliberation and hypothesis testing, fierce debates with colleagues, and a relentless cycle of failure, improvement, and inspiration.',
+      'e3.h3.1': 'Obsession: We are consumed by the product',
+      'e3.p2': 'How can we make it better? Why don\'t users love this feature? Why did the user drop off here? Why does our competitor have that feature and we don\'t? While eating, watching movies, in the shower, even before falling asleep — thoughts about the product swirl constantly in our minds.',
+      'e3.p3': 'To answer those questions, we think deeply, scrutinize user behavior in granular detail with near-obsessive focus, and meet users one by one to talk. It\'s from those unglamorous processes that genuine insights about the product and users emerge — and when executed at a high level, the product takes a step forward.',
+      'e3.h3.2': 'Passion: The product is connected to our emotions',
+      'e3.p4': 'Finding even a minor bug in our product makes us uneasy and desperate to fix it immediately. Seeing a great feature in another app makes us excited — "This would be incredible if we applied it!" — followed by self-reproach for not thinking of it first. Conversely, the joy of seeing a feature we built receive positive responses from users and be validated by metrics is a powerful motivator unlike anything else. Without this emotional immersion and intellectual tenacity — deep obsession and burning passion for the product — you cannot build the great products Scatter Lab strives for.',
+      'e3.p5': 'You must genuinely resonate with Scatter Lab\'s vision and the product zeta we\'re building, and feel your heart race with the desire to make this the world\'s best product.',
+      'e3.q1': 'Do you genuinely resonate with Scatter Lab\'s and our product\'s vision, and does it make your heart race?',
+      'e3.q2': 'Have you ever accepted personal loss in order to create something great?',
+      'e3.q3': 'Even outside work hours, do you voluntarily think about and explore the product? (e.g., using the product yourself, reading user feedback, analyzing competitors)',
+      'e3.q4': 'Do you have a strong desire to make zeta a better product? Do ideas for improvement pop into your head even outside of work?',
+      'e3.q5': 'When you notice shortcomings in the product, do you feel frustrated and eager to fix them quickly?',
+      'e3.q6': 'Have you deeply thought about a product or service you recently used (app, website, game, etc.) and imagined how you would improve it?',
+      'e3.q7': 'Have you ever made something where you accepted inefficiency for the sake of absolute quality and value, beyond mere cost-effectiveness?',
+      'e4.title': 'We genuinely care<br/>for our colleagues<br/>and grow together.',
+      'e4.p1': 'We want to build a team that genuinely trusts and respects each other. We believe great things begin from deep empathy and sincere care for one another.',
+      'e4.h3.1': 'What is camaraderie?',
+      'e4.p2': 'Camaraderie means adding positive energy to the team, reaching out first to colleagues who need help, and making collaboration a natural flow rather than an obligation. The power that turns talented individuals into a great team comes from here.',
+      'e4.h3.2': 'The team we envision',
+      'e4.p3': 'A team that genuinely celebrates each other\'s success, and is the first to extend a hand when someone is in difficulty. That is the culture we want to build together.',
+      'e4.q1': 'Have you ever stepped up first to help when the team was in difficulty?',
+      'e4.q2': 'Have you genuinely celebrated a colleague\'s success?',
+      'e4.q3': 'In a conflict situation, have you made the effort to understand the other person\'s perspective first?',
+      'e4.q4': 'Have you voluntarily acted to make the team\'s atmosphere better?',
+    }
+  };
+
+  let currentLang = 'ko';
+
+  function setLang(lang) {
+    currentLang = lang;
+    const t = TRANSLATIONS[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('onclick') === `setLang('${lang}')`);
+    });
+    localStorage.setItem('lang', lang);
+  }
+
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // -------- Restore saved language --------------------------------
+  (function () {
+    const saved = localStorage.getItem('lang') || 'ko';
+    if (saved !== 'ko') setLang(saved);
+  })();
+
+  // -------- Hamburger drawer --------------------------------
+  const navMenuBtn = document.getElementById('navMenuBtn');
+  const navOverlay = document.getElementById('navOverlay');
+  const navDrawer = document.getElementById('navDrawer');
+  function openDrawer() {
+    navMenuBtn.classList.add('open'); navDrawer.classList.add('open'); navOverlay.classList.add('open');
+    navDrawer.setAttribute('aria-hidden','false'); navMenuBtn.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    navMenuBtn.classList.remove('open'); navDrawer.classList.remove('open'); navOverlay.classList.remove('open');
+    navDrawer.setAttribute('aria-hidden','true'); navMenuBtn.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  navMenuBtn.addEventListener('click', () => navDrawer.classList.contains('open') ? closeDrawer() : openDrawer());
+  navOverlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => e.key === 'Escape' && closeDrawer());
+</script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* ------------------------------------------------------------------
+   Zeta Labs Design System — Base tokens
+   Sources: Figma "[zetalabs] Design system.fig" (foundation/ tokens)
+   ------------------------------------------------------------------ */
+
+/* ---------- Fonts ------------------------------------------------- */
+@font-face { font-family: "Pretendard JP"; font-weight: 100; src: url("fonts/PretendardJP-Thin.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 200; src: url("fonts/PretendardJP-ExtraLight.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 300; src: url("fonts/PretendardJP-Light.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 400; src: url("fonts/PretendardJP-Regular.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 500; src: url("fonts/PretendardJP-Medium.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 600; src: url("fonts/PretendardJP-SemiBold.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 700; src: url("fonts/PretendardJP-Bold.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 800; src: url("fonts/PretendardJP-ExtraBold.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Pretendard JP"; font-weight: 900; src: url("fonts/PretendardJP-Black.otf") format("opentype"); font-display: swap; }
+
+:root {
+  /* ---------- Ref colors: iris (primary brand scale) --------------- */
+  --iris-50:  #F3F2FF;
+  --iris-100: #E8E6FF;
+  --iris-200: #D7D1FE;
+  --iris-300: #BCAFFD;
+  --iris-400: #9D85FA;   /* a11y-safe emphasis on dark bg — #A799FF in usage docs */
+  --iris-500: #805CF5;
+  --iris-600: #6838EB;   /* Primary */
+  --iris-700: #5D2AD2;
+  --iris-800: #5326AB;
+  --iris-900: #48228A;
+  --iris-950: #2F115D;
+
+  /* Figma usage metadata flags these exact shades as the "Primary on dark"
+     and "Primary on light" emphasis: */
+  --iris-emphasis-dark:  #A799FF;  /* use for brand-color text/icons on zinc/900+ */
+  --iris-emphasis-light: #6838EB;
+
+  /* ---------- Ref colors: zinc (neutral scale) -------------------- */
+  --zinc-50:  #FAFAFA;
+  --zinc-100: #F4F4F5;
+  --zinc-200: #E4E4E7;
+  --zinc-300: #D4D4D8;
+  --zinc-400: #A1A1AA;
+  --zinc-500: #71717A;
+  --zinc-600: #52525B;
+  --zinc-700: #3F3F46;
+  --zinc-800: #27272A;
+  --zinc-850: #202023;
+  --zinc-900: #18181B;
+  --zinc-925: #111114;  /* "Sidebar" token */
+  --zinc-950: #09090B;
+
+  /* ---------- Ref colors: semantic ramps --------------------------- */
+  --red-500: #EF4444;
+  --red-600: #DC2626;
+  --red-700: #B91C1C;
+  --green-500: #22C55E;
+  --green-600: #16A34A;
+  --yellow-500: #EAB308;
+  --blue-600:  #2563EB;
+
+  /* ---------- Semantic: Foreground (text / icon) ------------------- */
+  /* Light theme */
+  --fg-primary:      #111114;          /* zinc/925 — body copy */
+  --fg-secondary:    #3F3F46;          /* zinc/700 */
+  --fg-tertiary:     #71717A;          /* zinc/500 */
+  --fg-disabled:     #A1A1AA;          /* zinc/400 */
+  --fg-on-primary:   #FFFFFF;          /* on iris/600 bg */
+  --fg-accent:       var(--iris-600);  /* primary emphasis */
+  --fg-danger:       var(--red-600);
+  --fg-success:      var(--green-600);
+
+  /* Dark theme overrides (apply via [data-theme="dark"] below) */
+
+  /* ---------- Semantic: Background --------------------------------- */
+  --bg-canvas:       #FFFFFF;
+  --bg-subtle:       #FAFAFA;          /* zinc/50 */
+  --bg-muted:        #F4F4F5;          /* zinc/100 */
+  --bg-inverse:      #18181B;
+  --bg-sidebar:      #111114;          /* zinc/925 */
+  --bg-brand:        var(--iris-600);
+  --bg-brand-tint:   #F3F2FF;          /* iris/50 */
+  --bg-brand-hover:  var(--iris-700);
+  --bg-danger:       var(--red-600);
+
+  /* ---------- Semantic: Border ------------------------------------- */
+  --border-subtle:   #F4F4F5;
+  --border-default:  #E4E4E7;
+  --border-strong:   #D4D4D8;
+  --border-focus:    var(--iris-600);
+  --border-brand:    var(--iris-600);
+
+  /* ---------- Radii (figma token scale) ---------------------------- */
+  --radius-0:  0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;     /* buttons, inputs (default) */
+  --radius-lg: 8px;     /* cards, overlays */
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 20px;
+  --radius-full: 9999px;
+
+  /* ---------- Spacing scale (4-based) ------------------------------ */
+  --space-0: 0;
+  --space-0-5: 2px;
+  --space-1: 4px;
+  --space-1-5: 6px;
+  --space-2: 8px;
+  --space-2-5: 10px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---------- Elevation (shadow scale) ----------------------------- */
+  --shadow-sm:   0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-md:  -2px 4px 6px -1px rgba(0,0,0,0.10), -2px 2px 4px -2px rgba(0,0,0,0.06);
+  --shadow-lg:  -4px 6px 10px -1px rgba(0,0,0,0.12), -2px 4px 6px -2px rgba(0,0,0,0.06);
+  --shadow-xl:  -8px 12px 20px -4px rgba(0,0,0,0.14), -4px 6px 10px -3px rgba(0,0,0,0.06);
+  --shadow-focus-ring:       0 0 0 3px rgba(104,56,235,0.25);
+  --shadow-focus-ring-error: 0 0 0 3px rgba(239,68,68,0.25);
+
+  /* ---------- Backdrop blur presets -------------------------------- */
+  --blur-elevated:         blur(8px);
+  --blur-cover:            blur(16px);
+  --blur-on-card:          blur(12px);
+  --blur-on-card-strong:   blur(20px);
+  --blur-card:             blur(24px);
+  --blur-fullscreen-subtle: blur(32px);
+  --blur-fullscreen:       blur(48px);
+
+  /* ---------- Type: base ------------------------------------------- */
+  --font-sans: "Pretendard JP", "Pretendard", -apple-system, BlinkMacSystemFont,
+               "SF Pro", "Helvetica Neue", Arial, "Apple SD Gothic Neo",
+               "Noto Sans KR", sans-serif;
+  --font-inter: "Inter", "Pretendard JP", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Menlo", "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  --fw-thin: 100;
+  --fw-extralight: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --fw-black: 900;
+
+  /* ---------- Type: display / heading scale ------------------------ */
+  /* Conventions observed: Korean/JP body uses Pretendard JP; doc headers
+     often use Inter Semi Bold 14/16; hero marketing uses Inter Bold 64. */
+  --text-display-xl: 700 64px/72px var(--font-inter);
+  --text-display-lg: 700 48px/56px var(--font-inter);
+  --text-display-md: 600 36px/44px var(--font-sans);
+  --text-display-sm: 600 30px/36px var(--font-inter);
+
+  --text-h1: 600 24px/32px var(--font-sans);
+  --text-h2: 600 20px/28px var(--font-sans);
+  --text-h3: 600 18px/26px var(--font-sans);
+  --text-h4: 600 16px/24px var(--font-sans);
+
+  --text-body-lg: 400 16px/24px var(--font-sans);
+  --text-body-md: 400 15px/22px var(--font-sans);
+  --text-body-sm: 400 14px/20px var(--font-sans);
+  --text-body-xs: 400 12px/16px var(--font-sans);
+
+  --text-label-md: 500 14px/20px var(--font-sans);
+  --text-label-sm: 500 12px/16px var(--font-sans);
+
+  --text-button: 600 14px/20px var(--font-sans);
+  --text-caption: 400 11px/14px var(--font-sans);
+  --text-code: 400 13px/20px var(--font-mono);
+
+  /* Letter-spacing: Pretendard ships optically balanced, so default 0;
+     tighten slightly for large display. */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.01em;
+
+  /* ---------- Motion ----------------------------------------------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);          /* default */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+
+  /* ---------- Breakpoints ------------------------------------------ */
+  --bp-sm: 390px;   /* mobile */
+  --bp-md: 768px;   /* tablet */
+  --bp-lg: 1024px;  /* small desktop */
+  --bp-xl: 1280px;  /* desktop */
+  --bp-2xl: 1536px; /* wide */
+}
+
+/* --------- Dark theme ----------------------------------------------- */
+[data-theme="dark"] {
+  --fg-primary:    #F4F4F5;
+  --fg-secondary:  #D4D4D8;
+  --fg-tertiary:   #A1A1AA;
+  --fg-disabled:   #52525B;
+  --fg-accent:     var(--iris-emphasis-dark); /* #A799FF on dark per usage docs */
+
+  --bg-canvas:     #111114;
+  --bg-subtle:     #18181B;
+  --bg-muted:      #202023;
+  --bg-inverse:    #FAFAFA;
+  --bg-sidebar:    #09090B;
+  --bg-brand-tint: rgba(104,56,235,0.16);
+
+  --border-subtle:  rgba(255,255,255,0.06);
+  --border-default: rgba(255,255,255,0.12);
+  --border-strong:  rgba(255,255,255,0.20);
+}
+
+/* --------- Semantic typography classes ------------------------------ */
+.zl-display-xl { font: var(--text-display-xl); letter-spacing: var(--tracking-tight); color: var(--fg-primary); }
+.zl-display-lg { font: var(--text-display-lg); letter-spacing: var(--tracking-tight); color: var(--fg-primary); }
+.zl-display-md { font: var(--text-display-md); letter-spacing: var(--tracking-tight); color: var(--fg-primary); }
+.zl-h1 { font: var(--text-h1); color: var(--fg-primary); }
+.zl-h2 { font: var(--text-h2); color: var(--fg-primary); }
+.zl-h3 { font: var(--text-h3); color: var(--fg-primary); }
+.zl-h4 { font: var(--text-h4); color: var(--fg-primary); }
+.zl-body-lg { font: var(--text-body-lg); color: var(--fg-primary); }
+.zl-body-md { font: var(--text-body-md); color: var(--fg-primary); }
+.zl-body-sm { font: var(--text-body-sm); color: var(--fg-secondary); }
+.zl-body-xs { font: var(--text-body-xs); color: var(--fg-tertiary); }
+.zl-label-md { font: var(--text-label-md); color: var(--fg-primary); }
+.zl-label-sm { font: var(--text-label-sm); color: var(--fg-secondary); }
+.zl-caption { font: var(--text-caption); color: var(--fg-tertiary); }
+.zl-code { font: var(--text-code); color: var(--fg-primary); }
+
+/* --------- Base reset ------------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font: var(--text-body-md);
+  color: var(--fg-primary);
+  background: var(--bg-canvas);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+a { color: var(--fg-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }

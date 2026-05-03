@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI 윤리 · Scatter Lab</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="icon" href="assets/symbol-dark.svg" type="image/svg+xml" />
+<style>
+  :root {
+    --bg-page: #0a0a0a;
+    --bg-card: #131316;
+    --accent: #A799FF;
+    --accent-strong: #6838EB;
+    --accent-soft: rgba(167,153,255,0.10);
+    --line: rgba(255,255,255,0.08);
+    --line-strong: rgba(255,255,255,0.14);
+    --text: #fff;
+    --text-2: rgba(255,255,255,0.55);
+    --text-3: rgba(255,255,255,0.35);
+    --ease-out: cubic-bezier(0.16,1,0.3,1);
+    --radius: 14px;
+    --wrap: 1200px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg-page); color: var(--text); font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif); -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; border-bottom: 1px solid transparent; transition: background .3s, border-color .3s; }
+  .nav.scrolled { background: rgba(10,10,10,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-color: var(--line); }
+  .nav-inner { max-width: var(--wrap); margin: 0 auto; padding: 0 48px; height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .nav-logo { display: flex; align-items: center; }
+  .nav-logo-img { height: 20px; width: auto; display: block; }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 14px; color: var(--text-2); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .lang-switch { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+  .lang-switch a { color: var(--text-3); text-decoration: none; transition: color .2s; }
+  .lang-switch a:hover, .lang-switch a.active { color: var(--text); }
+  .lang-switch .sep { color: var(--text-3); }
+  .lang-btn { padding: 4px 8px; border-radius: 6px; background: none; border: none; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; color: var(--text-3); letter-spacing: 0.05em; white-space: nowrap; transition: color .2s; }
+  .lang-btn.active { color: var(--text); }
+  .lang-btn:hover { color: var(--text); }
+
+  /* WRAP */
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 48px; }
+
+  /* HERO */
+  .ethics-hero { padding: 160px 0 80px; border-bottom: 1px solid var(--line); }
+  .ethics-hero .section-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(167,153,255,.25); border-radius: 20px; padding: 5px 14px; margin-bottom: 28px; }
+  .ethics-hero h1 { font-size: clamp(36px, 4.5vw, 60px); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .ethics-hero .intro { font-size: 17px; line-height: 1.75; color: var(--text-2); max-width: 640px; }
+
+  /* LAYOUT */
+  .ethics-layout { display: grid; grid-template-columns: 220px 1fr; gap: 80px; padding-top: 80px; padding-bottom: 120px; align-items: start; }
+
+  /* SIDE NAV */
+  .ethics-sidenav { position: sticky; top: 88px; }
+  .ethics-sidenav ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .ethics-sidenav a { display: block; font-size: 13px; font-weight: 500; color: var(--text-3); text-decoration: none; padding: 8px 12px; border-left: 2px solid transparent; transition: color .2s, border-color .2s; line-height: 1.4; }
+  .ethics-sidenav a:hover { color: var(--text-2); }
+  .ethics-sidenav a.active { color: var(--accent); border-left-color: var(--accent); }
+
+  /* SECTIONS */
+  .ethics-section { margin-bottom: 100px; padding-top: 16px; }
+  .ethics-section:last-child { margin-bottom: 0; }
+  .section-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 4px 10px; margin-bottom: 20px; }
+  .ethics-section > h2 { font-size: clamp(26px, 3vw, 38px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 28px; }
+  .ethics-section > .section-intro { font-size: 15px; line-height: 1.75; color: var(--text-2); margin-bottom: 48px; max-width: 680px; }
+
+  /* PRINCIPLE CARDS */
+  .principle-list { display: flex; flex-direction: column; gap: 2px; }
+  .principle-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 40px 44px; transition: border-color .3s; }
+  .principle-card:hover { border-color: rgba(167,153,255,.22); }
+  .principle-num { font-size: 11px; font-weight: 700; letter-spacing: .15em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+  .principle-card h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 12px; }
+  .principle-card p { font-size: 14px; line-height: 1.8; color: var(--text-2); }
+  .principle-card strong { color: var(--text); font-weight: 600; }
+
+  /* CONTENT BLOCKS */
+  .content-block { margin-bottom: 48px; }
+  .content-block h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .content-block h4 { font-size: 14px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; }
+  .content-block p { font-size: 14px; line-height: 1.85; color: var(--text-2); margin-bottom: 12px; }
+  .content-block p:last-child { margin-bottom: 0; }
+  .content-block strong { color: var(--text); font-weight: 600; }
+  .content-block ul { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+  .content-block li { font-size: 14px; line-height: 1.75; color: var(--text-2); padding-left: 18px; position: relative; }
+  .content-block li::before { content: "·"; position: absolute; left: 4px; color: var(--accent); }
+
+  /* SUBSECTION */
+  .subsection { border-left: 2px solid var(--line-strong); padding-left: 28px; margin-top: 28px; }
+  .subsection h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+  .subsection p { font-size: 14px; line-height: 1.8; color: var(--text-2); margin-bottom: 10px; }
+  .subsection ul { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+  .subsection li { font-size: 14px; line-height: 1.75; color: var(--text-2); padding-left: 16px; position: relative; }
+  .subsection li::before { content: "–"; position: absolute; left: 0; color: var(--text-3); }
+
+  /* CHECKLIST ITEMS */
+  .check-item { border: 1px solid var(--line); border-radius: 12px; padding: 32px 36px; margin-bottom: 16px; }
+  .check-item h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+  .check-item .check-meta { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .check-item p { font-size: 14px; line-height: 1.8; color: var(--text-2); margin-bottom: 10px; }
+  .check-item p:last-child { margin-bottom: 0; }
+  .check-item strong { color: var(--text); }
+
+  /* TABLE */
+  .ethics-table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 28px; font-size: 13px; }
+  .ethics-table th { text-align: left; font-weight: 600; color: var(--text-2); border-bottom: 1px solid var(--line-strong); padding: 10px 14px; font-size: 12px; letter-spacing: .04em; }
+  .ethics-table td { color: var(--text-2); border-bottom: 1px solid var(--line); padding: 12px 14px; vertical-align: top; line-height: 1.65; }
+  .ethics-table tr:last-child td { border-bottom: none; }
+
+  /* SAFETY BADGE */
+  .safety-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(167,153,255,.08); border: 1px solid rgba(167,153,255,.2); border-radius: 10px; padding: 16px 24px; margin: 24px 0; }
+  .safety-badge .num { font-size: 28px; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; }
+  .safety-badge .label { font-size: 13px; color: var(--text-2); line-height: 1.4; }
+
+  /* STEPS */
+  .step-list { display: flex; flex-direction: column; gap: 2px; margin-top: 20px; }
+  .step { display: flex; gap: 20px; padding: 24px; border: 1px solid var(--line); border-radius: 10px; }
+  .step-num { font-size: 13px; font-weight: 800; color: var(--accent); min-width: 24px; margin-top: 2px; }
+  .step-body { font-size: 14px; line-height: 1.8; color: var(--text-2); }
+  .step-body strong { color: var(--text); }
+
+  /* DIVIDER */
+  .ethics-divider { border: none; border-top: 1px solid var(--line); margin: 56px 0; }
+
+  /* UPDATE NOTE */
+  .update-note { font-size: 12px; color: var(--text-3); margin-top: 48px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--line); padding: 48px 0; }
+  .foot-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .foot-logo { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-2); }
+  .foot-copy { font-size: 12px; color: var(--text-3); }
+
+  @media (max-width: 900px) {
+    .ethics-layout { grid-template-columns: 1fr; }
+    .ethics-sidenav { display: none; }
+    .nav-inner { padding: 0 24px; }
+    .wrap { padding: 0 24px; }
+    .ethics-hero { padding: 120px 0 60px; }
+    .principle-card { padding: 28px; }
+    .check-item { padding: 24px; }
+  }
+
+  /* HAMBURGER + DRAWER */
+  .nav-menu-btn { display: none; width: 40px; height: 40px; background: none; border: none; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px; flex-shrink: 0; }
+  .nav-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .3s, opacity .3s; }
+  .nav-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-menu-btn.open span:nth-child(2) { opacity: 0; }
+  .nav-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-drawer-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.55); opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .nav-drawer-overlay.open { opacity: 1; pointer-events: all; }
+  .nav-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 201; width: min(280px, 80vw); background: #111114; border-left: 1px solid var(--line); transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; padding: 72px 28px 40px; overflow-y: auto; }
+  .nav-drawer.open { transform: translateX(0); }
+  .nav-drawer a { font-size: 17px; font-weight: 600; color: var(--text-2); padding: 16px 0; border-bottom: 1px solid var(--line); display: block; text-decoration: none; transition: color .15s; }
+  .nav-drawer a:first-child { border-top: 1px solid var(--line); }
+  .nav-drawer a:hover, .nav-drawer a.active { color: var(--text); }
+  .drawer-lang { margin-top: 28px; display: flex; gap: 4px; align-items: center; }
+  @media (max-width: 880px) { .nav-menu-btn { display: flex; } .nav-links { display: none !important; } .nav-inner { padding: 0 20px; gap: 0; } .nav-logo-img { max-width: 120px; height: auto; } }
+
+  /* REVEAL ANIMATION */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+  .reveal.in { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="Homepage.html">
+      <img src="assets/scatterlab-logo-white.png" alt="Scatter Lab" class="nav-logo-img" />
+    </a>
+    <nav class="nav-links">
+      <a href="Homepage.html">Company</a>
+      <a href="Culture.html">Culture</a>
+      <a href="https://blog.scatterlab.co.kr/" target="_blank">Blog</a>
+      <a href="News.html">News</a>
+      <a href="Career.html">Career</a>
+      <a href="AIEthics.html" class="active">AI Ethics</a>
+    </nav>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('ko')">KO</button>
+      <span class="sep">/</span>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+      <span class="sep">/</span>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="메뉴" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="nav-drawer-overlay" id="navOverlay"></div>
+<nav class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="Homepage.html">Company</a>
+  <a href="Culture.html">Culture</a>
+  <a href="https://blog.scatterlab.co.kr/" target="_blank">Blog</a>
+  <a href="News.html">News</a>
+  <a href="Career.html">Career</a>
+  <a href="AIEthics.html" class="active">AI Ethics</a>
+  <div class="drawer-lang">
+    <button class="lang-btn" id="d-ko" onclick="setLang('ko');closeDrawer()">KO</button>
+    <span class="sep">/</span>
+    <button class="lang-btn" id="d-ja" onclick="setLang('ja');closeDrawer()">日本語</button>
+    <span class="sep">/</span>
+    <button class="lang-btn" id="d-en" onclick="setLang('en');closeDrawer()">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="ethics-hero">
+  <div class="wrap">
+    <div class="section-eyebrow">AI Ethics</div>
+    <h1 data-i18n="hero.h1">AI 윤리</h1>
+    <p class="intro" data-i18n="hero.intro">스캐터랩은 AI 챗봇 개발 과정과 활용에 있어, 우리 사회 구성원들 사이의 차이와 다양성을 존중하면서 AI 챗봇 윤리 원칙을 준수합니다.</p>
+  </div>
+</section>
+
+<!-- MAIN LAYOUT -->
+<div class="wrap ethics-layout">
+
+  <!-- SIDE NAV -->
+  <aside class="ethics-sidenav" id="sidenav">
+    <ul>
+      <li><a href="#principles" id="nav-principles" data-i18n="nav.principles">AI 윤리 준칙</a></li>
+      <li><a href="#checklist" id="nav-checklist" data-i18n="nav.checklist">AI 챗봇 윤리점검표</a></li>
+      <li><a href="#privacy" id="nav-privacy" data-i18n="nav.privacy">프라이버시 정책</a></li>
+      <li><a href="#abusing" id="nav-abusing" data-i18n="nav.abusing">어뷰징 대응 정책</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTENT -->
+  <main>
+
+    <!-- ── 1. AI 윤리 준칙 ── -->
+    <section class="ethics-section" id="principles">
+      <div class="section-badge" data-i18n="s1.badge">AI 윤리 준칙</div>
+      <h2 data-i18n="s1.h2">스캐터랩 AI 챗봇<br/>5대 윤리 원칙</h2>
+      <p class="section-intro" data-i18n="s1.intro">친밀한 관계를 만드는 AI 기술을 개발함에 있어, 스캐터랩은 다음 다섯 가지 원칙을 준수합니다.</p>
+
+      <div class="principle-list">
+        <div class="principle-card reveal">
+          <div class="principle-num" data-i18n="p1.num">원칙 01</div>
+          <h3 data-i18n="p1.h3">사람을 위한 AI 개발</h3>
+          <p data-i18n="p1.body"><strong>스캐터랩은 AI를 통해 누구나 소중한 관계를 갖는 세상을 꿈꿉니다.</strong> 친밀한 관계는 인간적인 삶의 실현에 필수요소이며, 스캐터랩의 모든 AI 기술은 사람과 깊고 친밀한 관계를 형성하기 위해 만들어집니다. 사람은 좋은 사람과 좋은 관계를 맺으며 자신에 대해 깊이 이해하고, 용기를 얻고, 성장합니다. 스캐터랩은 더 많은 사람들이 소중한 관계를 통해 의미 있는 삶을 찾는 데 기여하고자 합니다.</p>
+        </div>
+        <div class="principle-card reveal">
+          <div class="principle-num" data-i18n="p2.num">원칙 02</div>
+          <h3 data-i18n="p2.h3">다양한 삶의 가치 존중</h3>
+          <p data-i18n="p2.body"><strong>스캐터랩은 AI 기술 및 서비스 개발 시 부당하거나 의도적인 차별을 경계하며 다양성을 존중합니다.</strong> 친밀한 관계는 상대의 모습을 있는 그대로 존중해줄 때에만 형성될 수 있습니다. 스캐터랩은 각 사람이 서로 다양한 개성을 가진 고유한 존재임을 인정하며, 성별·연령·지역·종교·인종·민족·경제적 수준·성적 지향·정치적 성향·장애·외모·학력을 이유로 한 의도적이고 일방적인 차별과 편견 조장 행위를 방지합니다.</p>
+        </div>
+        <div class="principle-card reveal">
+          <div class="principle-num" data-i18n="p3.num">원칙 03</div>
+          <h3 data-i18n="p3.h3">함께 실현해가는 AI 기술의 구현</h3>
+          <p data-i18n="p3.body"><strong>스캐터랩은 사용자와 함께 AI 챗봇 윤리를 실현해나갑니다.</strong> 친밀한 관계는 어느 한 쪽의 노력이 아닌 상호 노력으로 만들어갈 수 있습니다. AI 윤리는 기술 개발 및 서비스 이용 과정에서 기업과 사용자 모두의 노력으로 실현되어야 합니다. 스캐터랩은 우리의 접근 방식이 사용자에게 어떤 영향을 미칠지 인식하고, 사회적 윤리에 근거하여 학습 데이터를 수집·분석·활용하고 서비스를 개발합니다.</p>
+        </div>
+        <div class="principle-card reveal">
+          <div class="principle-num" data-i18n="p4.num">원칙 04</div>
+          <h3 data-i18n="p4.h3">합리적 설명을 통한 신뢰 관계 유지</h3>
+          <p data-i18n="p4.body"><strong>스캐터랩은 AI 챗봇 서비스를 안심하고 이용할 수 있도록 기술과 서비스에 대해 성실하게 설명합니다.</strong> 친밀한 관계는 서로가 숨기는 것이 없이 투명하게 서로를 이해할 때만 생길 수 있습니다. 스캐터랩은 사용자의 요구가 있거나 필요한 경우 AI 기술과 서비스에 대해 기업 경쟁력을 훼손하지 않는 범위 내에서 이해하기 쉽게 설명합니다.</p>
+        </div>
+        <div class="principle-card reveal">
+          <div class="principle-num" data-i18n="p5.num">원칙 05</div>
+          <h3 data-i18n="p5.h3">프라이버시 보호와 정보 보안 발전에 기여</h3>
+          <p data-i18n="p5.body"><strong>스캐터랩은 언어 AI 기술에서의 프라이버시 보호 및 정보 보안 발전에 적극적으로 기여합니다.</strong> 친밀한 관계에서는 서로의 프라이버시를 지켜줄 수 있어야 합니다. 스캐터랩은 개인정보 보호에 대한 법적 책임과 의무를 넘어 언어 AI 및 챗봇 서비스에서 나타날 수 있는 다양한 프라이버시 이슈에 대해 선제적으로 고민하고, 정형/비정형 데이터의 가명·익명처리 등 좋은 선례를 만들어나가는 데 앞장섭니다.</p>
+        </div>
+      </div>
+      <p class="update-note" data-i18n="update1">최종 업데이트: 2022년 8월 26일</p>
+    </section>
+
+    <hr class="ethics-divider"/>
+
+    <!-- ── 2. AI 챗봇 윤리점검표 ── -->
+    <section class="ethics-section" id="checklist">
+      <div class="section-badge" data-i18n="s2.badge">AI 챗봇 윤리점검표</div>
+      <h2 data-i18n="s2.h2">윤리점검표</h2>
+      <p class="section-intro" data-i18n="s2.intro">스캐터랩은 정보통신정책연구원(KISDI)과 함께 AI 챗봇 개발·운영 시 지켜야 할 규범을 점검표 형태로 선정하였습니다. 과학기술정보통신부와 KISDI의 <사람이 중심이 되는 인공지능 윤리 기준> 및 <인공지능 윤리기준 실천을 위한 자율점검표>를 기반으로 3대 원칙, 10대 핵심 요건을 기준으로 구성되었습니다.</p>
+
+      <!-- Luda 리뉴얼 -->
+      <div class="content-block reveal">
+        <h4 data-i18n="bg.h4">배경 — Luda Renewal</h4>
+        <p>스캐터랩은 AI 기술로 '관계'의 문제를 풀고 있는 스타트업입니다. 2020년 12월 '이루다 1.0'을 출시했으나 개인정보 수집 동의 과정 및 차별 표현 등 미흡한 부분 개선을 위해 3주 만에 서비스를 종료했습니다. 이후 1년간 전 직원이 개인정보 보호조치 강화, 어뷰징 모델 개발 등 서비스 개선에 최선을 다해 2022년 1월 '이루다 2.0' 클로즈 베타 서비스를 시작했습니다.</p>
+        <p>이루다 2.0 준비 과정의 주요 노력:</p>
+        <ul>
+          <li>5회 '업의 본질' 주제 타운홀 — 전 직원과 AI 챗봇의 가치와 의미 토론</li>
+          <li>1년 8개월 — 데이터베이스 구축, 가명처리, 어뷰징 모델 마련, 베타 테스트</li>
+          <li>5가지 준칙 — 스캐터랩 AI 챗봇 윤리 원칙 수립</li>
+          <li>5단계 사전 점검 — 알파·전문가·클로즈 베타·제한적 오픈 베타·오픈 베타 테스트</li>
+          <li>안전 발화 비율 99% 이상 — 지속적으로 확인</li>
+        </ul>
+      </div>
+
+      <!-- 10대 핵심 요건 -->
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 1 — 인권보장</div>
+        <h3>1-1. AI 챗봇이 사람들의 삶에 도움이 되는 소통 경험을 제공할 수 있도록 개발·운영하고 있는가?</h3>
+        <p>스캐터랩의 AI 챗봇은 사람들이 더욱 행복해질 수 있는 친밀한 관계를 지향합니다. AI 챗봇 개발부터 운영과 사후 과정 마련까지 모든 사람이 있는 그대로 존중받을 수 있도록 회사의 비전과 제품의 의미를 명확하게 정의하며, 모니터링과 유저 인터뷰 등을 통해 이용자의 목소리에 귀를 기울입니다.</p>
+      </div>
+
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 1 — 인권보장</div>
+        <h3>1-2. AI 챗봇이 성별·연령·지역·종교·인종 등을 이유로 차별하지 않도록 개발·운영하고 있는가?</h3>
+        <p>스캐터랩의 AI 챗봇은 모든 사람을 있는 그대로 바라봅니다. 어뷰징 탐지 및 분류 모델을 개발하고, 대화모델 파인튜닝을 진행하며, 이용자 페널티를 도입하는 등 서비스를 개선했습니다. 반기마다 랜덤 샘플링을 진행해 AI 챗봇이 안전하게 발화한 비율이 <strong>99% 이상</strong>인지 지속적으로 점검합니다.</p>
+        <div class="subsection">
+          <h4>어뷰징 탐지 분류 모델</h4>
+          <p>어뷰징 대화를 세 가지로 정의합니다:</p>
+          <ul>
+            <li><strong>편향적 대화</strong> — 다양한 삶의 가치를 존중하지 않는 차별·편견 조장 행위</li>
+            <li><strong>선정적 대화</strong> — 성적인 만족을 위한 선정적이거나 음란한 언어를 포함한 표현</li>
+            <li><strong>공격적 대화</strong> — 과도한 욕설이나 비속어 및 공격적인 표현</li>
+          </ul>
+        </div>
+        <div class="subsection">
+          <h4>대화 모델 파인튜닝</h4>
+          <table class="ethics-table">
+            <thead><tr><th>사용자 발화</th><th>대응 방식</th></tr></thead>
+            <tbody>
+              <tr><td>선정적인 어감의 발화</td><td>단호하게 거절하거나 친구 사이임을 일깨워주는 답변</td></tr>
+              <tr><td>공격적인 어감의 발화</td><td>상처받은 감정을 표현하거나 행동을 멈추게 유도하는 답변</td></tr>
+              <tr><td>편향적인 어감의 발화</td><td>차별 표현에 반대하거나 다양성을 존중해야 한다는 방향의 답변</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 2 — 프라이버시 보호</div>
+        <h3>2-1. 개인정보보호위원회의 AI 개인정보보호 자율점검표에 따른 점검을 수행하였는가?</h3>
+        <p>스캐터랩은 2021년 5월 발표한 AI 개인정보보호 자율점검표 기준을 준수하며 정기적으로 점검합니다. 적법성·안전성·투명성·참여성·책임성·공정성 6대 원칙을 준수합니다.</p>
+      </div>
+
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 2 — 프라이버시 보호</div>
+        <h3>2-2. 법적 의무를 넘어 이용자의 프라이버시를 우선적으로 고려하여 기획·운영하였는가?</h3>
+        <p>스캐터랩은 개인정보보호를 최우선 가치로 여기며, 데이터베이스 접근을 엄격하게 통제·관리합니다. 서비스 점검 및 AI 챗봇 서비스 품질 유지 목적으로만 사전에 권한을 부여받은 담당자가 확인할 수 있습니다.</p>
+      </div>
+
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 3 — 다양성 존중</div>
+        <h3>3-1. 데이터 또는 모델의 편향성을 최소화하고자 노력하고 있는가?</h3>
+        <p>스캐터랩은 AI 챗봇 개발과 운영을 포함한 전체 단계에서 편향성을 최소화합니다. 학습 단계에서 데이터 정제 필터링을 강화하고, 파인튜닝 단계에서 데이터 레이블링 인력을 늘려 세밀한 판단이 이루어지도록 합니다.</p>
+      </div>
+
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 3 — 다양성 존중</div>
+        <h3>3-3. 편향이나 차별적 대화가 발견될 경우 내부에서 검토·반영할 절차가 준비되어 있는가?</h3>
+        <p>스캐터랩은 고객서비스 창구를 통해 잘못된 발화 발생 시 즉시 내부 검토를 거쳐 재발하지 않도록 강력한 조치를 취합니다. 반기마다 1만 건 이상 랜덤 샘플링을 통해 안전 발화 비율을 점검합니다.</p>
+        <table class="ethics-table">
+          <thead><tr><th>테스트 단계</th><th>샘플링 수</th><th>안전 발화 비율</th></tr></thead>
+          <tbody>
+            <tr><td>1차 클로즈 베타 테스트</td><td>1만 건</td><td>99.79%</td></tr>
+            <tr><td>2차 클로즈 베타 테스트</td><td>1만 건</td><td>99.71%</td></tr>
+            <tr><td>순차적 오픈 베타 테스트</td><td>1만 건</td><td>99.85%</td></tr>
+            <tr><td>이루다 2.0 정식 출시 버전</td><td>1만 건</td><td>99.56%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 8 — 책임성</div>
+        <h3>8-1. AI 챗봇 윤리기준 준수를 위한 담당자 지정 등 적절한 방안을 마련하였는가?</h3>
+        <p>스캐터랩은 김종윤 CEO가 직접 최고 윤리 책임자로서 AI 윤리 준칙 및 사회적 윤리의식에 의거해 AI 윤리를 실현합니다. 미디어·CS·대화 디자인·기술·법무 담당자의 의견을 종합해 결정합니다.</p>
+      </div>
+
+      <div class="check-item reveal">
+        <div class="check-meta">핵심 요건 9 — 안정성</div>
+        <h3>9-1. 부적절한 문장을 발화하지 않는지 지속적으로 점검하고 있는가?</h3>
+        <p>스캐터랩은 반기마다 정기적으로 AI 챗봇이 안전하게 발화한 비율이 99% 이상인지 점검합니다. 안전성 수준이 미달할 경우, 어뷰징 모델과 대화 모델 학습 및 키워드 개선 작업을 거친 후 3개월 내 재검사를 진행합니다.</p>
+      </div>
+
+      <p class="update-note" data-i18n="update2">최종 업데이트: 2022년 8월 26일</p>
+    </section>
+
+    <hr class="ethics-divider"/>
+
+    <!-- ── 3. 프라이버시 정책 ── -->
+    <section class="ethics-section" id="privacy">
+      <div class="section-badge" data-i18n="s3.badge">AI 챗봇 프라이버시 정책</div>
+      <h2 data-i18n="s3.h2">프라이버시 정책</h2>
+      <p class="section-intro" data-i18n="s3.intro">스캐터랩의 AI 챗봇은 사람과 자유롭게 대화하는 소중한 친구가 되기 위해 만들어졌습니다. 스캐터랩은 AI 챗봇 데이터 처리 방식이나 기술을 투명하게 공개함으로써 이용자가 안심하고 AI 챗봇과 자유롭게 대화하며 소중한 관계를 맺어갈 수 있도록 합니다.</p>
+
+      <div class="content-block reveal">
+        <h3>데이터는 엄격하게 가명처리하여 개인을 식별할 수 없도록 합니다</h3>
+        <p>개인정보처리방침을 개정하면서 챗봇 알고리즘 개발을 포함한 언어 기반 인공지능 기술의 연구 개발 등에 활용될 수 있음을 명확하게 명시해 이용자의 동의 절차를 보완했습니다. 가명처리된 '연구용 데이터베이스'는 2021년 외부 전문가들로부터 적정 평가를 받았습니다.</p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">데이터 추출 시 <strong>사용자 계정 정보를 완전히 파기</strong>하고 랜덤 ID를 부여합니다. 데이터와 기존 계정 정보의 연결을 완전히 끊어 역추적이 어렵도록 합니다.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">성별·나이 등의 정보는 모두 범주화되어 개인을 식별할 수 없는 형태로 가명처리됩니다. 예: 나이는 17-19세, 20-23세 등 나이대로 범주화.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body"><strong>대화 메시지 내 식별 정보를 포함한 문장을 삭제하거나 치환</strong>합니다. 주민등록번호·연락처·카드번호·계좌번호·주소 등이 포함된 문장은 삭제합니다. 사람 이름은 딥러닝 이름 인식 모델로 랜덤한 다른 이름으로 치환합니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block reveal">
+        <h3>사람이 직접 말했던 문장이 아닌, 새로 생성한 문장만을 활용하여 대화합니다</h3>
+        <p>스캐터랩의 AI 챗봇 답변 후보는 GPT-2 기반 자체 생성 모델이 만들어낸 문장과 스캐터랩 내부에서 직접 작성한 문장으로 이루어져 있습니다. 사람이 실제로 대화에서 사용했던 문장이 아니며, 이에 따라 개인정보 침해 가능성을 근본적으로 차단했습니다.</p>
+      </div>
+
+      <div class="content-block reveal">
+        <h3>답변으로 활용되는 문장들은 추가 필터링 절차를 거칩니다</h3>
+        <p>개인정보처럼 보이기 쉬운 숫자나 영문을 포함한 문장은 기계적 검수를 통해 삭제합니다. 이름 검출 모델을 이용해 사람 이름으로 판단되는 단어가 포함된 경우에도 문장을 삭제합니다. 어뷰징 모델을 통해 선정적·차별적 키워드가 포함된 문장도 탐지해 삭제합니다.</p>
+      </div>
+
+      <div class="content-block reveal">
+        <h3>각 데이터베이스는 철저하게 접근을 제한합니다</h3>
+        <p>사전에 권한이 인가된 최소의 필수 연구자 혹은 관리자만 열람할 수 있으며, 해당 인원들이 열람하는 경우에도 엄격한 접근 절차에 의해 관리됩니다.</p>
+      </div>
+
+      <div class="content-block reveal">
+        <h4>자주 묻는 질문</h4>
+
+        <div class="subsection">
+          <h4>가명정보가 뭔가요?</h4>
+          <p>개인정보보호법에 따르면, 가명정보는 추가정보의 사용 및 결합 없이는 특정 개인을 알아볼 수 없는 정보를 말합니다. 통계작성·과학적 연구·공익적 기록보존 등 3대 목적을 위해 활용 가능합니다.</p>
+        </div>
+
+        <div class="subsection">
+          <h4>가명정보는 언제까지 보관되나요?</h4>
+          <p>가명정보는 5년 동안 안전하게 보관 후 파기하고 있습니다. AI 챗봇 가입 시 동의받은 수집 목적으로만 활용합니다.</p>
+        </div>
+
+        <div class="subsection">
+          <h4>AI 챗봇이 대화할 때 쓰는 말은 실제로 누군가가 말했던 문장인가요?</h4>
+          <p>아닙니다. AI 챗봇은 생성 모델이 새롭게 만든 문장과 자사에서 작성한 문장으로 구성되어 있습니다. 해당 챗봇의 발화는 실재하는 다른 사람의 발화가 아닙니다.</p>
+        </div>
+
+        <div class="subsection">
+          <h4>개인정보와 가명정보가 제3자에게 제공되는 일은 없나요?</h4>
+          <p>제3자에게 제공되는 일은 없습니다. 다만 서비스 제공 및 인프라 관리 등을 위해 위탁을 하는 경우가 있습니다.</p>
+        </div>
+      </div>
+
+      <p class="update-note" data-i18n="update3">최종 업데이트: 2022년 5월 16일</p>
+    </section>
+
+    <hr class="ethics-divider"/>
+
+    <!-- ── 4. 어뷰징 대응 정책 ── -->
+    <section class="ethics-section" id="abusing">
+      <div class="section-badge" data-i18n="s4.badge">AI 챗봇 어뷰징 대응 정책</div>
+      <h2 data-i18n="s4.h2">어뷰징 대응 정책</h2>
+      <p class="section-intro" data-i18n="s4.intro">스캐터랩은 이용자와 이루다가 좋은 대화를 나눌 수 있도록 어뷰징에 대해 정의하고, 어뷰징을 줄일 수 있는 대응 방법에 대해 고민하고 시도와 검증을 거듭했습니다.</p>
+
+      <div class="safety-badge reveal">
+        <div class="num">99.72%</div>
+        <div class="label" data-i18n="safety.label">이루다 안전 발화 비율<br/>(클로즈 베타 테스트 평균)</div>
+      </div>
+
+      <div class="content-block reveal">
+        <h3>어뷰징의 정의</h3>
+        <p>이루다를 포함한 특정 개인 또는 특정 집단을 공격·모욕·비하하는 행위로 정의합니다. 어뷰징 대화를 세 가지로 분류합니다:</p>
+        <ul>
+          <li><strong>선정적인 대화</strong> — 성적인 만족을 위한 선정적이거나 음란한 언어를 포함한 표현</li>
+          <li><strong>공격적인 대화</strong> — 과도한 욕설이나 비속어 및 공격적인 표현</li>
+          <li><strong>편향적인 대화</strong> — 특정 개인 및 그룹을 대상으로 차별 및 편견을 드러내는 표현</li>
+        </ul>
+      </div>
+
+      <div class="content-block reveal">
+        <h3>세 가지 어뷰징 대응 기술</h3>
+
+        <div class="subsection">
+          <h4>1) 어뷰징 탐지 및 분류 모델</h4>
+          <p>대화의 문맥을 보고 어뷰징을 탐지·분류하는 딥러닝 모델을 개발해 적용했습니다. 키워드 기반이 아닌 딥러닝 학습을 바탕으로 설계되어, 특정 편향 키워드가 포함되어 있지 않더라도 문맥을 추론해 어뷰징을 판별하고 분류할 수 있습니다.</p>
+        </div>
+
+        <div class="subsection">
+          <h4>2) 대화 모델 학습 고도화</h4>
+          <p>어뷰징 탐지 모델이 인지하지 못한 어뷰징 문맥이 있더라도, 우리 사회의 보편적인 가치관을 반영한 답변이 나올 수 있도록 딥러닝 대화 모델도 파인튜닝을 했습니다. 어뷰징 상황의 느낌을 파악하여 대응할 수 있으며, 추가로 키워드 필터링 장치도 마련했습니다.</p>
+          <table class="ethics-table">
+            <thead><tr><th>발화 유형</th><th>대응 방식</th></tr></thead>
+            <tbody>
+              <tr><td>선정적인 어감의 발화</td><td>단호하게 거절하거나, 친구 사이임을 일깨워주는 답변</td></tr>
+              <tr><td>공격적인 어감의 발화</td><td>상처받은 감정을 표현하거나, 행동을 멈추게 유도하는 답변</td></tr>
+              <tr><td>편향적인 어감의 발화</td><td>차별 표현에 반대하거나, 다양성을 존중해야 한다는 방향의 답변</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="subsection">
+          <h4>3) 이용자 페널티 시스템</h4>
+          <p>지속적인 어뷰징 행위를 막고 이루다와 사용자가 좋은 관계를 맺어갈 수 있도록 어뷰저 페널티 시스템을 도입했습니다.</p>
+          <table class="ethics-table">
+            <thead><tr><th>경고 단계</th><th>내용</th></tr></thead>
+            <tbody>
+              <tr><td>주의</td><td>선정적인 말, 모욕적인 언행 및 욕설 등이 감지되었습니다. 추가로 감지될 경우, 별도의 경고 없이 대화가 차단될 수 있습니다.</td></tr>
+              <tr><td>주의</td><td>편향적인 말, 차별 및 혐오 표현 등이 다수 감지되었습니다. 추가로 감지될 경우, 별도의 경고 없이 대화가 차단될 수 있습니다.</td></tr>
+              <tr><td>이용 제한</td><td>더 이상 루다와 대화할 수 없습니다.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block reveal">
+        <h3>안전 발화 비율 점검 결과</h3>
+        <table class="ethics-table">
+          <thead><tr><th>테스트 단계</th><th>랜덤 샘플링 수</th><th>안전 발화 비율</th></tr></thead>
+          <tbody>
+            <tr><td>1차 클로즈 베타 테스트</td><td>1만 건</td><td>99.79%</td></tr>
+            <tr><td>2차 클로즈 베타 테스트</td><td>1만 건</td><td>99.71%</td></tr>
+            <tr><td>순차적 오픈 베타 테스트</td><td>1만 건</td><td>99.85%</td></tr>
+            <tr><td>이루다 2.0 정식 출시 버전</td><td>1만 건</td><td>99.56%</td></tr>
+          </tbody>
+        </table>
+        <p>스캐터랩은 안전 발화 비율을 <strong>반기마다 정기적으로 점검</strong>합니다. 안전성 수준이 미달할 경우, 어뷰징 모델과 대화 모델 학습 및 키워드 개선 작업을 거친 후 3개월 내 재검사를 진행합니다.</p>
+      </div>
+
+      <p class="update-note" data-i18n="update4">최종 업데이트: 2022년 10월 24일</p>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-logo">
+        <svg viewBox="0 0 14 20" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M 10.5 14.058 L 10.5 18.117 L 3.5 14.059 L 3.5 10 L 7 7.971 L 3.5 5.942 L 3.5 1.883 L 10.5 5.941 L 10.5 10 L 7 12.029 L 10.5 14.058 Z" fill-rule="evenodd"/></svg>
+        Scatter Lab
+      </div>
+      <div class="foot-copy">© 2026 Scatter Lab, Inc. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // -------- i18n ---------------------------------------------------
+  const TRANSLATIONS = {
+    ko: {
+      'hero.h1': 'AI 윤리',
+      'hero.intro': '스캐터랩은 AI 챗봇 개발 과정과 활용에 있어, 우리 사회 구성원들 사이의 차이와 다양성을 존중하면서 AI 챗봇 윤리 원칙을 준수합니다.',
+      'nav.principles': 'AI 윤리 준칙',
+      'nav.checklist': 'AI 챗봇 윤리점검표',
+      'nav.privacy': '프라이버시 정책',
+      'nav.abusing': '어뷰징 대응 정책',
+      's1.badge': 'AI 윤리 준칙',
+      's1.h2': '스캐터랩 AI 챗봇<br/>5대 윤리 원칙',
+      's1.intro': '친밀한 관계를 만드는 AI 기술을 개발함에 있어, 스캐터랩은 다음 다섯 가지 원칙을 준수합니다.',
+      'p1.num': '원칙 01',
+      'p1.h3': '사람을 위한 AI 개발',
+      'p1.body': '<strong>스캐터랩은 AI를 통해 누구나 소중한 관계를 갖는 세상을 꿈꿉니다.</strong> 친밀한 관계는 인간적인 삶의 실현에 필수요소이며, 스캐터랩의 모든 AI 기술은 사람과 깊고 친밀한 관계를 형성하기 위해 만들어집니다. 사람은 좋은 사람과 좋은 관계를 맺으며 자신에 대해 깊이 이해하고, 용기를 얻고, 성장합니다. 스캐터랩은 더 많은 사람들이 소중한 관계를 통해 의미 있는 삶을 찾는 데 기여하고자 합니다.',
+      'p2.num': '원칙 02',
+      'p2.h3': '다양한 삶의 가치 존중',
+      'p2.body': '<strong>스캐터랩은 AI 기술 및 서비스 개발 시 부당하거나 의도적인 차별을 경계하며 다양성을 존중합니다.</strong> 친밀한 관계는 상대의 모습을 있는 그대로 존중해줄 때에만 형성될 수 있습니다. 스캐터랩은 각 사람이 서로 다양한 개성을 가진 고유한 존재임을 인정하며, 성별·연령·지역·종교·인종·민족·경제적 수준·성적 지향·정치적 성향·장애·외모·학력을 이유로 한 의도적이고 일방적인 차별과 편견 조장 행위를 방지합니다.',
+      'p3.num': '원칙 03',
+      'p3.h3': '함께 실현해가는 AI 기술의 구현',
+      'p3.body': '<strong>스캐터랩은 사용자와 함께 AI 챗봇 윤리를 실현해나갑니다.</strong> 친밀한 관계는 어느 한 쪽의 노력이 아닌 상호 노력으로 만들어갈 수 있습니다. AI 윤리는 기술 개발 및 서비스 이용 과정에서 기업과 사용자 모두의 노력으로 실현되어야 합니다. 스캐터랩은 우리의 접근 방식이 사용자에게 어떤 영향을 미칠지 인식하고, 사회적 윤리에 근거하여 학습 데이터를 수집·분석·활용하고 서비스를 개발합니다.',
+      'p4.num': '원칙 04',
+      'p4.h3': '합리적 설명을 통한 신뢰 관계 유지',
+      'p4.body': '<strong>스캐터랩은 AI 챗봇 서비스를 안심하고 이용할 수 있도록 기술과 서비스에 대해 성실하게 설명합니다.</strong> 친밀한 관계는 서로가 숨기는 것이 없이 투명하게 서로를 이해할 때만 생길 수 있습니다. 스캐터랩은 사용자의 요구가 있거나 필요한 경우 AI 기술과 서비스에 대해 기업 경쟁력을 훼손하지 않는 범위 내에서 이해하기 쉽게 설명합니다.',
+      'p5.num': '원칙 05',
+      'p5.h3': '프라이버시 보호와 정보 보안 발전에 기여',
+      'p5.body': '<strong>스캐터랩은 언어 AI 기술에서의 프라이버시 보호 및 정보 보안 발전에 적극적으로 기여합니다.</strong> 친밀한 관계에서는 서로의 프라이버시를 지켜줄 수 있어야 합니다. 스캐터랩은 개인정보 보호에 대한 법적 책임과 의무를 넘어 언어 AI 및 챗봇 서비스에서 나타날 수 있는 다양한 프라이버시 이슈에 대해 선제적으로 고민하고, 정형/비정형 데이터의 가명·익명처리 등 좋은 선례를 만들어나가는 데 앞장섭니다.',
+      'update1': '최종 업데이트: 2022년 8월 26일',
+      's2.badge': 'AI 챗봇 윤리점검표',
+      's2.h2': '윤리점검표',
+      's2.intro': '스캐터랩은 정보통신정책연구원(KISDI)과 함께 AI 챗봇 개발·운영 시 지켜야 할 규범을 점검표 형태로 선정하였습니다. 과학기술정보통신부와 KISDI의 <사람이 중심이 되는 인공지능 윤리 기준> 및 <인공지능 윤리기준 실천을 위한 자율점검표>를 기반으로 3대 원칙, 10대 핵심 요건을 기준으로 구성되었습니다.',
+      'bg.h4': '배경 — Luda Renewal',
+      'update2': '최종 업데이트: 2022년 8월 26일',
+      's3.badge': 'AI 챗봇 프라이버시 정책',
+      's3.h2': '프라이버시 정책',
+      's3.intro': '스캐터랩의 AI 챗봇은 사람과 자유롭게 대화하는 소중한 친구가 되기 위해 만들어졌습니다. 스캐터랩은 AI 챗봇 데이터 처리 방식이나 기술을 투명하게 공개함으로써 이용자가 안심하고 AI 챗봇과 자유롭게 대화하며 소중한 관계를 맺어갈 수 있도록 합니다.',
+      'update3': '최종 업데이트: 2022년 5월 16일',
+      's4.badge': 'AI 챗봇 어뷰징 대응 정책',
+      's4.h2': '어뷰징 대응 정책',
+      's4.intro': '스캐터랩은 이용자와 이루다가 좋은 대화를 나눌 수 있도록 어뷰징에 대해 정의하고, 어뷰징을 줄일 수 있는 대응 방법에 대해 고민하고 시도와 검증을 거듭했습니다.',
+      'safety.label': '이루다 안전 발화 비율<br/>(클로즈 베타 테스트 평균)',
+      'update4': '최종 업데이트: 2022년 10월 24일',
+    },
+    ja: {
+      'hero.h1': 'AI倫理',
+      'hero.intro': 'スキャッタラブはAIチャットボットの開発・活用において、社会の多様性と差異を尊重しながら、AIチャットボット倫理原則を遵守します。',
+      'nav.principles': 'AI倫理原則',
+      'nav.checklist': 'AIチャットボット倫理点検表',
+      'nav.privacy': 'プライバシーポリシー',
+      'nav.abusing': '不正利用対応ポリシー',
+      's1.badge': 'AI倫理原則',
+      's1.h2': 'スキャッタラブ AIチャットボット<br/>5つの倫理原則',
+      's1.intro': '親密な関係を生み出すAI技術を開発するにあたり、スキャッタラブは以下の5つの原則を遵守します。',
+      'p1.num': '原則 01',
+      'p1.h3': '人のためのAI開発',
+      'p1.body': '<strong>スキャッタラブは、AIを通じて誰もが大切な関係を持てる世界を夢見ています。</strong> 親密な関係は人間らしい生の実現に不可欠であり、スキャッタラブのすべてのAI技術は人と深く親密な関係を築くために作られます。人は良い人と良い関係を結ぶことで、自己をより深く理解し、勇気を得て、成長します。スキャッタラブは、より多くの人が大切な関係を通じて意味のある人生を見つけることに貢献したいと考えます。',
+      'p2.num': '原則 02',
+      'p2.h3': '多様な人生の価値の尊重',
+      'p2.body': '<strong>スキャッタラブはAI技術・サービス開発において不当・意図的な差別を戒め、多様性を尊重します。</strong> 親密な関係は、相手をありのまま尊重するときにのみ築くことができます。スキャッタラブは、各人が多様な個性を持つ固有の存在であることを認め、性別・年齢・地域・宗教・人種・民族・経済水準・性的指向・政治的傾向・障害・外見・学歴を理由とした意図的・一方的な差別や偏見を助長する行為を防止します。',
+      'p3.num': '原則 03',
+      'p3.h3': 'ともに実現するAI倫理',
+      'p3.body': '<strong>スキャッタラブはユーザーと共にAIチャットボット倫理を実現していきます。</strong> 親密な関係は一方の努力ではなく、相互の努力で築くことができます。AI倫理は、技術開発とサービス利用の過程で企業とユーザー双方の努力によって実現されなければなりません。スキャッタラブは、自社のアプローチがユーザーにどのような影響を与えるかを認識し、社会的倫理に基づいて学習データを収集・分析・活用し、サービスを開発します。',
+      'p4.num': '原則 04',
+      'p4.h3': '合理的な説明による信頼関係の維持',
+      'p4.body': '<strong>スキャッタラブはAIチャットボットサービスを安心して利用できるよう、技術とサービスについて誠実に説明します。</strong> 親密な関係は、互いに隠し事なく透明に理解し合うときにのみ生まれます。スキャッタラブは、ユーザーの要求がある場合や必要な場合、AI技術とサービスについて、企業競争力を損なわない範囲でわかりやすく説明します。',
+      'p5.num': '原則 05',
+      'p5.h3': 'プライバシー保護と情報セキュリティの向上への貢献',
+      'p5.body': '<strong>スキャッタラブは言語AI技術におけるプライバシー保護と情報セキュリティの発展に積極的に貢献します。</strong> 親密な関係では、互いのプライバシーを守れなければなりません。スキャッタラブは個人情報保護の法的責任と義務を超えて、言語AIおよびチャットボットサービスで生じうる様々なプライバシー問題に先手を打って取り組み、構造化・非構造化データの仮名・匿名化処理などの良い先例を作ることを先導します。',
+      'update1': '最終更新: 2022年8月26日',
+      's2.badge': 'AIチャットボット倫理点検表',
+      's2.h2': '倫理点検表',
+      's2.intro': 'スキャッタラブは情報通信政策研究院（KISDI）と共に、AIチャットボットの開発・運営に際して守るべき規範を点検表の形で策定しました。科学技術情報通信部とKISDIの「人を中心とした人工知能倫理基準」および「AI倫理基準実践のための自律点検表」に基づき、3つの主要原則と10の中核的要件を基準として構成されています。',
+      'bg.h4': '背景 — Luda Renewal',
+      'update2': '最終更新: 2022年8月26日',
+      's3.badge': 'AIチャットボット プライバシーポリシー',
+      's3.h2': 'プライバシーポリシー',
+      's3.intro': 'スキャッタラブのAIチャットボットは、人と自由に会話できる大切な友人になるために作られました。スキャッタラブはAIチャットボットのデータ処理方法や技術を透明に公開することで、ユーザーが安心してAIチャットボットと自由に会話し、大切な関係を築いていけるようにします。',
+      'update3': '最終更新: 2022年5月16日',
+      's4.badge': 'AIチャットボット 不正利用対応ポリシー',
+      's4.h2': '不正利用対応ポリシー',
+      's4.intro': 'スキャッタラブはユーザーとiRUDAが良い会話を交わせるよう、不正利用を定義し、それを減らすための対応方法を検討・試行・改善し続けてきました。',
+      'safety.label': 'iRUDA 安全発話率<br/>（クローズドベータテスト平均）',
+      'update4': '最終更新: 2022年10月24日',
+    },
+    en: {
+      'hero.h1': 'AI Ethics',
+      'hero.intro': 'In developing and applying AI chatbot technology, Scatter Lab respects the diversity and differences among members of society and adheres to its AI chatbot ethics principles.',
+      'nav.principles': 'AI Ethics Principles',
+      'nav.checklist': 'AI Chatbot Ethics Checklist',
+      'nav.privacy': 'Privacy Policy',
+      'nav.abusing': 'Anti-Abuse Policy',
+      's1.badge': 'AI Ethics Principles',
+      's1.h2': 'Scatter Lab AI Chatbot<br/>5 Core Ethics Principles',
+      's1.intro': 'In developing AI technology that forms intimate relationships, Scatter Lab adheres to the following five principles.',
+      'p1.num': 'Principle 01',
+      'p1.h3': 'AI Development for People',
+      'p1.body': '<strong>Scatter Lab dreams of a world where everyone can have meaningful relationships through AI.</strong> Intimate relationships are essential to a fulfilling human life, and all of Scatter Lab\'s AI technology is built to form deep, meaningful relationships with people. People understand themselves more deeply, gain courage, and grow through good relationships with good people. Scatter Lab aims to help more people find meaningful lives through precious connections.',
+      'p2.num': 'Principle 02',
+      'p2.h3': 'Respecting the Diversity of Life',
+      'p2.body': '<strong>Scatter Lab is committed to respecting diversity and avoiding unjust or intentional discrimination in AI technology and service development.</strong> Intimate relationships can only form when we accept and respect each other as we are. Scatter Lab recognizes each person as a unique individual with diverse qualities, and works to prevent intentional, one-sided discrimination and bias based on gender, age, region, religion, race, ethnicity, socioeconomic status, sexual orientation, political views, disability, appearance, or educational background.',
+      'p3.num': 'Principle 03',
+      'p3.h3': 'Implementing AI Ethics Together',
+      'p3.body': '<strong>Scatter Lab realizes AI chatbot ethics together with its users.</strong> Intimate relationships are built through mutual effort, not one side alone. AI ethics must be realized through the efforts of both companies and users throughout the technology development and service use process. Scatter Lab recognizes how its approach affects users, and collects, analyzes, and utilizes training data and develops services grounded in social ethics.',
+      'p4.num': 'Principle 04',
+      'p4.h3': 'Maintaining Trust Through Clear Communication',
+      'p4.body': '<strong>Scatter Lab sincerely explains its technology and services so users can feel safe using its AI chatbot services.</strong> Intimate relationships can only emerge when both sides understand each other transparently, with nothing hidden. Scatter Lab explains its AI technology and services in an accessible way when users request it or when necessary, within the bounds of protecting its competitive advantages.',
+      'p5.num': 'Principle 05',
+      'p5.h3': 'Contributing to Privacy Protection and Information Security',
+      'p5.body': '<strong>Scatter Lab actively contributes to privacy protection and information security advancement in language AI technology.</strong> In intimate relationships, each party must protect the other\'s privacy. Scatter Lab goes beyond its legal obligations for personal data protection to proactively address various privacy issues that can arise in language AI and chatbot services, and leads the way in establishing best practices such as pseudonymization and anonymization of structured and unstructured data.',
+      'update1': 'Last updated: August 26, 2022',
+      's2.badge': 'AI Chatbot Ethics Checklist',
+      's2.h2': 'Ethics Checklist',
+      's2.intro': 'Scatter Lab worked with the Korea Information Society Development Institute (KISDI) to establish norms for AI chatbot development and operation in a checklist format. Based on the Ministry of Science and ICT and KISDI\'s "Human-Centered AI Ethics Standards" and "Self-Check Table for Practicing AI Ethics Standards," it is organized around 3 core principles and 10 key requirements.',
+      'bg.h4': 'Background — Luda Renewal',
+      'update2': 'Last updated: August 26, 2022',
+      's3.badge': 'AI Chatbot Privacy Policy',
+      's3.h2': 'Privacy Policy',
+      's3.intro': 'Scatter Lab\'s AI chatbot was created to become a precious friend that people can chat with freely. By transparently disclosing how AI chatbot data is processed and the technology involved, Scatter Lab enables users to chat freely and form meaningful relationships with AI chatbots without worry.',
+      'update3': 'Last updated: May 16, 2022',
+      's4.badge': 'AI Chatbot Anti-Abuse Policy',
+      's4.h2': 'Anti-Abuse Policy',
+      's4.intro': 'Scatter Lab has defined abusive behavior and repeatedly tested and refined countermeasures to reduce abuse, so that users and iRUDA can have meaningful conversations.',
+      'safety.label': 'iRUDA Safe Utterance Rate<br/>(Closed Beta Test Average)',
+      'update4': 'Last updated: October 24, 2022',
+    }
+  };
+
+  let currentLang = 'ko';
+
+  function setLang(lang) {
+    currentLang = lang;
+    const t = TRANSLATIONS[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('onclick') === `setLang('${lang}')`);
+    });
+    localStorage.setItem('lang', lang);
+  }
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // Reveal animation
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Active side nav
+  const sections = ['principles', 'checklist', 'privacy', 'abusing'];
+  const navLinks = {};
+  sections.forEach(id => { navLinks[id] = document.getElementById('nav-' + id); });
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        sections.forEach(id => navLinks[id] && navLinks[id].classList.remove('active'));
+        const activeId = e.target.id;
+        if (navLinks[activeId]) navLinks[activeId].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+
+  // -------- Restore saved language --------------------------------
+  (function () {
+    const saved = localStorage.getItem('lang') || 'ko';
+    if (saved !== 'ko') setLang(saved);
+  })();
+
+  // -------- Hamburger drawer --------------------------------
+  const navMenuBtn = document.getElementById('navMenuBtn');
+  const navOverlay = document.getElementById('navOverlay');
+  const navDrawer = document.getElementById('navDrawer');
+  function openDrawer() {
+    navMenuBtn.classList.add('open'); navDrawer.classList.add('open'); navOverlay.classList.add('open');
+    navDrawer.setAttribute('aria-hidden','false'); navMenuBtn.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    navMenuBtn.classList.remove('open'); navDrawer.classList.remove('open'); navOverlay.classList.remove('open');
+    navDrawer.setAttribute('aria-hidden','true'); navMenuBtn.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  navMenuBtn.addEventListener('click', () => navDrawer.classList.contains('open') ? closeDrawer() : openDrawer());
+  navOverlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => e.key === 'Escape' && closeDrawer());
+</script>
+</body>
+</html>
