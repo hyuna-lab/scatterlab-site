@@ -1051,6 +1051,15 @@
     font-size: 20px;
     flex-shrink: 0;
   }
+  .partner-logo {
+    height: 28px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+    opacity: 0.55;
+    transition: opacity .2s var(--ease-out);
+  }
+  .partner-name:hover .partner-logo { opacity: 1; }
 
   /* ---------- A11y / utility --------------------------------------- */
   .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
@@ -1258,38 +1267,30 @@
   </div>
   <div class="marquee-track" aria-hidden="true">
     <div class="marquee-inner">
-      <span class="partner-name">Partner A</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-skt.svg" alt="SK Telecom" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner B</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-atinum.svg" alt="에이티넘인베스트먼트" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner C</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-skt.svg" alt="SK Telecom" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner D</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-atinum.svg" alt="에이티넘인베스트먼트" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner E</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-skt.svg" alt="SK Telecom" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner F</span>
-      <span class="partner-dot">·</span>
-      <span class="partner-name">Partner G</span>
-      <span class="partner-dot">·</span>
-      <span class="partner-name">Partner H</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-atinum.svg" alt="에이티넘인베스트먼트" /></span>
       <span class="partner-dot">·</span>
       <!-- duplicate for seamless loop -->
-      <span class="partner-name">Partner A</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-skt.svg" alt="SK Telecom" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner B</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-atinum.svg" alt="에이티넘인베스트먼트" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner C</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-skt.svg" alt="SK Telecom" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner D</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-atinum.svg" alt="에이티넘인베스트먼트" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner E</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-skt.svg" alt="SK Telecom" /></span>
       <span class="partner-dot">·</span>
-      <span class="partner-name">Partner F</span>
-      <span class="partner-dot">·</span>
-      <span class="partner-name">Partner G</span>
-      <span class="partner-dot">·</span>
-      <span class="partner-name">Partner H</span>
+      <span class="partner-name"><img class="partner-logo" src="assets/partner-atinum.svg" alt="에이티넘인베스트먼트" /></span>
       <span class="partner-dot">·</span>
     </div>
   </div>
