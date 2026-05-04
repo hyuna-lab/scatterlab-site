@@ -217,13 +217,49 @@
   /* FOOTER */
   footer {
     background: #050505;
-    padding: 48px 0 32px;
+    padding: 80px 0 40px;
     border-top: 1px solid var(--line);
   }
+  .foot-top {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .foot-brand .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 17px; letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .foot-legal-block {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .foot-legal-block .legal-lang {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.7;
+  }
+  .foot-col h5 {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-3); margin: 0 0 18px;
+  }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .foot-col a { font-size: 14px; color: var(--text-2); transition: color .15s; }
+  .foot-col a:hover { color: var(--text); }
   .foot-bottom {
     display: flex; align-items: center; justify-content: space-between;
     gap: 24px; flex-wrap: wrap;
+    padding-top: 32px;
     font-size: 12px; color: var(--text-3);
+  }
+  .foot-bottom .legal { display: flex; gap: 24px; }
+  @media (max-width: 800px) {
+    .foot-top { grid-template-columns: 1fr 1fr; gap: 40px 32px; }
+    .foot-brand { grid-column: 1 / -1; }
   }
   .foot-legal { font-size: 11px; color: var(--text-3); line-height: 1.7; }
   .foot-legal strong { color: var(--text-2); font-size: 11px; }
@@ -444,14 +480,50 @@
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
-    <div class="foot-bottom">
-      <img src="assets/scatterlab-logo-white.png" alt="Scatter Lab" style="height:18px;width:auto;opacity:0.5;" />
-      <div class="foot-legal">
-        <strong>Scatter Lab, Inc. (스캐터랩)</strong><br/>
-        주식회사 스캐터랩 | 서울특별시 성동구 왕십리로 125, 901, 902호 (성수동1가, KD타워) | 대표이사: 김종윤<br/>
-        사업자등록번호: 215-87-57315 | 통신판매업신고번호: 2021-서울성동-00664 | 전화번호: 070-4099-5959 | 이메일: hello@scatterlab.co.kr
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="logo">
+          <img src="assets/scatterlab-logo-white.png" alt="Scatter Lab" style="height:22px;width:auto;" />
+        </div>
+        <div class="foot-legal-block">
+          <div class="legal-lang">
+            <strong style="color:var(--text-2);font-size:11px;">Scatter Lab, Inc. (스캐터랩)</strong><br/>
+            주식회사 스캐터랩 | 서울특별시 성동구 왕십리로 125, 901, 902호 (성수동1가, KD타워) | 대표이사: 김종윤<br/>
+            사업자등록번호: 215-87-57315 | 통신판매업신고번호: 2021-서울성동-00664<br/>
+            전화번호: 070-4099-5959 | 이메일: hello@scatterlab.co.kr
+          </div>
+        </div>
       </div>
-      <div style="font-size:12px;color:var(--text-3);">© 2026 Scatter Lab, Inc.</div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="Homepage.html">회사소개</a></li>
+          <li><a href="Culture.html">Culture</a></li>
+          <li><a href="News.html">뉴스룸</a></li>
+          <li><a href="AIEthics.html">AI Ethics</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Careers</h5>
+        <ul>
+          <li><a href="Career.html">오픈 포지션</a></li>
+          <li><a href="Culture.html">스캐터랩 에토스</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="https://www.linkedin.com/company/scatterlab-inc" target="_blank">LinkedIn</a></li>
+          <li><a href="https://blog.scatterlab.co.kr/" target="_blank">Tech Blog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Scatter Lab, Inc. All rights reserved.</div>
+      <div class="legal">
+        <a href="#">개인정보처리방침</a>
+        <a href="#">이용약관</a>
+      </div>
     </div>
   </div>
 </footer>
