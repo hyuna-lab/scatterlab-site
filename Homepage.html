@@ -185,8 +185,48 @@
   .hero-inner {
     position: relative; z-index: 2;
     width: 100%;
-    text-align: center;
     max-width: 1280px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero-left { text-align: left; display: flex; flex-direction: column; align-items: flex-start; }
+  .hero-right {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      linear-gradient(to top,  #0a0a0a 0%, transparent 40%),
+      linear-gradient(to bottom, #0a0a0a 0%, transparent 20%),
+      linear-gradient(to right, #0a0a0a 0%, transparent 25%),
+      linear-gradient(to left,  #0a0a0a 0%, transparent 25%);
+  }
+  .hero-right video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    object-position: top center;
+    border-radius: 16px;
+    z-index: 1;
+  }
+  .hero-right-glow {
+    position: absolute; inset: -20%;
+    background: radial-gradient(closest-side, rgba(167,153,255,0.22), transparent 70%);
+    pointer-events: none;
+    animation: drift 8s ease-in-out infinite;
+  }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-right { aspect-ratio: 4 / 4.5; max-width: 400px; margin: 0 auto; }
   }
   /* Hero character artwork — anchored to BOTTOM so the book is always in view */
   .hero-art {
@@ -324,7 +364,7 @@
     line-height: 1.55;
     color: var(--text-2);
     max-width: 560px;
-    margin: 0 auto 40px;
+    margin: 0 0 40px;
     text-wrap: balance;
   }
   .btn-primary {
@@ -1144,45 +1184,32 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="top" data-screen-label="01 Hero">
-  <div class="hero-grid" id="heroGrid"></div>
-  <div class="hero-art" aria-hidden="true">
-    <img src="assets/hero-mage.png" alt="" />
-    <img class="book-boost" src="assets/hero-mage.png" alt="" aria-hidden="true" />
-    <img class="book-boost-2" src="assets/hero-mage.png" alt="" aria-hidden="true" />
-    <div class="book-glow"></div>
-  </div>
   <div class="wrap hero-inner">
-    <div class="hero-eyebrow reveal">
-      <span class="dot"></span>
-      Entertainment 3.0
-    </div>
-    <h1 class="reveal d1">
-      AI-powered<br/>
-      interactive<br/>
-      <span class="grad">entertainment platform</span>
-    </h1>
-    <p class="sub reveal d2" data-i18n="hero.sub">
-      나만의 세계,<br/>
-      AI와 함께 펼치다.
-    </p>
-  </div>
-  <div class="scroll-cue" aria-hidden="true">
-    <span>scroll</span>
-    <span class="line"></span>
-  </div>
-</section>
-
-<!-- ============ WHAT WE BUILD ============ -->
-<section class="section build" data-screen-label="02 What we build">
-  <div class="wrap build-grid">
-    <div class="build-text">
-      <div class="section-eyebrow reveal">What we're building</div>
-      <h2 class="reveal d1" data-i18n="build.h2">우리가<br/>만드는 미래</h2>
-      <p class="body reveal d2" data-i18n="build.p1">
-        스캐터랩은 <strong>Entertainment 3.0</strong> 챕터를 열고 있습니다. 세상은 더 이상 정해진 이야기를 소비하는 데 머무르지 않습니다. 우리는 그 변화의 중심에서, 스토리텔링을 완전히 새롭게 정의한 AI 엔터테인먼트 플랫폼 <strong>제타</strong>를 만들고 있습니다.
+    <div class="hero-left">
+      <div class="hero-eyebrow reveal" style="margin:0 0 28px;">
+        <span class="dot"></span>
+        Entertainment 3.0
+      </div>
+      <h1 class="reveal d1" data-i18n="hero.h1">
+        나만의 세계,<br/>
+        <span class="grad">AI와 함께 펼치다.</span>
+      </h1>
+      <div class="section-eyebrow reveal" style="margin:28px 0 12px; display:block;">What we're building</div>
+      <p class="reveal d2" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:8px 0 20px;">
+        이야기를 소비하던 시대는 끝났습니다.
       </p>
-      <p class="body reveal d3" data-i18n="build.p2">
-        <strong>제타</strong>에서 유저는 AI와 함께 자신만의 세계를 만들어 갑니다. 액션·판타지·RPG를 넘나드는 이야기 속에서 매 순간 자신만의 서사를 써내려갑니다. 유저의 모든 선택이 이야기를 바꾸고 곧 세상에 단 하나뿐인 이야기가 됩니다.
+      <p class="reveal d3" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0 0 20px;" data-i18n="build.p1">
+        수십 년간 이어져 온 패러다임을 깨고<br/>
+        스캐터랩이 <strong style="color:var(--text);">'엔터테인먼트 3.0'</strong>의 문을 엽니다.<br/>
+        스토리텔링을 완전히 새롭게 정의할 AI 플랫폼, <strong style="color:var(--text);">제타(zeta)</strong>.
+      </p>
+      <p class="reveal d4" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0 0 20px;" data-i18n="build.p2">
+        이곳에서 유저는 더 이상 정해진 결말을 보는 관객이 아닙니다.<br/>
+        AI와 함께 매 순간 자신만의 세계를 이끌어가는 주인공이 됩니다.
+      </p>
+      <p class="reveal d4" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0;">
+        유저가 그리는 모든 장면이 새로운 길이 되고,<br/>
+        유저가 내리는 모든 결정이 곧 다음 이야기가 됩니다.
       </p>
       <div class="download-btns reveal d4">
         <a class="download-btn" href="https://apps.apple.com/us/app/id1619030760" target="_blank" rel="noopener">
@@ -1199,12 +1226,16 @@
         </a>
       </div>
     </div>
-    <div class="build-visual reveal d2">
-      <div class="glow"></div>
-      <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:top center;border-radius:16px;z-index:1;">
+    <div class="hero-right reveal d2">
+      <div class="hero-right-glow"></div>
+      <video autoplay muted loop playsinline>
         <source src="assets/zeta-demo.mp4" type="video/mp4">
       </video>
     </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">
+    <span>scroll</span>
+    <span class="line"></span>
   </div>
 </section>
 
@@ -1450,10 +1481,11 @@
   // -------- i18n ---------------------------------------------------
   const TRANSLATIONS = {
     ko: {
-      'hero.sub': '나만의 세계,<br/>AI와 함께 펼치다.',
+      'hero.h1': '나만의 세계,<br/><span class="grad">AI와 함께 펼치다.</span>',
+      'hero.sub': '스토리텔링을 완전히 새롭게 정의한<br/>AI 엔터테인먼트 플랫폼, <strong style="color:var(--text);">제타</strong>',
       'build.h2': '우리가<br/>만드는 미래',
-      'build.p1': '스캐터랩은 <strong>Entertainment 3.0</strong> 챕터를 열고 있습니다. 세상은 더 이상 정해진 이야기를 소비하는 데 머무르지 않습니다. 우리는 그 변화의 중심에서, 스토리텔링을 완전히 새롭게 정의한 AI 엔터테인먼트 플랫폼 <strong>제타</strong>를 만들고 있습니다.',
-      'build.p2': '<strong>제타</strong>에서 유저는 AI와 함께 자신만의 세계를 만들어 갑니다. 액션·판타지·RPG를 넘나드는 이야기 속에서 매 순간 자신만의 서사를 써내려갑니다. 유저의 모든 선택이 이야기를 바꾸고 곧 세상에 단 하나뿐인 이야기가 됩니다.',
+      'build.p1': '이야기를 소비하던 시대는 끝났습니다.<br/>수십 년간 이어져 온 패러다임을 깨고 스캐터랩이 <strong>\'엔터테인먼트 3.0\'</strong>의 문을 엽니다.<br/>스토리텔링을 완전히 새롭게 정의할 AI 플랫폼, <strong>제타(zeta)</strong>.',
+      'build.p2': '이곳에서 유저는 더 이상 정해진 결말을 보는 관객이 아닙니다.<br/>AI와 함께 매 순간 자신만의 세계를 이끌어가는 주인공이 됩니다.<br/><br/>유저가 그리는 모든 장면이 새로운 길이 되고,<br/><br/>유저가 내리는 모든 결정이 곧 다음 이야기가 됩니다.',
       'char.name': '유리 · Yuri',
       'char.status': '온라인 · 판타지 RPG',
       'bubble.1': '달이 두 개나 떠 있어. 이상하지 않아?',
@@ -1493,7 +1525,8 @@
       'foot.terms': 'Terms of Service',
     },
     ja: {
-      'hero.sub': '自分だけの世界を、<br/>AIと共に広げていく。',
+      'hero.h1': '自分だけの世界を、<br/><span class="grad">AIと共に広げていく。</span>',
+      'hero.sub': 'ストーリーテリングをまったく新しく定義した<br/>AIエンターテインメントプラットフォーム、<strong style="color:var(--text);">zeta</strong>',
       'build.h2': '私たちが<br/>作る未来',
       'build.p1': 'スキャッタラブは<strong>Entertainment 3.0</strong>の章を切り拓いています。世界はもはや、決められたストーリーを消費するだけの時代ではありません。私たちはその変化の中心に立ち、ストーリーテリングをまったく新しく定義したAIエンターテインメントプラットフォーム<strong>zeta</strong>を作っています。',
       'build.p2': '<strong>zeta</strong>では、ユーザーがAIとともに自分だけの世界を作り上げます。アクション・ファンタジー・RPGを行き来するストーリーの中で、瞬間ごとに自分だけの物語を紡いでいきます。すべての選択がストーリーを変え、やがて世界にひとつだけの物語が生まれます。',
@@ -1536,7 +1569,8 @@
       'foot.terms': '利用規約',
     },
     en: {
-      'hero.sub': 'Build your own world,<br/>and unfold it with AI.',
+      'hero.h1': 'Your world,<br/><span class="grad">unfolded with AI.</span>',
+      'hero.sub': 'The AI entertainment platform<br/>that completely redefines storytelling — <strong style="color:var(--text);">zeta</strong>',
       'build.h2': 'The future<br/>we\'re building',
       'build.p1': 'Scatter Lab is opening the <strong>Entertainment 3.0</strong> chapter. The world is no longer content to simply consume pre-written stories. We are at the center of that change — building <strong>zeta</strong>, an AI entertainment platform that completely redefines storytelling.',
       'build.p2': 'In <strong>zeta</strong>, users create their own world alongside AI. Across action, fantasy, and RPG, they write their own narrative moment by moment. Every choice reshapes the story, and what emerges is a story that belongs to you alone.',
