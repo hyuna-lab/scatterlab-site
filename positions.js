@@ -9,7 +9,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/108669"
+    "url": "https://www.scatterlab.co.kr/ko/o/108669"
   },
   {
     "title": "Site Reliability Engineer (DevOps)",
@@ -17,7 +17,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/122939"
+    "url": "https://www.scatterlab.co.kr/ko/o/122939"
   },
   {
     "title": "Backend Engineer",
@@ -25,7 +25,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/123249"
+    "url": "https://www.scatterlab.co.kr/ko/o/123249"
   },
   {
     "title": "Product Owner ",
@@ -33,7 +33,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/140006"
+    "url": "https://www.scatterlab.co.kr/ko/o/140006"
   },
   {
     "title": "ML Researcher [전문연 가능]",
@@ -41,7 +41,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/148529"
+    "url": "https://www.scatterlab.co.kr/ko/o/148529"
   },
   {
     "title": "채용/인사 담당자",
@@ -49,7 +49,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/163956"
+    "url": "https://www.scatterlab.co.kr/ko/o/163956"
   },
   {
     "title": "zeta Global Team Intern",
@@ -57,7 +57,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/167785"
+    "url": "https://www.scatterlab.co.kr/ko/o/167785"
   },
   {
     "title": "zeta 일본 서비스 모니터링 담당자(플롯 검수)",
@@ -65,7 +65,7 @@ const POSITIONS = [
     "tag": "Product",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/199736"
+    "url": "https://www.scatterlab.co.kr/ko/o/199736"
   },
   {
     "title": "zeta 일본 CS담당자 (오퍼레이션)",
@@ -73,7 +73,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/200088"
+    "url": "https://www.scatterlab.co.kr/ko/o/200088"
   },
   {
     "title": "zeta 전략기획 매니저 (C-Level Unit)",
@@ -81,7 +81,7 @@ const POSITIONS = [
     "tag": "Product",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/205480"
+    "url": "https://www.scatterlab.co.kr/ko/o/205480"
   },
   {
     "title": "Front-end Engineer 프론트엔드 엔지니어",
@@ -89,7 +89,7 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/206237"
+    "url": "https://www.scatterlab.co.kr/ko/o/206237"
   },
   {
     "title": "Mobile Engineer (React Native) 모바일 엔지니어",
@@ -97,6 +97,6 @@ const POSITIONS = [
     "tag": "ML / AI",
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
-    "url": "www.scatterlab.co.kr/o/206309"
+    "url": "https://www.scatterlab.co.kr/ko/o/206309"
   }
 ];
