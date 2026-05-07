@@ -320,6 +320,51 @@
   }
   .results-count strong { color: var(--text-2); }
 
+  /* TEATIME SECTION */
+  .teatime-section { padding: 0 0 80px; }
+  .teatime-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    border: 1px solid rgba(167,153,255,0.15);
+    border-radius: 16px;
+    padding: 28px 32px;
+    background: var(--bg-card);
+  }
+  .teatime-left {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .teatime-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+  }
+  .teatime-text-group { display: flex; flex-direction: column; gap: 2px; }
+  .teatime-label {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .teatime-sub {
+    font-size: 13px; color: var(--text-2); line-height: 1.5; margin-top: 2px;
+  }
+  .teatime-btn {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent-strong);
+    color: #fff;
+    font-size: 13px; font-weight: 700; font-family: var(--font-sans);
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background .2s, transform .2s;
+    white-space: nowrap;
+  }
+  .teatime-btn:hover { background: #7c4af0; transform: translateY(-1px); }
+  @media (max-width: 680px) {
+    .teatime-card { flex-direction: column; align-items: flex-start; padding: 24px; }
+    .teatime-btn { align-self: stretch; justify-content: center; }
+  }
+
   /* REVEAL */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s, transform .7s; }
   .reveal.in { opacity: 1; transform: translateY(0); }
@@ -480,6 +525,29 @@
   </div>
 </section>
 
+<!-- TEATIME -->
+<section class="teatime-section">
+  <div class="wrap">
+    <div class="teatime-card reveal">
+      <div class="teatime-left">
+        <div class="teatime-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="teatime-text-group">
+          <span class="teatime-label" data-i18n="teatime.eyebrow">1:1 티타임</span>
+          <span class="teatime-sub" data-i18n="teatime.sub">스캐터랩 팀이 어떻게 일하는지 궁금하다면, 티타임을 신청해 주세요.</span>
+        </div>
+      </div>
+      <a href="https://www.scatterlab.co.kr/ko/o/108669" target="_blank" rel="noopener" class="teatime-btn" data-i18n="teatime.cta">
+        티타임 신청하기
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- OFFICE PHOTOS -->
 <section class="office-photos">
   <div class="wrap" style="margin-bottom:32px;">
@@ -565,6 +633,13 @@
       'results.all': '현재 <strong>{n}</strong>개 포지션이 열려 있습니다.',
       'results.filtered': '<strong>{f}</strong>개 포지션 (전체 {t}개 중)',
       'no.results': '검색 결과가 없습니다.',
+      'teatime.eyebrow': '1:1 티타임',
+      'teatime.heading': '지원 전에 먼저 이야기해요',
+      'teatime.sub': '스캐터랩 팀이 어떻게 일하는지 궁금하다면, 티타임을 신청해 주세요.',
+      'teatime.cta': '티타임 신청하기',
+      'city': '서울',
+      'emp.정규직': '정규직', 'emp.인턴': '인턴', 'emp.프리랜서': '프리랜서', 'emp.계약직': '계약직', 'emp.파트타임': '파트타임',
+      'exp.경력 무관': '경력 무관', 'exp.신입': '신입', 'exp.신입 / 경력': '신입 / 경력', 'exp.경력직': '경력직',
       'foot.about': 'About Us',
       'foot.newsroom': 'Newsroom',
       'foot.openpos': 'Open Positions',
@@ -583,6 +658,13 @@
       'results.all': '現在 <strong>{n}</strong>件のポジションが募集中です。',
       'results.filtered': '<strong>{f}</strong>件のポジション (全{t}件中)',
       'no.results': '検索結果がありません。',
+      'teatime.eyebrow': '1:1 ティータイム',
+      'teatime.heading': '応募前に、まず話しましょう',
+      'teatime.sub': 'スキャッタラブのチームがどんな風に働いているか気になる方は、ティータイムを申し込んでください。',
+      'teatime.cta': 'ティータイムを申し込む',
+      'city': 'ソウル',
+      'emp.정규직': '正社員', 'emp.인턴': 'インターン', 'emp.프리랜서': 'フリーランス', 'emp.계약직': '契約社員', 'emp.파트타임': 'パートタイム',
+      'exp.경력 무관': '経歴不問', 'exp.신입': '新卒', 'exp.신입 / 경력': '新卒・経験者', 'exp.경력직': '経験者',
       'foot.about': '会社案内',
       'foot.newsroom': 'ニュースルーム',
       'foot.openpos': 'オープンポジション',
@@ -601,6 +683,13 @@
       'results.all': '<strong>{n}</strong> open positions available.',
       'results.filtered': '<strong>{f}</strong> positions (of {t} total)',
       'no.results': 'No positions found.',
+      'teatime.eyebrow': '1:1 Tea Time',
+      'teatime.heading': 'Let\'s talk before you apply',
+      'teatime.sub': 'Curious about how the Scatter Lab team works? Book a tea time with us.',
+      'teatime.cta': 'Book a Tea Time',
+      'city': 'Seoul',
+      'emp.정규직': 'Full-time', 'emp.인턴': 'Intern', 'emp.프리랜서': 'Freelance', 'emp.계약직': 'Contract', 'emp.파트타임': 'Part-time',
+      'exp.경력 무관': 'Any level', 'exp.신입': 'Entry level', 'exp.신입 / 경력': 'Any level', 'exp.경력직': 'Experienced',
       'foot.about': 'About Us',
       'foot.newsroom': 'Newsroom',
       'foot.openpos': 'Open Positions',
@@ -655,13 +744,34 @@
     if (filtered.length === 0) {
       posList.innerHTML = `<div class="no-results">${t['no.results'] || '검색 결과가 없습니다.'}</div>`;
     } else {
-      posList.innerHTML = filtered.map(p => `
+      posList.innerHTML = filtered.map(p => {
+        // translate exp: "경력 N년 이상" / "경력 N~M년" handled separately
+        let expTr = t['exp.' + p.exp];
+        if (!expTr) {
+          const mFrom = p.exp.match(/경력\s*(\d+)년\s*이상/);
+          const mRange = p.exp.match(/경력\s*(\d+)년\s*이상\s*~\s*(\d+)년\s*이하/);
+          if (currentLang === 'en') {
+            if (mRange) expTr = `${mRange[1]}–${mRange[2]} yrs exp.`;
+            else if (mFrom) expTr = `${mFrom[1]}+ yrs exp.`;
+          } else if (currentLang === 'ja') {
+            if (mRange) expTr = `経歴${mRange[1]}〜${mRange[2]}年`;
+            else if (mFrom) expTr = `経歴${mFrom[1]}年以上`;
+          }
+          expTr = expTr || p.exp;
+        }
+        // translate loc: "서울 · 고용형태"
+        const [, empKo] = p.loc.split(' · ');
+        const city = t['city'] || '서울';
+        const emp = t['emp.' + empKo] || empKo;
+        const locTr = `${city} · ${emp}`;
+        return `
         <a class="pos-card" href="${p.url}" target="_blank" data-cat="${p.cat}">
           <div class="pos-title">${p.title}</div>
-          <div class="pos-meta"><span class="tag">${p.tag}</span> ${p.exp}</div>
-          <div class="pos-meta">${p.loc}</div>
+          <div class="pos-meta"><span class="tag">${p.tag}</span> ${expTr}</div>
+          <div class="pos-meta">${locTr}</div>
           <div class="pos-arrow">${ARROW_SVG}</div>
-        </a>`).join('');
+        </a>`;
+      }).join('');
     }
   }
 

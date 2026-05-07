@@ -1531,6 +1531,9 @@
       'cta.h2': '당신의 가장 빛나는 챕터,<br/>스캐터랩에서',
       'cta.p': '세상에 없던 이야기를 함께 만들어가요.',
       'cta.btn': '오픈 포지션 전체 보기',
+      'city': '서울',
+      'emp.정규직': '정규직', 'emp.인턴': '인턴', 'emp.프리랜서': '프리랜서', 'emp.계약직': '계약직', 'emp.파트타임': '파트타임',
+      'exp.경력 무관': '경력 무관', 'exp.신입': '신입', 'exp.신입 / 경력': '신입 / 경력', 'exp.경력직': '경력직',
       'foot.about': 'About Us',
       'foot.newsroom': 'Newsroom',
       'foot.openpos': 'Open Positions',
@@ -1575,6 +1578,9 @@
       'cta.h2': 'あなたの最も輝くチャプターを、<br/>スキャッタラブで。',
       'cta.p': 'まだ世界に存在しない物語を、一緒に作っていきましょう。',
       'cta.btn': 'オープンポジションを見る',
+      'city': 'ソウル',
+      'emp.정규직': '正社員', 'emp.인턴': 'インターン', 'emp.프리랜서': 'フリーランス', 'emp.계약직': '契約社員', 'emp.파트타임': 'パートタイム',
+      'exp.경력 무관': '経歴不問', 'exp.신입': '新卒', 'exp.신입 / 경력': '新卒・経験者', 'exp.경력직': '経験者',
       'foot.about': '会社案内',
       'foot.newsroom': 'ニュースルーム',
       'foot.openpos': 'オープンポジション',
@@ -1619,6 +1625,9 @@
       'cta.h2': 'Your most brilliant chapter,<br/>at Scatter Lab.',
       'cta.p': 'Let\'s build stories the world has never seen.',
       'cta.btn': 'See all open positions',
+      'city': 'Seoul',
+      'emp.정규직': 'Full-time', 'emp.인턴': 'Intern', 'emp.프리랜서': 'Freelance', 'emp.계약직': 'Contract', 'emp.파트타임': 'Part-time',
+      'exp.경력 무관': 'Any level', 'exp.신입': 'Entry level', 'exp.신입 / 경력': 'Any level', 'exp.경력직': 'Experienced',
       'foot.about': 'About Us',
       'foot.newsroom': 'Newsroom',
       'foot.openpos': 'Open Positions',
@@ -1712,14 +1721,32 @@
     let currentFilter = 'all';
 
     function render() {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.ko;
       const filtered = POSITIONS.filter(p => currentFilter === 'all' || p.cat === currentFilter);
-      list.innerHTML = filtered.map(p => `
+      list.innerHTML = filtered.map(p => {
+        let expTr = t['exp.' + p.exp];
+        if (!expTr) {
+          const mRange = p.exp.match(/경력\s*(\d+)년\s*이상\s*~\s*(\d+)년\s*이하/);
+          const mFrom = p.exp.match(/경력\s*(\d+)년\s*이상/);
+          if (currentLang === 'en') {
+            if (mRange) expTr = `${mRange[1]}–${mRange[2]} yrs exp.`;
+            else if (mFrom) expTr = `${mFrom[1]}+ yrs exp.`;
+          } else if (currentLang === 'ja') {
+            if (mRange) expTr = `経歴${mRange[1]}〜${mRange[2]}年`;
+            else if (mFrom) expTr = `経歴${mFrom[1]}年以上`;
+          }
+          expTr = expTr || p.exp;
+        }
+        const [, empKo] = p.loc.split(' · ');
+        const locTr = `${t['city'] || '서울'} · ${t['emp.' + empKo] || empKo}`;
+        return `
         <a class="pos-card" href="${p.url}" target="_blank" data-cat="${p.cat}">
           <div class="pos-title">${p.title}</div>
-          <div class="pos-meta"><span class="tag">${p.tag}</span> ${p.exp}</div>
-          <div class="pos-meta">${p.loc}</div>
+          <div class="pos-meta"><span class="tag">${p.tag}</span> ${expTr}</div>
+          <div class="pos-meta">${locTr}</div>
           <div class="pos-arrow">${ARROW}</div>
-        </a>`).join('');
+        </a>`;
+      }).join('');
       const allLabel = (TRANSLATIONS[currentLang] || TRANSLATIONS.ko)['filter.all'] || '전체';
       pills.forEach(b => {
         const f = b.dataset.filter;
