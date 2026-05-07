@@ -65,11 +65,13 @@ function getExp(opening) {
   return '경력 무관';
 }
 
-// URL에 https:// 없으면 추가
-function fixUrl(url) {
-  if (!url) return '#';
-  if (url.startsWith('http')) return url;
-  return 'https://' + url;
+// URL 정규화: https:// 추가 + /ko/ 경로 보장
+function fixUrl(url, id) {
+  if (!url) return `https://www.scatterlab.co.kr/ko/o/${id}`;
+  if (!url.startsWith('http')) url = 'https://' + url;
+  // /o/ → /ko/o/ 변환 (이미 /ko/ 있으면 스킵)
+  if (!url.includes('/ko/')) url = url.replace('/o/', '/ko/o/');
+  return url;
 }
 
 if (!Array.isArray(openings) || openings.length === 0) {
