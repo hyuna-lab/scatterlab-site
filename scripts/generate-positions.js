@@ -12,8 +12,8 @@ function getCategory(title) {
   if (/engineer|engineering|frontend|front-end|backend|back-end|mobile|sre|devops/.test(t)) return { cat: 'eng', tag: 'Engineering' };
   if (/\bpo\b|\bpm\b|product owner|product manager|프로덕트/.test(t)) return { cat: 'product',  tag: 'Product' };
   if (/전략기획|strategy|planning|마케팅|marketing|biz dev/.test(t))  return { cat: 'biz',      tag: 'Business' };
-  if (/cs담당|customer|모니터링|monitoring|intern|global team|운영/.test(t)) return { cat: 'ops', tag: 'Operations' };
-  if (/채용|인사|hr|recruiting/.test(t))                               return { cat: 'mgmt',    tag: 'Management' };
+  if (/cs담당|\bcs\b|customer|모니터링|monitoring|intern|global team|운영|operation/.test(t)) return { cat: 'ops', tag: 'Operations' };
+  if (/채용|인사|\bhr\b|recruiting|talent acquisition|\bta\b/.test(t)) return { cat: 'mgmt',    tag: 'Management' };
   return { cat: 'biz', tag: 'Business' };
 }
 

@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-05-07T07:56:55.121Z
+   마지막 업데이트: 2026-05-07T08:29:55.506Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -28,7 +28,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/140006"
   },
   {
-    "title": "ML Researcher [전문연 가능]",
+    "title": "ML Researcher",
     "cat": "ml",
     "tag": "ML / AI",
     "exp": "경력 무관",
@@ -36,7 +36,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/148529"
   },
   {
-    "title": "채용/인사 담당자",
+    "title": "TA/HR Manager",
     "cat": "mgmt",
     "tag": "Management",
     "exp": "경력 무관",
@@ -52,7 +52,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/167785"
   },
   {
-    "title": "zeta 일본 서비스 모니터링 담당자(플롯 검수)",
+    "title": "zeta Japan Service Monitoring Manager (플롯 검수)",
     "cat": "ops",
     "tag": "Operations",
     "exp": "경력 무관",
@@ -60,7 +60,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/199736"
   },
   {
-    "title": "zeta 일본 CS담당자 (오퍼레이션)",
+    "title": "zeta Japan CS Operation",
     "cat": "ops",
     "tag": "Operations",
     "exp": "경력 무관",
@@ -68,7 +68,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/200088"
   },
   {
-    "title": "zeta 전략기획 매니저 (C-Level Unit)",
+    "title": "zeta Strategic Planning (C-Level Unit)",
     "cat": "biz",
     "tag": "Business",
     "exp": "경력 2년 이상 ~ 8년 이하",
