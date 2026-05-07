@@ -1681,6 +1681,12 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+  // Mobile video autoplay
+  document.querySelectorAll('video').forEach(v => {
+    v.muted = true;
+    v.play().catch(() => {});
+  });
+
   // -------- Positions (from positions.js) -----------------------
   (function () {
     const ARROW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`;
