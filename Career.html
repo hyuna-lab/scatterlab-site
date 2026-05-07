@@ -89,12 +89,34 @@
 
   /* Office photos marquee */
   .office-photos {
-    padding: 0 0 80px;
+    padding: 60px 0 80px;
     overflow: hidden;
   }
+  .office-photos .section-eyebrow {
+    display: block;
+    font-size: 12px; font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
   .office-marquee {
+    position: relative;
     overflow: hidden;
     width: 100%;
+  }
+  .office-marquee::before,
+  .office-marquee::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0; z-index: 2;
+    width: 160px; pointer-events: none;
+  }
+  .office-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-page) 0%, transparent 100%);
+  }
+  .office-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-page) 0%, transparent 100%);
   }
   .office-marquee-track {
     display: flex;
@@ -113,6 +135,13 @@
     height: 210px;
     border-radius: 12px;
     overflow: hidden;
+    position: relative;
+  }
+  .office-photo-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(10,10,10,0.35);
+    border-radius: 12px;
   }
   .office-photo-item img {
     width: 100%; height: 100%;
@@ -120,7 +149,8 @@
     display: block;
   }
   @media (max-width: 720px) {
-    .office-photo-item { width: 280px; height: 190px; }
+    .office-photo-item { width: 240px; height: 160px; }
+    .office-marquee::before, .office-marquee::after { width: 60px; }
   }
   .hero-stat-num {
     font-size: 32px; font-weight: 800; letter-spacing: -0.03em; color: var(--text);
@@ -451,6 +481,9 @@
 
 <!-- OFFICE PHOTOS -->
 <section class="office-photos">
+  <div class="wrap" style="margin-bottom:32px;">
+    <div class="section-eyebrow">Our Space</div>
+  </div>
   <div class="office-marquee">
     <div class="office-marquee-track">
       <div class="office-photo-item"><img src="assets/office-kitchen.png" alt="Office" /></div>
