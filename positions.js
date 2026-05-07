@@ -8,7 +8,7 @@ const POSITIONS = [
     tag: "ML / AI",
     exp: "신입 / 3년+ · 전문연구요원 가능",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/148529"
   },
   {
     title: "Backend Engineer",
@@ -16,7 +16,7 @@ const POSITIONS = [
     tag: "Engineering",
     exp: "3년+",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/123249"
   },
   {
     title: "Frontend Engineer",
@@ -24,7 +24,7 @@ const POSITIONS = [
     tag: "Engineering",
     exp: "3년+",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/206237"
   },
   {
     title: "Mobile Engineer (React Native)",
@@ -32,7 +32,7 @@ const POSITIONS = [
     tag: "Engineering",
     exp: "3년+",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/206309"
   },
   {
     title: "Site Reliability Engineer (DevOps)",
@@ -40,7 +40,7 @@ const POSITIONS = [
     tag: "Engineering",
     exp: "3년+",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/122939"
   },
   {
     title: "Product Owner",
@@ -48,7 +48,7 @@ const POSITIONS = [
     tag: "Product",
     exp: "3년+",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/140006"
   },
   {
     title: "zeta Strategic Planning Manager",
@@ -56,7 +56,7 @@ const POSITIONS = [
     tag: "Business",
     exp: "3년+",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/205480"
   },
   {
     title: "Recruiting / HR Manager",
@@ -64,7 +64,7 @@ const POSITIONS = [
     tag: "Management",
     exp: "신입 / 경력",
     loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/163956"
   },
   {
     title: "zeta Japan CS Manager",
@@ -72,15 +72,15 @@ const POSITIONS = [
     tag: "Operations",
     exp: "신입 / 경력",
     loc: "서울 · 계약직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/200088"
   },
   {
     title: "zeta Japan Service Monitoring Specialist",
     cat: "ops",
     tag: "Operations",
     exp: "신입 / 경력",
-    loc: "서울 · 계약직",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    loc: "서울 · 프리랜서",
+    url: "https://www.scatterlab.co.kr/ko/o/199736"
   },
   {
     title: "zeta Global Team Intern",
@@ -88,6 +88,6 @@ const POSITIONS = [
     tag: "Product",
     exp: "인턴",
     loc: "서울 · 인턴",
-    url: "https://www.scatterlab.co.kr/ko/recruiting"
+    url: "https://www.scatterlab.co.kr/ko/o/167785"
   }
 ];
