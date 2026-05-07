@@ -1,93 +1,102 @@
 /* ─────────────────────────────────────────────────────────────
-   POSITIONS — 이 파일만 수정하면 Homepage + Career 페이지 동시 반영
+   POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
+   마지막 업데이트: 2026-05-07T06:48:04.359Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
-    title: "ML Researcher",
-    cat: "ml",
-    tag: "ML / AI",
-    exp: "신입 / 3년+ · 전문연구요원 가능",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/148529"
+    "title": "1:1 티타임 요청 ",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/108669"
   },
   {
-    title: "Backend Engineer",
-    cat: "eng",
-    tag: "Engineering",
-    exp: "3년+",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/123249"
+    "title": "Site Reliability Engineer (DevOps)",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/122939"
   },
   {
-    title: "Frontend Engineer",
-    cat: "eng",
-    tag: "Engineering",
-    exp: "3년+",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/206237"
+    "title": "Backend Engineer",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/123249"
   },
   {
-    title: "Mobile Engineer (React Native)",
-    cat: "eng",
-    tag: "Engineering",
-    exp: "3년+",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/206309"
+    "title": "Product Owner ",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/140006"
   },
   {
-    title: "Site Reliability Engineer (DevOps)",
-    cat: "eng",
-    tag: "Engineering",
-    exp: "3년+",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/122939"
+    "title": "ML Researcher [전문연 가능]",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/148529"
   },
   {
-    title: "Product Owner",
-    cat: "product",
-    tag: "Product",
-    exp: "3년+",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/140006"
+    "title": "채용/인사 담당자",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/163956"
   },
   {
-    title: "zeta Strategic Planning Manager",
-    cat: "biz",
-    tag: "Business",
-    exp: "3년+",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/205480"
+    "title": "zeta Global Team Intern",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/167785"
   },
   {
-    title: "Recruiting / HR Manager",
-    cat: "mgmt",
-    tag: "Management",
-    exp: "신입 / 경력",
-    loc: "서울 · 정규직",
-    url: "https://www.scatterlab.co.kr/ko/o/163956"
+    "title": "zeta 일본 서비스 모니터링 담당자(플롯 검수)",
+    "cat": "product",
+    "tag": "Product",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/199736"
   },
   {
-    title: "zeta Japan CS Manager",
-    cat: "ops",
-    tag: "Operations",
-    exp: "신입 / 경력",
-    loc: "서울 · 계약직",
-    url: "https://www.scatterlab.co.kr/ko/o/200088"
+    "title": "zeta 일본 CS담당자 (오퍼레이션)",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/200088"
   },
   {
-    title: "zeta Japan Service Monitoring Specialist",
-    cat: "ops",
-    tag: "Operations",
-    exp: "신입 / 경력",
-    loc: "서울 · 프리랜서",
-    url: "https://www.scatterlab.co.kr/ko/o/199736"
+    "title": "zeta 전략기획 매니저 (C-Level Unit)",
+    "cat": "product",
+    "tag": "Product",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/205480"
   },
   {
-    title: "zeta Global Team Intern",
-    cat: "product",
-    tag: "Product",
-    exp: "인턴",
-    loc: "서울 · 인턴",
-    url: "https://www.scatterlab.co.kr/ko/o/167785"
+    "title": "Front-end Engineer 프론트엔드 엔지니어",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/206237"
+  },
+  {
+    "title": "Mobile Engineer (React Native) 모바일 엔지니어",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "www.scatterlab.co.kr/o/206309"
   }
 ];
