@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-05-07T07:52:35.740Z
+   마지막 업데이트: 2026-05-07T07:56:55.121Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -71,7 +71,7 @@ const POSITIONS = [
     "title": "zeta 전략기획 매니저 (C-Level Unit)",
     "cat": "biz",
     "tag": "Business",
-    "exp": "경력 무관",
+    "exp": "경력 2년 이상 ~ 8년 이하",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/205480"
   },
@@ -79,7 +79,7 @@ const POSITIONS = [
     "title": "Front-end Engineer",
     "cat": "eng",
     "tag": "Engineering",
-    "exp": "경력 무관",
+    "exp": "경력 3년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/206237"
   },
@@ -87,7 +87,7 @@ const POSITIONS = [
     "title": "Mobile Engineer (React Native)",
     "cat": "eng",
     "tag": "Engineering",
-    "exp": "경력 무관",
+    "exp": "경력 3년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/206309"
   }

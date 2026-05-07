@@ -41,8 +41,17 @@ function getLoc(opening) {
   return `서울 · ${empLabel}`;
 }
 
+// API가 null을 반환하는 포지션의 경력 수동 보정 (opening ID → 경력 레이블)
+const CAREER_OVERRIDES = {
+  206237: '경력 3년 이상',           // Front-end Engineer
+  206309: '경력 3년 이상',           // Mobile Engineer (React Native)
+  205480: '경력 2년 이상 ~ 8년 이하', // zeta 전략기획 매니저
+};
+
 // 경력 요건
 function getExp(opening) {
+  if (CAREER_OVERRIDES[opening.id]) return CAREER_OVERRIDES[opening.id];
+
   const info = opening.openingJobPositionInfo;
   const career = info?.openingJobPositions?.[0]?.jobPositionCareer;
 
