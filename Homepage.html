@@ -146,7 +146,6 @@
     padding: 140px 0 140px;
     display: flex; align-items: center;
     position: relative;
-    overflow: hidden;
   }
   .hero-grid {
     position: absolute; inset: 0; z-index: 0;
@@ -225,8 +224,21 @@
     animation: drift 8s ease-in-out infinite;
   }
   @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-    .hero-right { aspect-ratio: 4 / 4.5; max-width: 400px; margin: 0 auto; }
+    .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+    .hero-right {
+      aspect-ratio: unset;
+      max-width: 360px;
+      margin: 0 auto;
+      overflow: visible;
+    }
+    .hero-right::after { display: none; }
+    .hero-right-glow { display: none; }
+    .hero-right video {
+      position: static;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+    }
   }
   /* Hero character artwork — anchored to BOTTOM so the book is always in view */
   .hero-art {
