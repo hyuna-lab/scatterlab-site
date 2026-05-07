@@ -2,8 +2,8 @@ const fs = require('fs');
 
 const raw = JSON.parse(fs.readFileSync('greeting_response.json', 'utf8'));
 
-// 그리팅 API 응답 구조에 맞게 파싱
-const openings = raw.data?.content ?? raw.data ?? raw.content ?? raw ?? [];
+// 그리팅 API 응답 구조: { success, data: { datas: [...] } }
+const openings = raw.data?.datas ?? raw.data?.content ?? raw.data ?? raw.content ?? raw ?? [];
 
 function getCategory(opening) {
   const text = (opening.title + JSON.stringify(opening.openingJobPositionInfo ?? '')).toLowerCase();
