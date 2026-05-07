@@ -1,13 +1,13 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-05-07T07:29:38.664Z
+   마지막 업데이트: 2026-05-07T07:52:35.740Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
     "title": "Site Reliability Engineer (DevOps)",
     "cat": "eng",
     "tag": "Engineering",
-    "exp": "경력 무관",
+    "exp": "경력 3년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/122939"
   },
@@ -15,7 +15,7 @@ const POSITIONS = [
     "title": "Backend Engineer",
     "cat": "eng",
     "tag": "Engineering",
-    "exp": "경력 무관",
+    "exp": "경력 3년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/123249"
   },
@@ -23,7 +23,7 @@ const POSITIONS = [
     "title": "Product Owner",
     "cat": "product",
     "tag": "Product",
-    "exp": "경력 무관",
+    "exp": "경력 3년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/140006"
   },
@@ -56,7 +56,7 @@ const POSITIONS = [
     "cat": "ops",
     "tag": "Operations",
     "exp": "경력 무관",
-    "loc": "서울 · 정규직",
+    "loc": "서울 · 프리랜서",
     "url": "https://www.scatterlab.co.kr/ko/o/199736"
   },
   {
@@ -64,7 +64,7 @@ const POSITIONS = [
     "cat": "ops",
     "tag": "Operations",
     "exp": "경력 무관",
-    "loc": "서울 · 정규직",
+    "loc": "서울 · 계약직",
     "url": "https://www.scatterlab.co.kr/ko/o/200088"
   },
   {

@@ -17,33 +17,26 @@ function getCategory(title) {
   return { cat: 'biz', tag: 'Business' };
 }
 
-// 고용 형태 — API 응답에서 추출, 없으면 제목으로 추정
+// 고용 형태
 function getLoc(opening) {
   const info = opening.openingJobPositionInfo;
-
-  // API 필드 탐색 (여러 경로 시도)
-  const rawTypes =
-    info?.employmentTypes ??
-    info?.openingJobPositionSetting?.employmentTypes ??
-    info?.jobPositions?.[0]?.employmentTypes ??
-    [];
+  const emp = info?.openingJobPositions?.[0]?.jobPositionEmployment?.employment;
 
   const typeMap = {
-    FULL_TIME: '정규직', FULLTIME: '정규직',
-    CONTRACT: '계약직',
-    INTERN: '인턴',
-    FREELANCER: '프리랜서',
-    PARTTIME: '파트타임',
+    FULL_TIME_WORKER: '정규직',
+    INTERN_WORKER: '인턴',
+    FREE_LANCER: '프리랜서',
+    CONTRACT_WORKER: '계약직',
+    PART_TIME_WORKER: '파트타임',
   };
 
-  // 제목에서 고용형태 fallback
   const t = (opening.title || '').toLowerCase();
   let empLabel = '정규직';
-  if (rawTypes.length > 0) {
-    empLabel = typeMap[rawTypes[0]] ?? rawTypes[0];
-  } else if (/intern|인턴/.test(t))         empLabel = '인턴';
-  else if (/freelanc|프리랜서/.test(t))     empLabel = '프리랜서';
-  else if (/계약직|contract/.test(t))       empLabel = '계약직';
+  if (emp) {
+    empLabel = typeMap[emp] ?? '정규직';
+  } else if (/intern|인턴/.test(t))       empLabel = '인턴';
+  else if (/freelanc|프리랜서/.test(t))   empLabel = '프리랜서';
+  else if (/계약직|contract/.test(t))     empLabel = '계약직';
 
   return `서울 · ${empLabel}`;
 }
@@ -51,17 +44,17 @@ function getLoc(opening) {
 // 경력 요건
 function getExp(opening) {
   const info = opening.openingJobPositionInfo;
-  const careers =
-    info?.careerTypes ??
-    info?.openingJobPositionSetting?.careerTypes ??
-    info?.jobPositions?.[0]?.careerTypes ??
-    [];
+  const career = info?.openingJobPositions?.[0]?.jobPositionCareer;
 
-  const hasNew = careers.some(c => /new|신입/i.test(c));
-  const hasExp = careers.some(c => /experienced|경력/i.test(c));
-  if (hasNew && hasExp) return '신입 / 경력';
-  if (hasNew)  return '신입';
-  if (hasExp)  return '경력';
+  if (!career) return '경력 무관';
+
+  const { careerType, careerFrom, careerTo } = career;
+  if (careerType === 'EXPERIENCED') {
+    if (careerFrom && careerTo) return `경력 ${careerFrom}~${careerTo}년`;
+    if (careerFrom) return `경력 ${careerFrom}년 이상`;
+    return '경력직';
+  }
+  if (careerType === 'NEW') return '신입';
   return '경력 무관';
 }
 
