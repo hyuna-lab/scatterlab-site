@@ -463,7 +463,7 @@
   }
   .stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
@@ -503,8 +503,18 @@
   }
 
   /* ---------- What we make ---------------------------------------- */
-  .build {
+  .build-scroll-outer {
+    position: relative;
     background: linear-gradient(180deg, #0a0a0a 0%, #0c0814 50%, #0a0a0a 100%);
+  }
+  .build {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    background: transparent;
   }
   /* Daangn-style progressive text reveal */
   .build-reveal-para {
@@ -1260,20 +1270,28 @@
 </section>
 
 <!-- ============ WHAT WE'RE BUILDING ============ -->
+<div class="build-scroll-outer">
 <section class="section build" data-screen-label="01b Build">
   <div class="wrap">
     <p class="build-reveal-para" id="buildRevealPara" data-i18n="build.full"><span class="wrd">이야기를 소비하던 시대는 끝났습니다.</span> <span class="wrd">수십 년간 이어져 온 패러다임을 깨고 스캐터랩이 <strong>'엔터테인먼트 3.0'</strong>의 문을 엽니다.</span> <span class="wrd">스토리텔링을 완전히 새롭게 정의할 AI 플랫폼, <strong>제타(zeta)</strong>.</span> <span class="wrd">이곳에서 유저는 더 이상 정해진 결말을 보는 관객이 아닙니다.</span> <span class="wrd">AI와 함께 매 순간 자신만의 세계를 이끌어가는 주인공이 됩니다.</span> <span class="wrd">유저가 그리는 모든 장면이 새로운 길이 되고, 유저가 내리는 모든 결정이 곧 다음 이야기가 됩니다.</span></p>
   </div>
 </section>
+</div>
 
-<!-- ============ SPOTLIGHT ============ -->
+<!-- ============ SPOTLIGHT HEAD ============ -->
 <section class="section spotlight-section" data-screen-label="02b Spotlight">
   <div class="wrap">
-    <div class="spotlight-head">
+    <div class="spotlight-head" style="margin-bottom:0;">
       <div class="section-eyebrow reveal">Our Model</div>
       <h2 class="reveal d1" data-i18n="spotlight.h2">스캐터랩 자체 언어모델<br/><em>Spotwrite V3</em></h2>
       <p class="lede reveal d2" data-i18n="spotlight.lede">Spotwrite는 스캐터랩이 직접 설계하고 개발한 소형 언어 모델(sLLM)로, AI 픽션 플랫폼 제타의 핵심 엔진입니다. 범용 LLM과 달리, 캐릭터와의 자연스러운 대화와 유저가 만들어가는 이야기에 최적화되어 있습니다.<br/><br/>최신 버전인 Spotwrite V3는 기억력과 서술 품질을 전면 고도화하여, 더 일관된 캐릭터, 더 정교한 서사, 그리고 더 깊은 몰입을 가능하게 합니다.</p>
     </div>
+  </div>
+</section>
+
+<!-- ============ SPOTLIGHT CARDS ============ -->
+<section class="section spotlight-section" data-screen-label="02c Spotlight Cards">
+  <div class="wrap">
     <div class="spotlight-cards">
       <div class="spotlight-card reveal d1">
         <div class="spotlight-card-num">Feature 01</div>
@@ -1316,14 +1334,6 @@
       <div class="stat reveal d2">
         <div class="num">2h 40m</div>
         <div class="label" data-i18n="stat3.label">하루 평균<br/>사용 시간</div>
-      </div>
-      <div class="stat reveal d3">
-        <div class="num" data-i18n="stat4.num">1억+</div>
-        <div class="label" data-i18n="stat4.label">누적 대화<br/>시간</div>
-      </div>
-      <div class="stat reveal d4">
-        <div class="num">500+</div>
-        <div class="label" data-i18n="stat5.label">매일 새로 탄생하는<br/>캐릭터 수</div>
       </div>
     </div>
   </div>
@@ -1773,20 +1783,34 @@
   // -------- Build text reveal (Daangn-style) -------------------
   (function () {
     const para = document.getElementById('buildRevealPara');
-    if (!para) return;
+    const outer = document.querySelector('.build-scroll-outer');
+    if (!para || !outer) return;
+
+    function setHeight() {
+      const n = para.querySelectorAll('.wrd').length || 6;
+      outer.style.height = (n * 90 + 150) + 'vh';
+    }
 
     function onScroll() {
-      const triggerY = window.innerHeight * 0.65;
-      para.querySelectorAll('.wrd').forEach(w => {
-        const r = w.getBoundingClientRect();
-        w.classList.toggle('lit', r.top < triggerY);
+      const sentences = Array.from(para.querySelectorAll('.wrd'));
+      if (!sentences.length) return;
+      const rect = outer.getBoundingClientRect();
+      const scrollable = outer.offsetHeight - window.innerHeight;
+      const scrolled = Math.max(0, -rect.top);
+      const progress = scrollable > 0 ? Math.min(1, scrolled / scrollable) : 0;
+      const n = sentences.length;
+      sentences.forEach((s, i) => {
+        s.classList.toggle('lit', progress >= (i + 1) / (n + 1));
       });
     }
 
-    reinitBuildReveal = function () { onScroll(); };
+    reinitBuildReveal = function () {
+      setHeight();
+      onScroll();
+    };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    reinitBuildReveal();
   })();
 
   // -------- Positions (from positions.js) -----------------------
