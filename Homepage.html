@@ -1218,24 +1218,7 @@
         나만의 세계,<br/>
         <span class="grad">AI와 함께 펼치다</span>
       </h1>
-      <div class="section-eyebrow reveal" style="margin:28px 0 12px; display:block;" data-i18n="build.eyebrow">What we're building</div>
-      <p class="reveal d2" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:8px 0 20px;" data-i18n="build.intro">
-        이야기를 소비하던 시대는 끝났습니다.
-      </p>
-      <p class="reveal d3" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0 0 20px;" data-i18n="build.p1">
-        수십 년간 이어져 온 패러다임을 깨고<br/>
-        스캐터랩이 <strong style="color:var(--text);">'엔터테인먼트 3.0'</strong>의 문을 엽니다.<br/>
-        스토리텔링을 완전히 새롭게 정의할 AI 플랫폼, <strong style="color:var(--text);">제타(zeta)</strong>.
-      </p>
-      <p class="reveal d4" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0 0 20px;" data-i18n="build.p2">
-        이곳에서 유저는 더 이상 정해진 결말을 보는 관객이 아닙니다.<br/>
-        AI와 함께 매 순간 자신만의 세계를 이끌어가는 주인공이 됩니다.
-      </p>
-      <p class="reveal d4" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0;" data-i18n="build.p3">
-        유저가 그리는 모든 장면이 새로운 길이 되고,<br/>
-        유저가 내리는 모든 결정이 곧 다음 이야기가 됩니다.
-      </p>
-      <div class="download-btns reveal d4">
+      <div class="download-btns reveal d2">
         <a class="download-btn" href="https://apps.apple.com/us/app/id1619030760" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
           App Store
@@ -1260,6 +1243,19 @@
   <div class="scroll-cue" aria-hidden="true">
     <span>scroll</span>
     <span class="line"></span>
+  </div>
+</section>
+
+<!-- ============ WHAT WE'RE BUILDING ============ -->
+<section class="section build" data-screen-label="01b Build">
+  <div class="wrap">
+    <div class="section-eyebrow reveal" data-i18n="build.eyebrow">What we're building</div>
+    <div style="max-width:720px; margin-top:28px;">
+      <p class="reveal d1" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0 0 20px;" data-i18n="build.intro">이야기를 소비하던 시대는 끝났습니다.</p>
+      <p class="reveal d2" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0 0 20px;" data-i18n="build.p1">수십 년간 이어져 온 패러다임을 깨고<br/>스캐터랩이 <strong style="color:var(--text);">'엔터테인먼트 3.0'</strong>의 문을 엽니다.<br/>스토리텔링을 완전히 새롭게 정의할 AI 플랫폼, <strong style="color:var(--text);">제타(zeta)</strong>.</p>
+      <p class="reveal d3" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0 0 20px;" data-i18n="build.p2">이곳에서 유저는 더 이상 정해진 결말을 보는 관객이 아닙니다.<br/>AI와 함께 매 순간 자신만의 세계를 이끌어가는 주인공이 됩니다.</p>
+      <p class="reveal d4" style="font-size:17px;line-height:1.7;color:var(--text-2);margin:0;" data-i18n="build.p3">유저가 그리는 모든 장면이 새로운 길이 되고,<br/>유저가 내리는 모든 결정이 곧 다음 이야기가 됩니다.</p>
+    </div>
   </div>
 </section>
 
@@ -1772,7 +1768,7 @@
     function render() {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.ko;
       const filtered = POSITIONS.filter(p => currentFilter === 'all' || p.cat === currentFilter);
-      list.innerHTML = filtered.map(p => {
+      list.innerHTML = filtered.slice(0, 4).map(p => {
         let expTr = t['exp.' + p.exp];
         if (!expTr) {
           const mRange = p.exp.match(/경력\s*(\d+)년\s*이상\s*~\s*(\d+)년\s*이하/);
@@ -1799,8 +1795,10 @@
       const allLabel = (TRANSLATIONS[currentLang] || TRANSLATIONS.ko)['filter.all'] || '전체';
       pills.forEach(b => {
         const f = b.dataset.filter;
-        const n = f === 'all' ? POSITIONS.length : POSITIONS.filter(p => p.cat === f).length;
-        b.textContent = f === 'all' ? `${allLabel} ${n}` : b.textContent.replace(/ \d+$/, '');
+        if (!b.dataset.label) b.dataset.label = b.textContent.replace(/ \(\d+\)$/, '').replace(/ \d+$/, '');
+        const label = f === 'all' ? allLabel : b.dataset.label;
+        const n = POSITIONS.filter(p => f === 'all' || p.cat === f).length;
+        b.textContent = `${label} (${n})`;
       });
     }
 
