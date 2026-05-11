@@ -48,7 +48,22 @@
   .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 48px; }
 
   /* HERO */
-  .ethics-hero { padding: 160px 0 80px; border-bottom: 1px solid var(--line); }
+  .ethics-hero {
+    padding: 160px 0 100px;
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(104, 56, 235, 0.55) 0%, rgba(80, 30, 180, 0.25) 45%, transparent 75%),
+      radial-gradient(ellipse 50% 40% at 50% 0%, rgba(167, 153, 255, 0.18) 0%, transparent 60%);
+    position: relative;
+    overflow: hidden;
+  }
+  .ethics-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle 600px at 50% -80px, rgba(104, 56, 235, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
   .ethics-hero .section-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(167,153,255,.25); border-radius: 20px; padding: 5px 14px; margin-bottom: 28px; }
   .ethics-hero h1 { font-size: clamp(36px, 4.5vw, 60px); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; }
   .ethics-hero .intro { font-size: 17px; line-height: 1.75; color: var(--text-2); max-width: 640px; }
