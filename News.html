@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
@@ -59,10 +59,15 @@
 
   /* HERO */
   .hero {
+    position: relative; overflow: hidden;
     min-height: 100vh;
     display: flex; align-items: center;
     padding: 160px 0 80px;
     background: linear-gradient(180deg, #6d28d9 0%, #2e1065 55%, #07000f 100%);
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, transparent 0%, transparent 55%, rgba(10,10,10,0.6) 78%, #0a0a0a 100%);
   }
   .hero-eyebrow {
     display: inline-block;
@@ -348,7 +353,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="wrap">
+<div class="wrap">
     <div class="hero-eyebrow reveal" data-i18n="hero.eyebrow">Newsroom</div>
     <h1 class="reveal d1" data-i18n="hero.h1">뉴스룸</h1>
   </div>
