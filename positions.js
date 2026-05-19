@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-05-18T05:06:24.010Z
+   마지막 업데이트: 2026-05-19T05:01:28.595Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -34,14 +34,6 @@ const POSITIONS = [
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/148529"
-  },
-  {
-    "title": "TA/HR Manager",
-    "cat": "mgmt",
-    "tag": "Management",
-    "exp": "경력 무관",
-    "loc": "서울 · 정규직",
-    "url": "https://www.scatterlab.co.kr/ko/o/163956"
   },
   {
     "title": "zeta Global Team Intern",
