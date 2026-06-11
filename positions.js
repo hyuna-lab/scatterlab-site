@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-06-10T05:19:05.649Z
+   마지막 업데이트: 2026-06-11T05:48:19.737Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -82,5 +82,13 @@ const POSITIONS = [
     "exp": "경력 3년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/206309"
+  },
+  {
+    "title": "ML Research Intern",
+    "cat": "ml",
+    "tag": "ML / AI",
+    "exp": "경력 무관",
+    "loc": "서울 · 인턴",
+    "url": "https://www.scatterlab.co.kr/ko/o/220860"
   }
 ];
