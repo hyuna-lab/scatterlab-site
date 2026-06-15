@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-06-14T05:49:59.719Z
+   마지막 업데이트: 2026-06-15T06:25:00.815Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -90,5 +90,13 @@ const POSITIONS = [
     "exp": "경력 무관",
     "loc": "서울 · 인턴",
     "url": "https://www.scatterlab.co.kr/ko/o/220860"
+  },
+  {
+    "title": "Global Marketer (Japan)",
+    "cat": "biz",
+    "tag": "Business",
+    "exp": "경력 3년 이상",
+    "loc": "서울 · 정규직",
+    "url": "https://www.scatterlab.co.kr/ko/o/222625"
   }
 ];
