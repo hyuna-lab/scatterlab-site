@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-07-07T04:52:00.287Z
+   마지막 업데이트: 2026-07-08T04:14:28.419Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -106,5 +106,13 @@ const POSITIONS = [
     "exp": "경력 4년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/223467"
+  },
+  {
+    "title": "Product Designer",
+    "cat": "biz",
+    "tag": "Business",
+    "exp": "경력 5년 이상",
+    "loc": "서울 · 정규직",
+    "url": "https://www.scatterlab.co.kr/ko/o/226890"
   }
 ];
