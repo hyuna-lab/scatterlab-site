@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-07-09T04:53:00.401Z
+   마지막 업데이트: 2026-07-10T04:51:59.329Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -60,7 +60,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/205480"
   },
   {
-    "title": "Front-end Engineer",
+    "title": "Frontend Engineer",
     "cat": "eng",
     "tag": "Engineering",
     "exp": "경력 3년 이상",
