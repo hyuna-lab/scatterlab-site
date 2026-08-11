@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-08-10T03:10:54.273Z
+   마지막 업데이트: 2026-08-11T03:03:32.979Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -108,7 +108,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/226890"
   },
   {
-    "title": "Finance Manager",
+    "title": "Finance Manager (Junior)",
     "cat": "biz",
     "tag": "Business",
     "exp": "경력 2년 이상",
