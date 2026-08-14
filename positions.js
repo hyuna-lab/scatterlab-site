@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-08-13T03:25:47.217Z
+   마지막 업데이트: 2026-08-14T03:23:28.505Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -114,5 +114,13 @@ const POSITIONS = [
     "exp": "경력 2년 이상",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/232381"
+  },
+  {
+    "title": "Ad-Tech Developer",
+    "cat": "biz",
+    "tag": "Business",
+    "exp": "경력 무관",
+    "loc": "서울 · 정규직",
+    "url": "https://www.scatterlab.co.kr/ko/o/233157"
   }
 ];
