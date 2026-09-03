@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-09-02T05:28:54.764Z
+   마지막 업데이트: 2026-09-03T05:29:56.826Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -122,6 +122,14 @@ const POSITIONS = [
     "exp": "경력 무관",
     "loc": "서울 · 정규직",
     "url": "https://www.scatterlab.co.kr/ko/o/233157"
+  },
+  {
+    "title": "zeta US Service Monitoring Manager (플롯 검수)",
+    "cat": "ops",
+    "tag": "Operations",
+    "exp": "경력 무관",
+    "loc": "서울 · 프리랜서",
+    "url": "https://www.scatterlab.co.kr/ko/o/234638"
   },
   {
     "title": "🤩 제타 덕후를 찾습니다",
