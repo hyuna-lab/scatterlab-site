@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    POSITIONS — 그리팅 API에서 자동 생성됨 (GitHub Actions)
-   마지막 업데이트: 2026-09-14T05:51:02.473Z
+   마지막 업데이트: 2026-09-15T05:54:03.064Z
    ───────────────────────────────────────────────────────────── */
 const POSITIONS = [
   {
@@ -84,7 +84,7 @@ const POSITIONS = [
     "url": "https://www.scatterlab.co.kr/ko/o/222625"
   },
   {
-    "title": "Talent Acquisition Specialist",
+    "title": "Talent Acquisition",
     "cat": "mgmt",
     "tag": "Management",
     "exp": "경력 3년 이상",
